@@ -1,4 +1,4 @@
-package model.repositories;
+package model.repositories.usuario;
 
 import model.entities.usuarios.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
