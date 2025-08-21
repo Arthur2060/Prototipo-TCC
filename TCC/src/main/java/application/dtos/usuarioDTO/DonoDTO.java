@@ -3,9 +3,8 @@ package application.dtos.usuarioDTO;
 import model.entities.usuarios.DonoEstacionamento;
 
 import java.util.Date;
-import java.util.List;
 
-public record DonoEstacionamentoDTO(
+public record DonoDTO(
         String nome,
         String email,
         String senha,
@@ -22,8 +21,8 @@ public record DonoEstacionamentoDTO(
         return dono;
     }
 
-    public static DonoEstacionamentoDTO toDTO(DonoEstacionamento dono) {
-        return new DonoEstacionamentoDTO(
+    public static DonoDTO toDTO(DonoEstacionamento dono) {
+        return new DonoDTO(
                 dono.getNome(),
                 dono.getEmail(),
                 dono.getSenha(),
