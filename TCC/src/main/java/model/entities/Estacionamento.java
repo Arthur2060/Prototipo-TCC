@@ -9,6 +9,7 @@ import model.entities.usuarios.DonoEstacionamento;
 import model.entities.usuarios.Gerente;
 import model.enums.Metodo;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Estacionamento {
     private String nome;
     private String endereco;
 
-    private byte[] foto;
+    private File foto;
 
     private String numeroAlvaraDeFuncionamento;
     private Boolean status;
@@ -51,9 +52,6 @@ public class Estacionamento {
 
     private Double latitude;
     private Double longitude;
-
-    @Enumerated(EnumType.STRING)
-    private Metodo metodoDePagamento;
 
     private Integer maxVagas;
     private Integer vagasDisponiveis;
