@@ -20,7 +20,17 @@ public class EstacionamentoController {
     }
 
     @PostMapping("/{id}")
-    private ResponseEntity<EstacionamentoDTO> atualizarEstacionamento(@RequestBody EstacionamentoDTO dto, @PathVariable Long id) {
+    public ResponseEntity<EstacionamentoDTO> cadastrarEstacionamento(@RequestBody EstacionamentoDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.cadastrarEstacionamento(dto, id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EstacionamentoDTO> atualizarEstacionamento(@RequestBody EstacionamentoDTO dto, @PathVariable Long id) {
+        return ResponseEntity.ok(service.atualizarEstacionamento(dto, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public void desativarUsuario(@PathVariable Long id) {
+        service.desativarEstacionamento(id);
     }
 }
