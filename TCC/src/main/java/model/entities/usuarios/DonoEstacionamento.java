@@ -9,7 +9,7 @@ import model.entities.Estacionamento;
 
 import java.util.List;
 
-@DiscriminatorValue("Dono")
+@DiscriminatorValue("DONO")
 @Getter
 @Setter
 @NoArgsConstructor

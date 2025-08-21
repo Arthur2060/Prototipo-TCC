@@ -2,5 +2,6 @@ package model.enums;
 
 public enum Metodo {
     PIX,
-    DEBITO
+    DEBITO,
+    DINHEIRO
 }

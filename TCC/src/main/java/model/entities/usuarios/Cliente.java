@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@DiscriminatorValue("Usuario")
+@DiscriminatorValue("CLIENTE")
 @Getter
 @Setter
 @AllArgsConstructor
