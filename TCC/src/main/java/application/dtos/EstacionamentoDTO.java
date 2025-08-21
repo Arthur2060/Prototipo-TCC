@@ -6,7 +6,6 @@ import java.io.File;
 import java.time.LocalTime;
 
 public record EstacionamentoDTO(
-        Long id,
         String nome,
         String endereco,
         File foto,
@@ -33,7 +32,6 @@ public record EstacionamentoDTO(
 
     public static EstacionamentoDTO toDTO(Estacionamento estacionamento) {
         return new EstacionamentoDTO(
-                estacionamento.getId(),
                 estacionamento.getNome(),
                 estacionamento.getEndereco(),
                 estacionamento.getFoto(),

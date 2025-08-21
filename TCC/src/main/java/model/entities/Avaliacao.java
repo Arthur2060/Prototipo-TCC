@@ -11,7 +11,6 @@ import lombok.Setter;
 import model.entities.usuarios.Cliente;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
