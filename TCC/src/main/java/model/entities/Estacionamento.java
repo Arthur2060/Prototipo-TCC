@@ -25,6 +25,8 @@ public class Estacionamento {
 
     private String nome;
     private String endereco;
+    private String CEP;
+    private String numero;
 
     private File foto;
 
