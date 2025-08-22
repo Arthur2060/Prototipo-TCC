@@ -1,9 +1,6 @@
 package com.senai.TCC.model.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +8,7 @@ import lombok.Setter;
 
 import java.sql.Time;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

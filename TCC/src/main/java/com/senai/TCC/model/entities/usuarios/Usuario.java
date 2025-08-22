@@ -9,7 +9,6 @@ import lombok.Setter;
 import java.util.Date;
 
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Getter
 @Setter

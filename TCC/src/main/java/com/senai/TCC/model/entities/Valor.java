@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,6 +12,7 @@ import com.senai.TCC.model.enums.Cobranca;
 import com.senai.TCC.model.enums.Metodo;
 import com.senai.TCC.model.enums.Periodo;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
