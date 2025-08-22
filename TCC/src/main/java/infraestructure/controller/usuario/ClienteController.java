@@ -45,11 +45,11 @@ public class ClienteController {
                     )
             }
     )
-    public ResponseEntity<ClienteDTO> cadastrarCliente(ClienteDTO dto) {
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody ClienteDTO dto) {
         return ResponseEntity.ok(clienteService.cadastrarCliente(dto));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(
             summary = "Atualizar um cliente existente",
             description = "Atualiza os dados de um cliente existente com base no ID fornecido.",
@@ -65,11 +65,11 @@ public class ClienteController {
                     )
             }
     )
-    public ResponseEntity<ClienteDTO> atualizarCliente(ClienteDTO dto, @RequestParam Long id) {
+    public ResponseEntity<ClienteDTO> atualizarCliente(@RequestBody ClienteDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(clienteService.atualizarCliente(dto, id));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @Operation(
             summary = "Deletar um cliente",
             description = "Deleta um cliente existente com base no ID fornecido.",
@@ -85,7 +85,7 @@ public class ClienteController {
                     )
             }
     )
-    public void deletarCliente(@RequestParam Long id) {
+    public void deletarCliente(@PathVariable Long id) {
         clienteService.deletarCliente(id);
     }
 }
