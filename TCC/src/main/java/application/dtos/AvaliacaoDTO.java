@@ -1,12 +1,28 @@
 package application.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import model.entities.Avaliacao;
 
 import java.time.LocalDateTime;
 
 public record AvaliacaoDTO(
+        @Schema(
+                name = "Nota",
+                description = "Nota dada pelo cliente ao estacionamento, de 0 a 5",
+                examples = "3"
+        )
         Short nota,
+        @Schema(
+                name = "Comentario",
+                description = "Comentario feito pelo cliente sobre o estacionamento",
+                examples = "Estacionamento bom, porem um pouco caro"
+        )
         String comentario,
+        @Schema(
+                name = "Data de avaliação",
+                description = "Data em que a avaliação foi feita",
+                examples = "2023-11-25T15:30:00"
+        )
         LocalDateTime dataDeAvaliacao
 ) {
     public Avaliacao fromDTO() {
