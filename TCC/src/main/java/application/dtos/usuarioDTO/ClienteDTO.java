@@ -42,7 +42,7 @@ public record ClienteDTO(
         )
         String placaDoCarro
 ) {
-    public Cliente fromDto() {
+    public Cliente fromDTO() {
         Cliente cliente = new Cliente();
 
         cliente.setNome(nome);

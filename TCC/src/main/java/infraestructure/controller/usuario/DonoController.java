@@ -1,7 +1,7 @@
 package infraestructure.controller.usuario;
 
 import application.dtos.usuarioDTO.DonoDTO;
-import application.services.DonoService;
+import application.services.usuario.DonoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
