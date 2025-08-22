@@ -1,7 +1,0 @@
-package model.enums;
-
-public enum Metodo {
-    PIX,
-    DEBITO,
-    DINHEIRO
-}
