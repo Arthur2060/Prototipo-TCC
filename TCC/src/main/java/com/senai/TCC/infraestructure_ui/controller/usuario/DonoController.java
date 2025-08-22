@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dono")
 @Tag(
-        name = "Dono de estacionamento controller",
+        name = "Dono de estacionamento",
         description = "Realiza operações referentes ao CRUD da entidade Dono de estacionamento," +
             " eixo central do projeto necessario para a maioria," +
         "das operações"
@@ -26,7 +26,8 @@ public class DonoController {
     @Operation(
             method = "GET",
             summary = "Listar donos",
-            description = "Gera uma lista de todos os dono cadastrados no sistema."
+            description = "Gera uma lista de todos os dono cadastrados no sistema.",
+            tags = {"Dono de estacionamento"}
     )
     public ResponseEntity<List<DonoDTO>> listarDonos() {
         return ResponseEntity.ok(service.listarDonos());
@@ -37,7 +38,8 @@ public class DonoController {
             method = "POST",
             summary = "Cadastrar dono",
             description = "Cadastra um novo dono no sistema, inicialmente" +
-                        " apenas com informações genéricas de usuario."
+                        " apenas com informações genéricas de usuario.",
+            tags = {"Dono de estacionamento"}
     )
     public ResponseEntity<DonoDTO> cadastrarDono(@RequestBody DonoDTO dto) {
         return ResponseEntity.ok(service.cadastrarDono(dto));
@@ -47,7 +49,8 @@ public class DonoController {
     @Operation(
             method = "PUT",
             summary = "Atualizar dono",
-            description = "Atualiza as informações de um dono já cadastrado no sistema."
+            description = "Atualiza as informações de um dono já cadastrado no sistema.",
+            tags = {"Dono de estacionamento"}
     )
     public ResponseEntity<DonoDTO> atualizarDono(@RequestBody DonoDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarDono(dto, id));
@@ -57,7 +60,8 @@ public class DonoController {
     @Operation(
             method = "DELETE",
             summary = "Deletar dono",
-            description = "Apaga um dono já cadastrado do sistema."
+            description = "Apaga um dono já cadastrado do sistema.",
+            tags = {"Dono de estacionamento"}
     )
     public void deletarDono(@PathVariable Long id) {
         service.deletarDono(id);
