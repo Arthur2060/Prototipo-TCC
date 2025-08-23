@@ -8,13 +8,14 @@ import java.sql.Time;
 public record AcessoDTO(
         @Schema(
                 name = "Placa do carro",
-                description = "Placa do carro que acessou o estacionamento, caso erro, resulta em Null",
+                description = "Placa do carro que acessou o estacionamento, caso erro," +
+                        " resulta em Null e necessita preenchimento manual posteriormente.",
                 examples = "EUD8679"
         )
         String placaDoCarro,
         @Schema(
                 name = "Horario de entrada",
-                description = "Hora em o carro entrou",
+                description = "Hora em que o carro entrou",
                 examples = "17:50"
         )
         Time horaDeEntrada,
@@ -37,12 +38,7 @@ public record AcessoDTO(
         acesso.setPlacaDoCarro(placaDoCarro);
         acesso.setHoraDeEntrada(horaDeEntrada);
         acesso.setHoraDeSaida(horaDeSaida);
-        acesso.setTotalHoras(
-                Integer.parseInt(
-                        String.valueOf(horaDeSaida.getTime() - horaDeEntrada.getTime()
-                        )
-                )
-        );
+        acesso.calcularHorasTotais();
         acesso.setValorAPagar(valorAPagar);
 
         return acesso;

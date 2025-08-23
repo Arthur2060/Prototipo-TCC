@@ -4,8 +4,7 @@ import com.senai.TCC.application.dtos.EstacionamentoDTO;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.exceptions.IdDeDonoNaoCadastrado;
-import com.senai.TCC.model.exceptions.IdDeEstacionamentoNaoEncontrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class EstacionamentoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdDeDonoNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!");
         } else {
             novoEst.setDono(optDono.get());
             novoEst.setStatus(true);
@@ -49,7 +48,7 @@ public class EstacionamentoService {
         Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
 
         if (optEst.isEmpty()) {
-            throw new IdDeEstacionamentoNaoEncontrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
         } else {
             optEst.get().setFoto(dto.foto());
             optEst.get().setHoraAbertura(dto.horaAbertura());
@@ -66,7 +65,7 @@ public class EstacionamentoService {
         Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
 
         if (optEst.isEmpty()) {
-            throw new IdDeEstacionamentoNaoEncontrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
         } else {
             optEst.get().setStatus(false);
         }

@@ -3,7 +3,7 @@ package com.senai.TCC.application.services.usuario;
 import com.senai.TCC.application.dtos.usuarioDTO.DonoDTO;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.exceptions.IdDeDonoNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class DonoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdDeDonoNaoCadastrado("O Id não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("O Id não foi encontrado no sistema!");
         } else {
             optDono.get().setNome(dto.nome());
             optDono.get().setEmail(dto.email());
@@ -58,7 +58,7 @@ public class DonoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdDeDonoNaoCadastrado("O Id não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("O Id não foi encontrado no sistema!");
         } else {
             donoRepository.delete(optDono.get());
         }
