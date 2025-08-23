@@ -30,7 +30,14 @@ public record AcessoDTO(
                 description = "Valor total a pagar pelo tempo de uso do estacionamento",
                 examples = "15.00"
         )
-        Double valorAPagar
+        Double valorAPagar,
+
+        @Schema(
+                name = "Id do estacionamento",
+                description = "Id do estacionamento em que o veiculo entrou",
+                examples = "3"
+        )
+        Long estacioId
 ) {
     public Acesso fromDTO() {
         Acesso acesso = new Acesso();
@@ -49,7 +56,8 @@ public record AcessoDTO(
                 acesso.getPlacaDoCarro(),
                 acesso.getHoraDeEntrada(),
                 acesso.getHoraDeSaida(),
-                acesso.getValorAPagar()
+                acesso.getValorAPagar(),
+                acesso.getEstacionamento().getId()
         );
     }
 }

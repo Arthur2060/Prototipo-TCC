@@ -28,12 +28,12 @@ public class AcessoService {
     }
 
     @Transactional
-    public AcessoDTO cadastrarAcesso(AcessoDTO dto, Long estacioId) {
+    public AcessoDTO cadastrarAcesso(AcessoDTO dto) {
         Acesso acesso = dto.fromDTO();
 
         acesso.calcularHorasTotais();
-        if (estacionamentoRepository.findById(estacioId).isPresent()) {
-            acesso.setEstacionamento(estacionamentoRepository.findById(estacioId).get());
+        if (estacionamentoRepository.findById(dto.estacioId()).isPresent()) {
+            acesso.setEstacionamento(estacionamentoRepository.findById(dto.estacioId()).get());
         } else {
             throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
         }
@@ -42,7 +42,7 @@ public class AcessoService {
     }
 
     @Transactional
-    public AcessoDTO atualizarAcesso(AcessoDTO dto, Long id, Long estacioId) {
+    public AcessoDTO atualizarAcesso(AcessoDTO dto, Long id) {
         Optional<Acesso> optAcesso = acessoRepository.findById(id);
 
         if (optAcesso.isEmpty()) {
@@ -53,8 +53,8 @@ public class AcessoService {
             optAcesso.get().calcularHorasTotais();
             optAcesso.get().setPlacaDoCarro(dto.placaDoCarro());
             optAcesso.get().setValorAPagar(dto.valorAPagar());
-            if (estacionamentoRepository.findById(estacioId).isPresent()) {
-                optAcesso.get().setEstacionamento(estacionamentoRepository.findById(estacioId).get());
+            if (estacionamentoRepository.findById(dto.estacioId()).isPresent()) {
+                optAcesso.get().setEstacionamento(estacionamentoRepository.findById(dto.estacioId()).get());
             } else {
                 throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
             }
