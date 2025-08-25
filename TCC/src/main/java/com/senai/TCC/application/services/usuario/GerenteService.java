@@ -3,10 +3,13 @@ package com.senai.TCC.application.services.usuario;
 import com.senai.TCC.application.dtos.usuarioDTO.GerenteDTO;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
+import com.senai.TCC.model.entities.Estacionamento;
+import com.senai.TCC.model.entities.usuarios.Gerente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GerenteService {
@@ -24,7 +27,8 @@ public class GerenteService {
     }
 
     public GerenteDTO cadastrarGerente(GerenteDTO dto) {
-        var gerente = dto.fromDTO();
+        Gerente gerente = dto.fromDTO();
+        //todo("Associar gerente a um estacionamento");
 
         gerenteRepository.save(gerente);
 

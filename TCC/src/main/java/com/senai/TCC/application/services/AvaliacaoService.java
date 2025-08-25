@@ -44,6 +44,7 @@ public class AvaliacaoService {
             Avaliacao avaliacao = dto.fromDTO();
             avaliacao.setCliente(optCliente.get());
             avaliacao.setEstacionamento(optEstacio.get());
+            optEstacio.get().getAvaliacoes().add(avaliacao);
 
             return AvaliacaoDTO.toDTO(avaliacaoRepository.save(avaliacao));
         }
