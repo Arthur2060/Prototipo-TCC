@@ -6,6 +6,19 @@ import com.senai.TCC.model.entities.Avaliacao;
 import java.time.LocalDateTime;
 
 public record AvaliacaoDTO(
+        @Schema
+        (
+                name = "ID do cliente",
+                description = "ID do cliente que fez a avaliação",
+                examples = "1"
+        )
+        Long clienteId,
+        @Schema(
+                name = "ID do estacionamento",
+                description = "ID do estacionamento que foi avaliado",
+                examples = "1"
+        )
+        Long estacioId,
         @Schema(
                 name = "Nota",
                 description = "Nota dada pelo cliente ao estacionamento, de 0 a 5",
@@ -37,6 +50,8 @@ public record AvaliacaoDTO(
 
     public static AvaliacaoDTO toDTO(Avaliacao avaliacao) {
         return new AvaliacaoDTO(
+                avaliacao.getCliente().getId(),
+                avaliacao.getEstacionamento().getId(),
                 avaliacao.getNota(),
                 avaliacao.getComentario(),
                 avaliacao.getDataDeAvaliacao()
