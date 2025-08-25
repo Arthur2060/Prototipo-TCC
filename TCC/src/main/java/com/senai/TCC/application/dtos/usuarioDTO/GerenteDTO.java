@@ -40,7 +40,14 @@ public record GerenteDTO(
                 description = "Documento oficial necessário para contratar um gerente",
                 examples = "123.456.789-10"
         )
-        String cpfOuCnpj
+        String cpfOuCnpj,
+
+        @Schema(
+                name = "ID do estacionamento",
+                description = "ID do estacionamento que o gerente irá gerenciar",
+                examples = "1"
+        )
+        Long estacionamentoId
 ) {
     public Gerente fromDTO() {
         Gerente gerente = new Gerente();
@@ -60,7 +67,8 @@ public record GerenteDTO(
                 gerente.getEmail(),
                 gerente.getSenha(),
                 gerente.getDataNascimento(),
-                gerente.getCpfOuCnpj()
+                gerente.getCpfOuCnpj(),
+                gerente.getEstacionamento().getId()
         );
     }
 }

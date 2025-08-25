@@ -72,8 +72,11 @@ public class AvaliacaoService {
 
     @Transactional
     public void deletarAvaliacao(Long id) {
-        if (avaliacaoRepository.findById(id).isPresent()) {
-            avaliacaoRepository.delete(avaliacaoRepository.findById(id).get());
+        Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
+
+        if (optAvaliacao.isPresent()) {
+            avaliacaoRepository.delete(optAvaliacao.get());
+            optAvaliacao.get().getEstacionamento().getAvaliacoes().remove(optAvaliacao.get());
         }
     }
 }

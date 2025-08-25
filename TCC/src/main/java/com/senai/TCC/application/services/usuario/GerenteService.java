@@ -5,6 +5,7 @@ import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,13 @@ public class GerenteService {
 
     public GerenteDTO cadastrarGerente(GerenteDTO dto) {
         Gerente gerente = dto.fromDTO();
-        //todo("Associar gerente a um estacionamento");
+        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
+
+        if (optEstacionamento.isPresent()) {
+            gerente.setEstacionamento(optEstacionamento.get());
+        } else {
+            throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
+        }
 
         gerenteRepository.save(gerente);
 
