@@ -66,7 +66,13 @@ public record EstacionamentoDTO(
                 description = "Número máximo de vagas do estacionamento.",
                 examples = "100"
         )
-        Integer maximoDeVagas
+        Integer maximoDeVagas,
+        @Schema(
+                name = "Número de escritura do imóvel",
+                description = "Número de escritura do imóvel do estacionamento.",
+                examples = "987654321"
+        )
+        String numeroDeEscrituraImovel
 ) {
     public Estacionamento fromDTO() {
         Estacionamento estacionamento = new Estacionamento();
@@ -81,6 +87,7 @@ public record EstacionamentoDTO(
         estacionamento.setHoraAbertura(horaAbertura);
         estacionamento.setVagaPreferenciais(vagasPreferenciais);
         estacionamento.setMaxVagas(maximoDeVagas);
+        estacionamento.setNumeroDeEscrituraImovel(numeroDeEscrituraImovel);
 
         return estacionamento;
     }
@@ -96,7 +103,8 @@ public record EstacionamentoDTO(
                 estacionamento.getHoraFechamento(),
                 estacionamento.getHoraAbertura(),
                 estacionamento.getVagaPreferenciais(),
-                estacionamento.getMaxVagas()
+                estacionamento.getMaxVagas(),
+                estacionamento.getNumeroDeEscrituraImovel()
         );
     }
 }

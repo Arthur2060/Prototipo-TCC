@@ -59,4 +59,5 @@ public class Estacionamento {
     private Integer vagasDisponiveis;
     private Integer vagaPreferenciais;
     private LocalDate diaAtual;
+    private String numeroDeEscrituraImovel;
 }

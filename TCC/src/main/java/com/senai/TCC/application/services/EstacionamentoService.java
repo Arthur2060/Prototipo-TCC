@@ -37,6 +37,7 @@ public class EstacionamentoService {
             throw new IdNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!");
         } else {
             novoEst.setDono(optDono.get());
+            optDono.get().getEstacionamentos().add(novoEst);
             novoEst.setStatus(true);
         }
 

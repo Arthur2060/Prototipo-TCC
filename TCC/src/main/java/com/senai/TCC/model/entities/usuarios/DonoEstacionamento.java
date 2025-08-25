@@ -20,5 +20,4 @@ import java.util.List;
 public class DonoEstacionamento extends Usuario {
     @OneToMany
     private List<Estacionamento> estacionamentos;
-    private List<String> numerosDeEscrituras;
 }
