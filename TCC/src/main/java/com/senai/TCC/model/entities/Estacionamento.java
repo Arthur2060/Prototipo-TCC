@@ -52,6 +52,9 @@ public class Estacionamento {
     @OneToMany
     private List<Avaliacao> avaliacoes;
 
+    @OneToMany
+    private List<Reserva> reservas;
+
     private Double latitude;
     private Double longitude;
 

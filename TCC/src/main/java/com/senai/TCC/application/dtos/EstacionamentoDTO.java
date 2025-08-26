@@ -5,6 +5,7 @@ import com.senai.TCC.model.entities.Estacionamento;
 
 import java.io.File;
 import java.time.LocalTime;
+import java.util.List;
 
 public record EstacionamentoDTO(
         @Schema(
