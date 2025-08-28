@@ -19,7 +19,7 @@ public class Acesso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private Estacionamento estacionamento;
 
     private String placaDoCarro;

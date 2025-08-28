@@ -1,5 +1,6 @@
 package com.senai.TCC.application.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Estacionamento;
 
@@ -8,6 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public record EstacionamentoDTO(
+        Long id,
         @Schema(
                 name = "nome",
                 description = "Nome do estacionamento.",
@@ -15,7 +17,7 @@ public record EstacionamentoDTO(
         )
         String nome,
         @Schema(
-                name = "endereço",
+                name = "endereco",
                 description = "Endereço do estacionamento.",
                 examples = "Rua das Flores"
         )
@@ -47,13 +49,17 @@ public record EstacionamentoDTO(
         @Schema(
                 name = "horaFechamento",
                 description = "Hora de fechamento do estacionamento.",
-                examples = "22:00"
+                type = "string",
+                pattern = "HH:mm:ss",
+                examples = "22:00:00"
         )
         LocalTime horaFechamento,
         @Schema(
                 name = "horaAbertura",
                 description = "Hora de abertura do estacionamento.",
-                examples = "08:00"
+                type = "string",
+                pattern = "HH:mm:ss",
+                examples = "08:00:00"
         )
         LocalTime horaAbertura,
         @Schema(
@@ -95,6 +101,7 @@ public record EstacionamentoDTO(
 
     public static EstacionamentoDTO toDTO(Estacionamento estacionamento) {
         return new EstacionamentoDTO(
+                estacionamento.getId(),
                 estacionamento.getNome(),
                 estacionamento.getEndereco(),
                 estacionamento.getCEP(),

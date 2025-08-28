@@ -1,11 +1,13 @@
 package com.senai.TCC.application.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Acesso;
 
 import java.sql.Time;
 
 public record AcessoDTO(
+        Long id,
         @Schema(
                 name = "placaDoCarro",
                 description = "Placa do carro que acessou o estacionamento, caso erro," +
@@ -16,13 +18,17 @@ public record AcessoDTO(
         @Schema(
                 name = "horaDeEntrada",
                 description = "Hora em que o carro entrou",
-                examples = "17:50"
+                examples = "17:50",
+                type = "string",
+                pattern = "HH:mm:ss"
         )
         Time horaDeEntrada,
         @Schema(
                 name = "horaDeSaida",
                 description = "Hora em que o carro saiu",
-                examples = "19:30"
+                examples = "19:30",
+                type = "string",
+                pattern = "HH:mm:ss"
         )
         Time horaDeSaida,
         @Schema(
@@ -53,6 +59,7 @@ public record AcessoDTO(
 
     public static AcessoDTO toDTO(Acesso acesso) {
         return new AcessoDTO(
+                acesso.getId(),
                 acesso.getPlacaDoCarro(),
                 acesso.getHoraDeEntrada(),
                 acesso.getHoraDeSaida(),

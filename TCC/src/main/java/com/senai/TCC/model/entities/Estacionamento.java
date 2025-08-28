@@ -63,4 +63,7 @@ public class Estacionamento {
     private Integer vagaPreferenciais;
     private LocalDate diaAtual;
     private String numeroDeEscrituraImovel;
+
+    @OneToMany
+    private List<Acesso> acessos;
 }

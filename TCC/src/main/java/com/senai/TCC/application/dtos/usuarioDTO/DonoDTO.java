@@ -6,6 +6,7 @@ import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import java.util.Date;
 
 public record DonoDTO(
+        Long id,
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -48,6 +49,7 @@ public record DonoDTO(
 
     public static DonoDTO toDTO(DonoEstacionamento dono) {
         return new DonoDTO(
+                dono.getId(),
                 dono.getNome(),
                 dono.getEmail(),
                 dono.getSenha(),

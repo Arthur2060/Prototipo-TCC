@@ -41,7 +41,7 @@ public class EstacionamentoService {
             novoEst.setStatus(true);
         }
 
-        return EstacionamentoDTO.toDTO(novoEst);
+        return EstacionamentoDTO.toDTO(estacionamentoRepository.save(novoEst));
     }
 
     @Transactional

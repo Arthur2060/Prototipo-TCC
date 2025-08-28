@@ -6,6 +6,7 @@ import com.senai.TCC.model.entities.Avaliacao;
 import java.time.LocalDateTime;
 
 public record AvaliacaoDTO(
+        Long id,
         @Schema
         (
                 name = "clienteId",
@@ -50,6 +51,7 @@ public record AvaliacaoDTO(
 
     public static AvaliacaoDTO toDTO(Avaliacao avaliacao) {
         return new AvaliacaoDTO(
+                avaliacao.getId(),
                 avaliacao.getCliente().getId(),
                 avaliacao.getEstacionamento().getId(),
                 avaliacao.getNota(),

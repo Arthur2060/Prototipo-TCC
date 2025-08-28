@@ -3,6 +3,9 @@ package com.senai.TCC.infraestructure_ui.controller;
 import com.senai.TCC.application.dtos.EstacionamentoDTO;
 import com.senai.TCC.application.services.EstacionamentoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +44,31 @@ public class EstacionamentoController {
                             responseCode = "400",
                             description = "Requisição inválida"
                     )
-            }
+            },
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Dados do estacionamento a ser cadastrado",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = EstacionamentoDTO.class),
+                            examples = @ExampleObject(value = """
+                                  {
+                                    "id": 0,
+                                    "nome": "string",
+                                    "endereco": "string",
+                                    "CEP": "string",
+                                    "numero": "string",
+                                    "foto": "string",
+                                    "numeroAlvaraDeFuncionamento": "string",
+                                    "horaFechamento": "22:22:22",
+                                    "horaAbertura": "22:22:22",
+                                    "vagasPreferenciais": 0,
+                                    "maximoDeVagas": 0,
+                                    "numeroDeEscrituraImovel": "string"
+                                  }
+                                  """
+                            )
+                    )
+            )
     )
     public ResponseEntity<EstacionamentoDTO> cadastrarEstacionamento(@RequestBody EstacionamentoDTO dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.cadastrarEstacionamento(dto, id));

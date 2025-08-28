@@ -7,6 +7,7 @@ import com.senai.TCC.model.enums.Metodo;
 import com.senai.TCC.model.enums.Periodo;
 
 public record ValorDTO(
+        Long id,
         @Schema(
                 name = "tipoDeCobranca",
                 description = "Tipo de cobrança do estacionamento, definido por enum Cobranca",
@@ -45,6 +46,7 @@ public record ValorDTO(
 
     public static ValorDTO toDTO(Valor valor) {
         return new ValorDTO(
+                valor.getId(),
                 valor.getTipoDeCobranca(),
                 valor.getTipoDePagamento(),
                 valor.getPreco(),

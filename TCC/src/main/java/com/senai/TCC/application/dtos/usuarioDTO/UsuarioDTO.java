@@ -11,6 +11,7 @@ import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalido;
 import java.util.Date;
 
 public record UsuarioDTO(
+        Long id,
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -72,6 +73,7 @@ public record UsuarioDTO(
         };
 
         return new UsuarioDTO(
+                user.getId(),
                 user.getNome(),
                 user.getEmail(),
                 user.getSenha(),

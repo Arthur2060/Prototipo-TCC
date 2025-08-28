@@ -6,6 +6,7 @@ import com.senai.TCC.model.entities.usuarios.Gerente;
 import java.util.Date;
 
 public record GerenteDTO(
+        Long id,
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -43,7 +44,7 @@ public record GerenteDTO(
         String cpfOuCnpj,
 
         @Schema(
-                name = "ID do estacionamento",
+                name = "estacionamentoId",
                 description = "ID do estacionamento que o gerente irá gerenciar",
                 examples = "1"
         )
@@ -63,6 +64,7 @@ public record GerenteDTO(
 
     public static GerenteDTO toDTO(Gerente gerente) {
         return new GerenteDTO(
+                gerente.getId(),
                 gerente.getNome(),
                 gerente.getEmail(),
                 gerente.getSenha(),
