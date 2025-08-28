@@ -37,7 +37,6 @@ public class ClienteService {
             cliente.setEmail(dto.email());
             cliente.setSenha(dto.senha());
             cliente.setDataNascimento(dto.dataNascimento());
-            cliente.setPlacaDoCarro(dto.placaDoCarro());
             clienteRepository.save(cliente);
         }
 
