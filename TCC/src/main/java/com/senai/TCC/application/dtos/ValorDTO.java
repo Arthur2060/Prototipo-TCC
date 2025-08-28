@@ -31,7 +31,9 @@ public record ValorDTO(
                 description = "Período de cobrança do estacionamento, definido por enum Periodo",
                 examples = "MANHA"
         )
-        Periodo periodo
+        Periodo periodo,
+
+        Long estacioId
 ) {
     public Valor fromDTO() {
         Valor valor = new Valor();
@@ -50,7 +52,8 @@ public record ValorDTO(
                 valor.getTipoDeCobranca(),
                 valor.getTipoDePagamento(),
                 valor.getPreco(),
-                valor.getPeriodo()
+                valor.getPeriodo(),
+                valor.getEstacionamento().getId()
         );
     }
 }
