@@ -38,7 +38,7 @@ public class EstacionamentoService {
         } else {
             novoEst.setDono(optDono.get());
             optDono.get().getEstacionamentos().add(novoEst);
-            novoEst.setStatus(true);
+            novoEst.setFuncionamento(true);
         }
 
         return EstacionamentoDTO.toDTO(estacionamentoRepository.save(novoEst));
@@ -58,7 +58,7 @@ public class EstacionamentoService {
             optEst.get().setNome(dto.nome());
         }
 
-        return EstacionamentoDTO.toDTO(optEst.get());
+        return EstacionamentoDTO.toDTO(estacionamentoRepository.save(optEst.get()));
     }
 
     @Transactional
@@ -68,7 +68,7 @@ public class EstacionamentoService {
         if (optEst.isEmpty()) {
             throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
         } else {
-            optEst.get().setStatus(false);
+            estacionamentoRepository.delete(optEst.get());
         }
     }
 }

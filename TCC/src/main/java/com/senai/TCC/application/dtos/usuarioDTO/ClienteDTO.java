@@ -42,12 +42,12 @@ public record ClienteDTO(
                 examples = "EDU8679"
         )
         String placaDoCarro
+
 ) {
     public Cliente fromDTO() {
         Cliente cliente = new Cliente();
 
         cliente.setNome(nome);
-        cliente.setPlacaDoCarro(placaDoCarro);
         cliente.setEmail(email);
         cliente.setDataNascimento(dataNascimento);
         cliente.setSenha(senha);
@@ -61,8 +61,7 @@ public record ClienteDTO(
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getSenha(),
-                cliente.getDataNascimento(),
-                cliente.getPlacaDoCarro()
+                cliente.getDataNascimento()
         );
     }
 }

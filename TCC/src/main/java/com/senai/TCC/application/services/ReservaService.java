@@ -9,10 +9,12 @@ import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ReservaService {
     @Autowired
     private ReservaRepository reservaRepository;

@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities.usuarios;
 
+import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Reserva;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -18,7 +19,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cliente extends Usuario{
-    private String placaDoCarro;
+    @OneToMany
+    private List<Carro> Carros;
     @OneToMany
     private List<Reserva> reservas;
 }
