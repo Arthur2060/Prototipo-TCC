@@ -12,7 +12,7 @@ import java.util.Date;
 
 public record UsuarioDTO(
         @Schema(
-                name = "Nome",
+                name = "nome",
                 description = "Nome do usuario.",
                 examples = "Pedro"
         )
@@ -26,7 +26,7 @@ public record UsuarioDTO(
         String email,
 
         @Schema(
-                name = "Senha",
+                name = "senha",
                 description = "Senha de acesso do usuario, " +
                         "deve conter pelo menos uma letra maiuscula, simbolo e numero",
                 examples = "Estacio_2025"
@@ -34,14 +34,14 @@ public record UsuarioDTO(
         String senha,
 
         @Schema(
-                name = "Data de nascimento",
+                name = "dataNascimento",
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "18-09-2000"
         )
         Date dataNascimento,
 
         @Schema(
-                name = "Tipo de usuario",
+                name = "tipoDeUsuario",
                 description = "Um dos quatro tipos de usuario possiveis:" +
                         "CLIENTE, GERENTE ou DONO.",
                 examples = "CLENTE"

@@ -8,25 +8,25 @@ import com.senai.TCC.model.enums.Periodo;
 
 public record ValorDTO(
         @Schema(
-                name = "Tipo de cobrança",
+                name = "tipoDeCobranca",
                 description = "Tipo de cobrança do estacionamento, definido por enum Cobranca",
                 examples = "FIXO"
         )
         Cobranca tipoDeCobranca,
         @Schema(
-                name = "Tipo de pagamento",
+                name = "tipoDePagamento",
                 description = "Tipo de pagamento do estacionamento, definido por enum Metodo",
                 examples = "DINHEIRO"
         )
         Metodo tipoDePagamento,
         @Schema(
-                name = "Preço",
+                name = "preco",
                 description = "Preço cobrado pelo estacionamento",
                 examples = "10.00"
         )
         Double preco,
         @Schema(
-                name = "Período",
+                name = "periodo",
                 description = "Período de cobrança do estacionamento, definido por enum Periodo",
                 examples = "MANHA"
         )

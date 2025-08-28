@@ -7,33 +7,33 @@ import java.sql.Time;
 
 public record AcessoDTO(
         @Schema(
-                name = "Placa do carro",
+                name = "placaDoCarro",
                 description = "Placa do carro que acessou o estacionamento, caso erro," +
                         " resulta em Null e necessita preenchimento manual posteriormente.",
                 examples = "EUD8679"
         )
         String placaDoCarro,
         @Schema(
-                name = "Horario de entrada",
+                name = "horaDeEntrada",
                 description = "Hora em que o carro entrou",
                 examples = "17:50"
         )
         Time horaDeEntrada,
         @Schema(
-                name = "Horario de saída",
+                name = "horaDeSaida",
                 description = "Hora em que o carro saiu",
                 examples = "19:30"
         )
         Time horaDeSaida,
         @Schema(
-                name = "Valor a pagar",
+                name = "valorAPagar",
                 description = "Valor total a pagar pelo tempo de uso do estacionamento",
                 examples = "15.00"
         )
         Double valorAPagar,
 
         @Schema(
-                name = "Id do estacionamento",
+                name = "estacioId",
                 description = "Id do estacionamento em que o veiculo entrou",
                 examples = "3"
         )

@@ -9,13 +9,13 @@ import java.util.List;
 
 public record EstacionamentoDTO(
         @Schema(
-                name = "Nome",
+                name = "nome",
                 description = "Nome do estacionamento.",
                 examples = "Estacionamento Central"
         )
         String nome,
         @Schema(
-                name = "Endereço",
+                name = "endereço",
                 description = "Endereço do estacionamento.",
                 examples = "Rua das Flores"
         )
@@ -27,49 +27,49 @@ public record EstacionamentoDTO(
         )
         String CEP,
         @Schema(
-                name = "Número",
+                name = "numero",
                 description = "Número do estacionamento.",
                 examples = "123"
         )
         String numero,
         @Schema(
-                name = "Foto",
+                name = "foto",
                 description = "Foto do estacionamento.",
                 examples = "foto.jpg"
         )
         File foto,
         @Schema(
-                name = "Número do alvará de funcionamento",
+                name = "numeroAlvaraDeFuncionamento",
                 description = "Número do alvará de funcionamento do estacionamento.",
                 examples = "123456789"
         )
         String numeroAlvaraDeFuncionamento,
         @Schema(
-                name = "Hora de fechamento",
+                name = "horaFechamento",
                 description = "Hora de fechamento do estacionamento.",
                 examples = "22:00"
         )
         LocalTime horaFechamento,
         @Schema(
-                name = "Hora de abertura",
+                name = "horaAbertura",
                 description = "Hora de abertura do estacionamento.",
                 examples = "08:00"
         )
         LocalTime horaAbertura,
         @Schema(
-                name = "Vagas preferenciais",
+                name = "vagasPreferenciais",
                 description = "Número de vagas preferenciais do estacionamento.",
                 examples = "10"
         )
         Integer vagasPreferenciais,
         @Schema(
-                name = "Máximo de vagas",
+                name = "maximoDeVagas",
                 description = "Número máximo de vagas do estacionamento.",
                 examples = "100"
         )
         Integer maximoDeVagas,
         @Schema(
-                name = "Número de escritura do imóvel",
+                name = "numeroDeEscrituraImovel",
                 description = "Número de escritura do imóvel do estacionamento.",
                 examples = "987654321"
         )
