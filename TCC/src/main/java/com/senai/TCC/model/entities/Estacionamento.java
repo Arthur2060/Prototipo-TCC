@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities;
 
+import com.senai.TCC.model.enums.Metodo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class Estacionamento {
     private File foto;
 
     private String numeroAlvaraDeFuncionamento;
-    private Boolean status;
+    private Boolean funcionamento;
 
     @ManyToOne
     private DonoEstacionamento dono;
@@ -63,4 +64,5 @@ public class Estacionamento {
     private Integer vagaPreferenciais;
     private LocalDate diaAtual;
     private String numeroDeEscrituraImovel;
+    private Metodo metodoDePagamento;
 }
