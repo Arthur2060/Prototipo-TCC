@@ -34,14 +34,7 @@ public record ClienteDTO(
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "18-09-2000"
         )
-        Date dataNascimento,
-
-        @Schema(
-                name = "placaDoCarro",
-                description = "Numero da placa do carro necessária para cadastro do cliente",
-                examples = "EDU8679"
-        )
-        String placaDoCarro
+        Date dataNascimento
 
 ) {
     public Cliente fromDTO() {
