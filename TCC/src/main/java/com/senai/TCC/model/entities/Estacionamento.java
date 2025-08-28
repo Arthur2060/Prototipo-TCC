@@ -65,4 +65,7 @@ public class Estacionamento {
     private LocalDate diaAtual;
     private String numeroDeEscrituraImovel;
     private Metodo metodoDePagamento;
+
+    @OneToMany
+    private List<Acesso> acessos;
 }

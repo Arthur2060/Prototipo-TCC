@@ -3,6 +3,9 @@ package com.senai.TCC.infraestructure_ui.controller;
 import com.senai.TCC.application.dtos.AcessoDTO;
 import com.senai.TCC.application.services.AcessoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +39,25 @@ public class AcessoController {
             method = "POST",
             summary = "Cadastrar novo acesso",
             description = "Adiciona um novo acesso ao sistema",
-            tags = {"Acesso"}
+            tags = {"Acesso"},
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Dados do acesso a ser cadastrado",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = AcessoDTO.class),
+                            examples = @ExampleObject(value = """
+                                    {
+                                       "id": 0,
+                                       "placaDoCarro": "string",
+                                       "horaDeEntrada": "09:38:51",
+                                       "horaDeSaida": "19:38:51",
+                                       "valorAPagar": 0,
+                                       "estacioId": 1
+                                     }
+                                    """
+                            )
+                    )
+            )
     )
     public ResponseEntity<AcessoDTO> cadastrarAcesso(@RequestBody AcessoDTO dto) {
         return ResponseEntity.ok(service.cadastrarAcesso(dto));
