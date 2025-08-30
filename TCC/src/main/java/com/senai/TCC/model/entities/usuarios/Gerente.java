@@ -1,7 +1,7 @@
 package com.senai.TCC.model.entities.usuarios;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import com.senai.TCC.model.entities.Estacionamento;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +15,7 @@ import lombok.Setter;
 @Getter
 public class Gerente extends Usuario{
     private String cpfOuCnpj;
+
+    @ManyToOne
+    private Estacionamento estacionamento;
 }

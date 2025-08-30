@@ -6,8 +6,9 @@ import com.senai.TCC.model.entities.usuarios.Cliente;
 import java.util.Date;
 
 public record ClienteDTO(
+        Long id,
         @Schema(
-                name = "Nome",
+                name = "nome",
                 description = "Nome do usuario.",
                 examples = "Pedro"
         )
@@ -21,7 +22,7 @@ public record ClienteDTO(
         String email,
 
         @Schema(
-                name = "Senha",
+                name = "senha",
                 description = "Senha de acesso do usuario, " +
                         "deve conter pelo menos uma letra maiuscula, simbolo e numero",
                 examples = "Estacio_2025"
@@ -29,24 +30,17 @@ public record ClienteDTO(
         String senha,
 
         @Schema(
-                name = "Data de nascimento",
+                name = "dataNascimento",
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "18-09-2000"
         )
-        Date dataNascimento,
+        Date dataNascimento
 
-        @Schema(
-                name = "Placa do carro",
-                description = "Numero da placa do carro necessária para cadastro do cliente",
-                examples = "EDU8679"
-        )
-        String placaDoCarro
 ) {
     public Cliente fromDTO() {
         Cliente cliente = new Cliente();
 
         cliente.setNome(nome);
-        cliente.setPlacaDoCarro(placaDoCarro);
         cliente.setEmail(email);
         cliente.setDataNascimento(dataNascimento);
         cliente.setSenha(senha);
@@ -56,11 +50,11 @@ public record ClienteDTO(
 
     public static ClienteDTO toDTO(Cliente cliente) {
         return new ClienteDTO(
+                cliente.getId(),
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getSenha(),
-                cliente.getDataNascimento(),
-                cliente.getPlacaDoCarro()
+                cliente.getDataNascimento()
         );
     }
 }

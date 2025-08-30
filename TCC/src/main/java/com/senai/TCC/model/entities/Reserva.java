@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities;
 
+import com.senai.TCC.model.enums.StatusReserva;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,9 +24,10 @@ public class Reserva {
     @OneToOne
     private Cliente cliente;
 
-    @OneToOne
+    @ManyToOne
     private Estacionamento estacionamento;
 
     private Date dataDaReserva;
     private Time horaDaReserva;
+    private StatusReserva status;
 }

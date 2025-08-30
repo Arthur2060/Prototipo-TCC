@@ -6,8 +6,9 @@ import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import java.util.Date;
 
 public record DonoDTO(
+        Long id,
         @Schema(
-                name = "Nome",
+                name = "nome",
                 description = "Nome do usuario.",
                 examples = "Pedro"
         )
@@ -21,7 +22,7 @@ public record DonoDTO(
         String email,
 
         @Schema(
-                name = "Senha",
+                name = "senha",
                 description = "Senha de acesso do usuario, " +
                         "deve conter pelo menos uma letra maiuscula, simbolo e numero",
                 examples = "Estacio_2025"
@@ -29,7 +30,7 @@ public record DonoDTO(
         String senha,
 
         @Schema(
-                name = "Data de nascimento",
+                name = "dataNascimento",
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "18-09-2000"
         )
@@ -48,6 +49,7 @@ public record DonoDTO(
 
     public static DonoDTO toDTO(DonoEstacionamento dono) {
         return new DonoDTO(
+                dono.getId(),
                 dono.getNome(),
                 dono.getEmail(),
                 dono.getSenha(),

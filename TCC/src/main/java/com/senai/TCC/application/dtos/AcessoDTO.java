@@ -1,39 +1,45 @@
 package com.senai.TCC.application.dtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Acesso;
 
 import java.sql.Time;
 
 public record AcessoDTO(
+        Long id,
         @Schema(
-                name = "Placa do carro",
+                name = "placaDoCarro",
                 description = "Placa do carro que acessou o estacionamento, caso erro," +
                         " resulta em Null e necessita preenchimento manual posteriormente.",
                 examples = "EUD8679"
         )
         String placaDoCarro,
         @Schema(
-                name = "Horario de entrada",
+                name = "horaDeEntrada",
                 description = "Hora em que o carro entrou",
-                examples = "17:50"
+                examples = "17:50",
+                type = "string",
+                pattern = "HH:mm:ss"
         )
         Time horaDeEntrada,
         @Schema(
-                name = "Horario de saída",
+                name = "horaDeSaida",
                 description = "Hora em que o carro saiu",
-                examples = "19:30"
+                examples = "19:30",
+                type = "string",
+                pattern = "HH:mm:ss"
         )
         Time horaDeSaida,
         @Schema(
-                name = "Valor a pagar",
+                name = "valorAPagar",
                 description = "Valor total a pagar pelo tempo de uso do estacionamento",
                 examples = "15.00"
         )
         Double valorAPagar,
 
         @Schema(
-                name = "Id do estacionamento",
+                name = "estacioId",
                 description = "Id do estacionamento em que o veiculo entrou",
                 examples = "3"
         )
@@ -53,6 +59,7 @@ public record AcessoDTO(
 
     public static AcessoDTO toDTO(Acesso acesso) {
         return new AcessoDTO(
+                acesso.getId(),
                 acesso.getPlacaDoCarro(),
                 acesso.getHoraDeEntrada(),
                 acesso.getHoraDeSaida(),

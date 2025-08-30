@@ -22,7 +22,7 @@ public class Avaliacao {
     @OneToOne
     private Cliente cliente;
 
-    @OneToOne
+    @ManyToOne
     private Estacionamento estacionamento;
 
     private Short nota;

@@ -6,8 +6,9 @@ import com.senai.TCC.model.entities.usuarios.Gerente;
 import java.util.Date;
 
 public record GerenteDTO(
+        Long id,
         @Schema(
-                name = "Nome",
+                name = "nome",
                 description = "Nome do usuario.",
                 examples = "Pedro"
         )
@@ -21,7 +22,7 @@ public record GerenteDTO(
         String email,
 
         @Schema(
-                name = "Senha",
+                name = "senha",
                 description = "Senha de acesso do usuario, " +
                         "deve conter pelo menos uma letra maiuscula, simbolo e numero",
                 examples = "Estacio_2025"
@@ -29,18 +30,25 @@ public record GerenteDTO(
         String senha,
 
         @Schema(
-                name = "Data de nascimento",
+                name = "dataNascimento",
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "18-09-2000"
         )
         Date dataNascimento,
 
         @Schema(
-                name = "CPF ou CNPJ",
+                name = "cpfOuCnpj",
                 description = "Documento oficial necessário para contratar um gerente",
                 examples = "123.456.789-10"
         )
-        String cpfOuCnpj
+        String cpfOuCnpj,
+
+        @Schema(
+                name = "estacionamentoId",
+                description = "ID do estacionamento que o gerente irá gerenciar",
+                examples = "1"
+        )
+        Long estacionamentoId
 ) {
     public Gerente fromDTO() {
         Gerente gerente = new Gerente();
@@ -56,11 +64,13 @@ public record GerenteDTO(
 
     public static GerenteDTO toDTO(Gerente gerente) {
         return new GerenteDTO(
+                gerente.getId(),
                 gerente.getNome(),
                 gerente.getEmail(),
                 gerente.getSenha(),
                 gerente.getDataNascimento(),
-                gerente.getCpfOuCnpj()
+                gerente.getCpfOuCnpj(),
+                gerente.getEstacionamento().getId()
         );
     }
 }
