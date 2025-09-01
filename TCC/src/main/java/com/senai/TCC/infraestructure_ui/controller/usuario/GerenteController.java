@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/gerente")
 @Tag(
-        name = "Gerente",
+        name = "Gerente controller",
         description = "Realiza operações relacionadas aos gerentes de estacionamento"
 )
 public class GerenteController {
