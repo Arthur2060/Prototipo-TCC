@@ -17,8 +17,11 @@ import java.util.List;
         description = "Realiza operações relacionadas aos gerentes de estacionamento"
 )
 public class GerenteController {
-    @Autowired
-    private GerenteService service;
+    private final GerenteService service;
+
+    public GerenteController(GerenteService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @Operation(

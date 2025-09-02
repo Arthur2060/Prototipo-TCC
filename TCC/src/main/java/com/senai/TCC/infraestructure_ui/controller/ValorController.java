@@ -17,8 +17,11 @@ import java.util.List;
         description = "Realiza operações referentes à valores de estacionamento"
 )
 public class ValorController {
-    @Autowired
-    private ValorService valorService;
+    private final ValorService valorService;
+
+    public ValorController(ValorService valorService) {
+        this.valorService = valorService;
+    }
 
     @GetMapping
     @Operation(

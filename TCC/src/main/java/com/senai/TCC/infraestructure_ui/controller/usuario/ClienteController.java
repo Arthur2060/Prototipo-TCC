@@ -17,8 +17,11 @@ import java.util.List;
         description = "Realiza operações relacionadas a clientes."
 )
 public class ClienteController {
-    @Autowired
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
+
+    public ClienteController(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
 
     @GetMapping
     @Operation(

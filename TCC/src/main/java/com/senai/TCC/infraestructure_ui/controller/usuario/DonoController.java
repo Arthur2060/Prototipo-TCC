@@ -19,8 +19,11 @@ import java.util.List;
         "das operações"
 )
 public class DonoController {
-    @Autowired
-    private DonoService service;
+    private final DonoService service;
+
+    public DonoController(DonoService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @Operation(

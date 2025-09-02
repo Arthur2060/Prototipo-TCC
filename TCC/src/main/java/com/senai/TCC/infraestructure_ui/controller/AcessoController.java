@@ -20,8 +20,11 @@ import java.util.List;
         description = "Realiza operações referente ao acesso dos carros aos estacionamentos"
 )
 public class AcessoController {
-    @Autowired
-    private AcessoService service;
+    private final AcessoService service;
+
+    public AcessoController(AcessoService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @Operation(

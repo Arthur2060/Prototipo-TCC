@@ -17,8 +17,11 @@ import java.util.List;
         description = "Realiza operações referentes a criação de reservas"
 )
 public class ReservaController {
-    @Autowired
-    private ReservaService service;
+    private final ReservaService service;
+
+    public ReservaController(ReservaService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @Operation(

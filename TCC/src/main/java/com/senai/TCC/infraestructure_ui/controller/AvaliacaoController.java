@@ -17,8 +17,11 @@ import java.util.List;
         description = "Realiza operações referentes à avaliações de estacionamento"
 )
 public class AvaliacaoController {
-    @Autowired
     private AvaliacaoService service;
+
+    public AvaliacaoController(AvaliacaoService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @Operation(

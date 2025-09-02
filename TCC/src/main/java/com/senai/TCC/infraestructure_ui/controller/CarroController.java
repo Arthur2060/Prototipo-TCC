@@ -17,8 +17,11 @@ import java.util.List;
         description = "Realiza operações referentes aos carros"
 )
 public class CarroController {
-    @Autowired
-    private CarroService carroService;
+    private final CarroService carroService;
+
+    public CarroController(CarroService carroService) {
+        this.carroService = carroService;
+    }
 
     @GetMapping
     @Operation(
