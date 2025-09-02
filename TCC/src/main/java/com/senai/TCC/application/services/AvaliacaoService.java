@@ -9,7 +9,6 @@ import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class AvaliacaoService {
     public List<AvaliacaoDTO> listarAvaliacoes() {
         return avaliacaoRepository.findAll()
                 .stream()
-                .map(AvaliacaoDTO::toDTO)
+                .map(AvaliacaoDTO::fromEntity)
                 .toList();
     }
 
@@ -44,12 +43,12 @@ public class AvaliacaoService {
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
             throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
         } else {
-            Avaliacao avaliacao = dto.fromDTO();
+            Avaliacao avaliacao = dto.toEntity();
             avaliacao.setCliente(optCliente.get());
             avaliacao.setEstacionamento(optEstacio.get());
             optEstacio.get().getAvaliacoes().add(avaliacao);
 
-            return AvaliacaoDTO.toDTO(avaliacaoRepository.save(avaliacao));
+            return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
 
@@ -69,7 +68,7 @@ public class AvaliacaoService {
                 optAvaliacao.get().setCliente(optCliente.get());
                 optAvaliacao.get().setEstacionamento(optEstacio.get());
 
-                return AvaliacaoDTO.toDTO(avaliacaoRepository.save(optAvaliacao.get()));
+                return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
             }
     }
 

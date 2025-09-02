@@ -6,7 +6,6 @@ import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.model.entities.Acesso;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,13 +25,13 @@ public class AcessoService {
     public List<AcessoDTO> listarAcessos() {
         return acessoRepository.findAll()
                 .stream()
-                .map(AcessoDTO::toDTO)
+                .map(AcessoDTO::fromEntity)
                 .toList();
     }
 
     @Transactional
     public AcessoDTO cadastrarAcesso(AcessoDTO dto) {
-        Acesso acesso = dto.fromDTO();
+        Acesso acesso = dto.toEntity();
 
         acesso.calcularHorasTotais();
         if (estacionamentoRepository.findById(dto.estacioId()).isPresent()) {
@@ -41,7 +40,7 @@ public class AcessoService {
             throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
         }
 
-        return AcessoDTO.toDTO(acessoRepository.save(acesso));
+        return AcessoDTO.fromEntity(acessoRepository.save(acesso));
     }
 
     @Transactional
@@ -61,7 +60,7 @@ public class AcessoService {
             } else {
                 throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
             }
-            return AcessoDTO.toDTO(acessoRepository.save(optAcesso.get()));
+            return AcessoDTO.fromEntity(acessoRepository.save(optAcesso.get()));
         }
     }
 

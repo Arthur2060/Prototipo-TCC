@@ -49,7 +49,7 @@ public record UsuarioDTO(
         )
         TipoDeUsuario tipoDeUsuario
 ) {
-    public Usuario fromDto() {
+    public Usuario toEntity() {
         Usuario usuario = switch (tipoDeUsuario) {
             case GERENTE -> new Gerente();
             case DONO -> new DonoEstacionamento();
@@ -64,7 +64,7 @@ public record UsuarioDTO(
         return usuario;
     }
 
-    public static UsuarioDTO toDTO(Usuario user) {
+    public static UsuarioDTO fromEntity(Usuario user) {
         TipoDeUsuario tipo = switch (user) {
             case Gerente gerente -> TipoDeUsuario.GERENTE;
             case DonoEstacionamento dono -> TipoDeUsuario.DONO;

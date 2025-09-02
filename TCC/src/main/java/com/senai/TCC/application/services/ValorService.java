@@ -7,7 +7,6 @@ import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.Valor;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +26,13 @@ public class ValorService {
     public List<ValorDTO> listarValor() {
         return valorRepository.findAll()
                 .stream()
-                .map(ValorDTO::toDTO)
+                .map(ValorDTO::fromEntity)
                 .toList();
     }
 
     @Transactional
     public ValorDTO cadastrarValor(ValorDTO dto) {
-        Valor novoValor = dto.fromDTO();
+        Valor novoValor = dto.toEntity();
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id de estacionamento especificado não encontrado no sistema");

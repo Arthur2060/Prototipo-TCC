@@ -7,7 +7,6 @@ import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +26,13 @@ public class EstacionamentoService {
     public List<EstacionamentoDTO> listarTodosOsEstacionamentos() {
         return estacionamentoRepository.findAll()
                 .stream()
-                .map(EstacionamentoDTO::toDTO)
+                .map(EstacionamentoDTO::fromEntity)
                 .toList();
     }
 
     @Transactional
     public EstacionamentoDTO cadastrarEstacionamento(EstacionamentoDTO dto, Long id) {
-        Estacionamento novoEst = dto.fromDTO();
+        Estacionamento novoEst = dto.toEntity();
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
@@ -44,7 +43,7 @@ public class EstacionamentoService {
             novoEst.setFuncionamento(true);
         }
 
-        return EstacionamentoDTO.toDTO(estacionamentoRepository.save(novoEst));
+        return EstacionamentoDTO.fromEntity(estacionamentoRepository.save(novoEst));
     }
 
     @Transactional
@@ -61,7 +60,7 @@ public class EstacionamentoService {
             optEst.get().setNome(dto.nome());
         }
 
-        return EstacionamentoDTO.toDTO(estacionamentoRepository.save(optEst.get()));
+        return EstacionamentoDTO.fromEntity(estacionamentoRepository.save(optEst.get()));
     }
 
     @Transactional

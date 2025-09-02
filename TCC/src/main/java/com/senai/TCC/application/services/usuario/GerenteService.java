@@ -6,7 +6,6 @@ import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +25,12 @@ public class GerenteService {
     public List<GerenteDTO> listarGerentes() {
         return gerenteRepository.findAll()
                 .stream()
-                .map(GerenteDTO::toDTO)
+                .map(GerenteDTO::fromEntity)
                 .toList();
     }
 
     public GerenteDTO cadastrarGerente(GerenteDTO dto) {
-        Gerente gerente = dto.fromDTO();
+        Gerente gerente = dto.toEntity();
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
         if (optEstacionamento.isPresent()) {

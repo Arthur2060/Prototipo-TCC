@@ -6,7 +6,6 @@ import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,13 +25,13 @@ public class DonoService {
     public List<DonoDTO> listarDonos() {
         return donoRepository.findAll()
                 .stream()
-                .map(DonoDTO::toDTO)
+                .map(DonoDTO::fromEntity)
                 .toList();
     }
 
     @Transactional
     public DonoDTO cadastrarDono(DonoDTO dto) {
-        DonoEstacionamento dono = dto.fromDTO();
+        DonoEstacionamento dono = dto.toEntity();
 
         donoRepository.save(dono);
 

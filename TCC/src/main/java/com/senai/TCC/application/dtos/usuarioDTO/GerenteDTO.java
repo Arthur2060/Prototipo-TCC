@@ -50,7 +50,7 @@ public record GerenteDTO(
         )
         Long estacionamentoId
 ) {
-    public Gerente fromDTO() {
+    public Gerente toEntity() {
         Gerente gerente = new Gerente();
 
         gerente.setNome(nome);
@@ -62,7 +62,7 @@ public record GerenteDTO(
         return gerente;
     }
 
-    public static GerenteDTO toDTO(Gerente gerente) {
+    public static GerenteDTO fromEntity(Gerente gerente) {
         return new GerenteDTO(
                 gerente.getId(),
                 gerente.getNome(),

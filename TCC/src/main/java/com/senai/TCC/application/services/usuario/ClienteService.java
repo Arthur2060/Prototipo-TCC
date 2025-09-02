@@ -3,7 +3,6 @@ package com.senai.TCC.application.services.usuario;
 import com.senai.TCC.application.dtos.usuarioDTO.ClienteDTO;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +18,12 @@ public class ClienteService {
     public List<ClienteDTO> listarClientes() {
         return clienteRepository.findAll()
                 .stream()
-                .map(ClienteDTO::toDTO)
+                .map(ClienteDTO::fromEntity)
                 .toList();
     }
 
     public ClienteDTO cadastrarCliente(ClienteDTO dto) {
-        Cliente cliente = dto.fromDTO();
+        Cliente cliente = dto.toEntity();
 
         clienteRepository.save(cliente);
 

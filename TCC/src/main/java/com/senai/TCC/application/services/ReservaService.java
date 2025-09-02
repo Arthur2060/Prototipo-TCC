@@ -8,7 +8,6 @@ import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +30,12 @@ public class ReservaService {
     public List<ReservaDTO> listarReservas() {
         return reservaRepository.findAll()
                 .stream()
-                .map(ReservaDTO::toDTO)
+                .map(ReservaDTO::fromEntity)
                 .toList();
     }
 
     public ReservaDTO cadastrarReserva(ReservaDTO dto) {
-        Reserva novaReserva = dto.fromDTO();
+        Reserva novaReserva = dto.toEntity();
         Optional<Cliente> optionalCliente = clienteRepository.findById(dto.usuarioId());
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -57,7 +56,7 @@ public class ReservaService {
         clienteRepository.save(cliente);
         estacionamentoRepository.save(estacionamento);
 
-        return ReservaDTO.toDTO(reservaRepository.save(novaReserva));
+        return ReservaDTO.fromEntity(reservaRepository.save(novaReserva));
     }
 
     public ReservaDTO atualizarReserva(ReservaDTO dto, Long id) {
@@ -73,7 +72,7 @@ public class ReservaService {
         reserva.setHoraDaReserva(dto.horaDaReserva());
         reserva.setStatus(dto.status());
 
-        return ReservaDTO.toDTO(reservaRepository.save(reserva));
+        return ReservaDTO.fromEntity(reservaRepository.save(reserva));
     }
 
     public void deletarReserva(Long id) {

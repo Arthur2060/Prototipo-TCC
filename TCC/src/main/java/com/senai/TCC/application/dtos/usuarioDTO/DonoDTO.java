@@ -36,7 +36,7 @@ public record DonoDTO(
         )
         Date dataNascimento
 ) {
-    public DonoEstacionamento fromDTO() {
+    public DonoEstacionamento toEntity() {
         DonoEstacionamento dono = new DonoEstacionamento();
 
         dono.setNome(nome);
@@ -47,7 +47,7 @@ public record DonoDTO(
         return dono;
     }
 
-    public static DonoDTO toDTO(DonoEstacionamento dono) {
+    public static DonoDTO fromEntity(DonoEstacionamento dono) {
         return new DonoDTO(
                 dono.getId(),
                 dono.getNome(),

@@ -35,7 +35,7 @@ public record ValorDTO(
 
         Long estacioId
 ) {
-    public Valor fromDTO() {
+    public Valor toEntity() {
         Valor valor = new Valor();
 
         valor.setPreco(preco);
@@ -46,7 +46,7 @@ public record ValorDTO(
         return valor;
     }
 
-    public static ValorDTO toDTO(Valor valor) {
+    public static ValorDTO fromEntity(Valor valor) {
         return new ValorDTO(
                 valor.getId(),
                 valor.getTipoDeCobranca(),

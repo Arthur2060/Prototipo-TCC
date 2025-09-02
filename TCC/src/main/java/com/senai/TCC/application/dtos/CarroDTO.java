@@ -32,7 +32,7 @@ public record CarroDTO(
         )
         String cor
 ) {
-    public Carro fromDTO() {
+    public Carro toEntity() {
         Carro carro = new Carro();
 
         carro.setCor(cor);
@@ -42,7 +42,7 @@ public record CarroDTO(
         return carro;
     }
 
-    public static CarroDTO toDTO(Carro carro) {
+    public static CarroDTO fromEntity(Carro carro) {
         return new CarroDTO(
                 carro.getCliente().getId(),
                 carro.getPlaca(),

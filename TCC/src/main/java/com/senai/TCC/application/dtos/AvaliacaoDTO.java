@@ -39,7 +39,7 @@ public record AvaliacaoDTO(
         )
         LocalDateTime dataDeAvaliacao
 ) {
-    public Avaliacao fromDTO() {
+    public Avaliacao toEntity() {
         Avaliacao avaliacao = new Avaliacao();
 
         avaliacao.setDataDeAvaliacao(dataDeAvaliacao);
@@ -49,7 +49,7 @@ public record AvaliacaoDTO(
         return avaliacao;
     }
 
-    public static AvaliacaoDTO toDTO(Avaliacao avaliacao) {
+    public static AvaliacaoDTO fromEntity(Avaliacao avaliacao) {
         return new AvaliacaoDTO(
                 avaliacao.getId(),
                 avaliacao.getCliente().getId(),

@@ -3,13 +3,10 @@ package com.senai.TCC.application.services;
 import com.senai.TCC.application.dtos.CarroDTO;
 import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
-import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.entities.usuarios.Usuario;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,13 +26,13 @@ public class CarroService {
     public List<CarroDTO> listarCarros() {
         return carroRepository.findAll()
                 .stream()
-                .map(CarroDTO::toDTO)
+                .map(CarroDTO::fromEntity)
                 .toList();
     }
 
     @Transactional
     public CarroDTO cadastrarCarro(CarroDTO dto) {
-        Carro carro = carroRepository.save(dto.fromDTO());
+        Carro carro = carroRepository.save(dto.toEntity());
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
 
         if (optCliente.isEmpty()) {
@@ -47,7 +44,7 @@ public class CarroService {
         carro.setCliente(cliente);
         clienteRepository.save(cliente);
 
-        return CarroDTO.toDTO(carroRepository.save(carro));
+        return CarroDTO.fromEntity(carroRepository.save(carro));
     }
 
     @Transactional
@@ -76,7 +73,7 @@ public class CarroService {
         carro.setCor(dto.cor());
 
 
-        return CarroDTO.toDTO(carroRepository.save(carro));
+        return CarroDTO.fromEntity(carroRepository.save(carro));
     }
 
     @Transactional

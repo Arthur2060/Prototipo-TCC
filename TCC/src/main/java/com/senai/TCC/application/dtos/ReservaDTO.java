@@ -1,6 +1,5 @@
 package com.senai.TCC.application.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.senai.TCC.model.enums.StatusReserva;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Reserva;
@@ -36,7 +35,7 @@ public record ReservaDTO(
         Time horaDaReserva,
         StatusReserva status
 ) {
-    public Reserva fromDTO() {
+    public Reserva toEntity() {
         Reserva reserva = new Reserva();
 
         reserva.setDataDaReserva(dataDaReserva);
@@ -46,7 +45,7 @@ public record ReservaDTO(
         return reserva;
     }
 
-    public static ReservaDTO toDTO(Reserva reserva) {
+    public static ReservaDTO fromEntity(Reserva reserva) {
         return new ReservaDTO(
                 reserva.getId(),
                 reserva.getCliente().getId(),

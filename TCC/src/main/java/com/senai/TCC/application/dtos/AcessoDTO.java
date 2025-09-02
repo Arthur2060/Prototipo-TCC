@@ -1,6 +1,5 @@
 package com.senai.TCC.application.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Acesso;
 
@@ -45,7 +44,7 @@ public record AcessoDTO(
         )
         Long estacioId
 ) {
-    public Acesso fromDTO() {
+    public Acesso toEntity() {
         Acesso acesso = new Acesso();
 
         acesso.setPlacaDoCarro(placaDoCarro);
@@ -57,7 +56,7 @@ public record AcessoDTO(
         return acesso;
     }
 
-    public static AcessoDTO toDTO(Acesso acesso) {
+    public static AcessoDTO fromEntity(Acesso acesso) {
         return new AcessoDTO(
                 acesso.getId(),
                 acesso.getPlacaDoCarro(),

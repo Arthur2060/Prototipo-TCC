@@ -1,12 +1,10 @@
 package com.senai.TCC.application.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Estacionamento;
 
 import java.io.File;
 import java.time.LocalTime;
-import java.util.List;
 
 public record EstacionamentoDTO(
         Long id,
@@ -81,7 +79,7 @@ public record EstacionamentoDTO(
         )
         String numeroDeEscrituraImovel
 ) {
-    public Estacionamento fromDTO() {
+    public Estacionamento toEntity() {
         Estacionamento estacionamento = new Estacionamento();
 
         estacionamento.setNome(nome);
@@ -99,7 +97,7 @@ public record EstacionamentoDTO(
         return estacionamento;
     }
 
-    public static EstacionamentoDTO toDTO(Estacionamento estacionamento) {
+    public static EstacionamentoDTO fromEntity(Estacionamento estacionamento) {
         return new EstacionamentoDTO(
                 estacionamento.getId(),
                 estacionamento.getNome(),

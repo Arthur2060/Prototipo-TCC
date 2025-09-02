@@ -37,7 +37,7 @@ public record ClienteDTO(
         Date dataNascimento
 
 ) {
-    public Cliente fromDTO() {
+    public Cliente toEntity() {
         Cliente cliente = new Cliente();
 
         cliente.setNome(nome);
@@ -48,7 +48,7 @@ public record ClienteDTO(
         return cliente;
     }
 
-    public static ClienteDTO toDTO(Cliente cliente) {
+    public static ClienteDTO fromEntity(Cliente cliente) {
         return new ClienteDTO(
                 cliente.getId(),
                 cliente.getNome(),
