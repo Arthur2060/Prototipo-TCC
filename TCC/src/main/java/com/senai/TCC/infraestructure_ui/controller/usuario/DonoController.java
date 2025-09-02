@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/dono")
 @Tag(
-        name = "Dono de estacionamento",
+        name = "Dono de estacionamento controller",
         description = "Realiza operações referentes ao CRUD da entidade Dono de estacionamento," +
             " eixo central do projeto necessario para a maioria," +
         "das operações"
