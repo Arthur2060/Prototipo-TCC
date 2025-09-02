@@ -16,14 +16,17 @@ import java.util.Optional;
 
 @Service
 public class ReservaService {
-    @Autowired
-    private ReservaRepository reservaRepository;
+    private final ReservaRepository reservaRepository;
 
-    @Autowired
-    private EstacionamentoRepository estacionamentoRepository;
+    private final EstacionamentoRepository estacionamentoRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
+
+    public ReservaService(EstacionamentoRepository estacionamentoRepository, ClienteRepository clienteRepository, ReservaRepository reservaRepository) {
+        this.estacionamentoRepository = estacionamentoRepository;
+        this.clienteRepository = clienteRepository;
+        this.reservaRepository = reservaRepository;
+    }
 
     public List<ReservaDTO> listarReservas() {
         return reservaRepository.findAll()

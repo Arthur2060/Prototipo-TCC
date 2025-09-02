@@ -14,11 +14,14 @@ import java.util.Optional;
 
 @Service
 public class AcessoService {
-    @Autowired
-    private AcessoRepository acessoRepository;
+    private final AcessoRepository acessoRepository;
 
-    @Autowired
-    private EstacionamentoRepository estacionamentoRepository;
+    private final EstacionamentoRepository estacionamentoRepository;
+
+    public AcessoService(AcessoRepository acessoRepository, EstacionamentoRepository estacionamentoRepository) {
+        this.acessoRepository = acessoRepository;
+        this.estacionamentoRepository = estacionamentoRepository;
+    }
 
     public List<AcessoDTO> listarAcessos() {
         return acessoRepository.findAll()

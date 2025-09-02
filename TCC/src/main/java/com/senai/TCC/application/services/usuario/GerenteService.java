@@ -14,11 +14,14 @@ import java.util.Optional;
 
 @Service
 public class GerenteService {
-    @Autowired
-    private GerenteRepository gerenteRepository;
+    private final GerenteRepository gerenteRepository;
 
-    @Autowired
-    private EstacionamentoRepository estacionamentoRepository;
+    private final EstacionamentoRepository estacionamentoRepository;
+
+    public GerenteService(GerenteRepository gerenteRepository, EstacionamentoRepository estacionamentoRepository) {
+        this.gerenteRepository = gerenteRepository;
+        this.estacionamentoRepository = estacionamentoRepository;
+    }
 
     public List<GerenteDTO> listarGerentes() {
         return gerenteRepository.findAll()

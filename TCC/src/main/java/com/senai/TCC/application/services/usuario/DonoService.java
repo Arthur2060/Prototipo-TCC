@@ -14,11 +14,14 @@ import java.util.Optional;
 
 @Service
 public class DonoService {
-    @Autowired
-    private DonoRepository donoRepository;
+    private final DonoRepository donoRepository;
 
-    @Autowired
-    private EstacionamentoRepository estacionamentoRepository;
+    private final EstacionamentoRepository estacionamentoRepository;
+
+    public DonoService(DonoRepository donoRepository, EstacionamentoRepository estacionamentoRepository) {
+        this.donoRepository = donoRepository;
+        this.estacionamentoRepository = estacionamentoRepository;
+    }
 
     public List<DonoDTO> listarDonos() {
         return donoRepository.findAll()

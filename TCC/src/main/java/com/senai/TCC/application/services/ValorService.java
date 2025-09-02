@@ -15,11 +15,14 @@ import java.util.Optional;
 
 @Service
 public class ValorService {
-    @Autowired
-    private ValorRepository valorRepository;
+    private final ValorRepository valorRepository;
 
-    @Autowired
-    private EstacionamentoRepository estacionamentoRepository;
+    private final EstacionamentoRepository estacionamentoRepository;
+
+    public ValorService(ValorRepository valorRepository, EstacionamentoRepository estacionamentoRepository) {
+        this.valorRepository = valorRepository;
+        this.estacionamentoRepository = estacionamentoRepository;
+    }
 
     public List<ValorDTO> listarValor() {
         return valorRepository.findAll()

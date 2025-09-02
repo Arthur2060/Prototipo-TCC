@@ -17,14 +17,17 @@ import java.util.Optional;
 
 @Service
 public class AvaliacaoService {
-    @Autowired
-    private AvaliacaoRepository avaliacaoRepository;
+    private final AvaliacaoRepository avaliacaoRepository;
 
-    @Autowired
-    private EstacionamentoRepository estacionamentoRepository;
+    private final EstacionamentoRepository estacionamentoRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
+
+    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository, EstacionamentoRepository estacionamentoRepository, ClienteRepository clienteRepository) {
+        this.avaliacaoRepository = avaliacaoRepository;
+        this.estacionamentoRepository = estacionamentoRepository;
+        this.clienteRepository = clienteRepository;
+    }
 
     public List<AvaliacaoDTO> listarAvaliacoes() {
         return avaliacaoRepository.findAll()

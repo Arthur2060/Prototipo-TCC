@@ -17,11 +17,14 @@ import java.util.Optional;
 
 @Service
 public class CarroService {
-    @Autowired
-    private CarroRepository carroRepository;
+    private final CarroRepository carroRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
+
+    public CarroService(CarroRepository carroRepository, ClienteRepository clienteRepository) {
+        this.carroRepository = carroRepository;
+        this.clienteRepository = clienteRepository;
+    }
 
     public List<CarroDTO> listarCarros() {
         return carroRepository.findAll()
