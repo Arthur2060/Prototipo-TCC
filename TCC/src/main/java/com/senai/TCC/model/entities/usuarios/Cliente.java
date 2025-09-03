@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities.usuarios;
 
+import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Reserva;
 import jakarta.persistence.DiscriminatorValue;
@@ -23,4 +24,6 @@ public class Cliente extends Usuario{
     private List<Carro> Carros;
     @OneToMany
     private List<Reserva> reservas;
+    @OneToMany
+    private List<Avaliacao> avaliacoes;
 }

@@ -47,6 +47,7 @@ public class Estacionamento {
     private LocalTime horaFechamento;
     private String numeroContaDono;
     private Double valorArrecadadoDoDia;
+
     private Double notaMedia;
     private Integer quantidadeDeAvaliacoes;
 
@@ -68,4 +69,16 @@ public class Estacionamento {
 
     @OneToMany
     private List<Acesso> acessos;
+
+    public void calcularNotaMedia() {
+        this.quantidadeDeAvaliacoes = avaliacoes.size();
+
+        double soma = 0.0;
+
+        for (Avaliacao avaliacao : avaliacoes) {
+            soma += avaliacao.getNota().doubleValue();
+        }
+
+        notaMedia = soma / this.quantidadeDeAvaliacoes;
+    }
 }
