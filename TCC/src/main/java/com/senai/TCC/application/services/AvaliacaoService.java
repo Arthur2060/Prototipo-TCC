@@ -43,6 +43,7 @@ public class AvaliacaoService {
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
         validarAvaliacaoUnica(avaliacao);
+        avaliacao.validarTamanhoDoComentario();
 
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
             throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
@@ -60,16 +61,21 @@ public class AvaliacaoService {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
+
         if (optAvaliacao.isEmpty()) {
             throw new IdNaoCadastrado("A avaliação buscada não existe no sistema");
         } else if (optCliente.isEmpty() || optEstacio.isEmpty()) {
                 throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
             } else {
-                optAvaliacao.get().setNota(dto.nota());
-                optAvaliacao.get().setComentario(dto.comentario());
-                optAvaliacao.get().setDataDeAvaliacao(dto.dataDeAvaliacao());
-                optAvaliacao.get().setCliente(optCliente.get());
-                optAvaliacao.get().setEstacionamento(optEstacio.get());
+                Avaliacao avaliacao = optAvaliacao.get();
+
+                avaliacao.validarTamanhoDoComentario();
+
+                avaliacao.setNota(dto.nota());
+                avaliacao.setComentario(dto.comentario());
+                avaliacao.setDataDeAvaliacao(dto.dataDeAvaliacao());
+                avaliacao.setCliente(optCliente.get());
+                avaliacao.setEstacionamento(optEstacio.get());
 
                 return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
             }

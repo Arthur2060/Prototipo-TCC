@@ -1,5 +1,6 @@
 package com.senai.TCC.infraestructure.handler;
 
+import com.senai.TCC.model.exceptions.ComentarioMuitoLongo;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.model.exceptions.MultiplasAvaliacoesIguais;
 import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalido;
@@ -39,6 +40,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TipoDeUsuarioInvalido.class)
     public ResponseEntity<?> handleTipoDeUsuarioInvalidoException(TipoDeUsuarioInvalido ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ComentarioMuitoLongo.class)
+    public ResponseEntity<?> handleComentarioMuitoLongoException(ComentarioMuitoLongo ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("erro", ex.getMessage()));
     }
 

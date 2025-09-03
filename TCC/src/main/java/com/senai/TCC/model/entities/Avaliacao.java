@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities;
 
+import com.senai.TCC.model.exceptions.ComentarioMuitoLongo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,4 +29,10 @@ public class Avaliacao {
     private Short nota;
     private String comentario;
     private LocalDateTime dataDeAvaliacao;
+
+    public void validarTamanhoDoComentario() {
+        if (this.comentario.length() > 500) {
+            throw new ComentarioMuitoLongo("Comentario muito longo");
+        }
+    }
 }
