@@ -8,6 +8,7 @@ import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.MultiplasAvaliacoesIguais;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +38,15 @@ public class AvaliacaoService {
 
     @Transactional
     public AvaliacaoDTO cadastrarAvaliacao(AvaliacaoDTO dto) {
+        Avaliacao avaliacao = dto.toEntity();
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
+
+        validarAvaliacaoUnica(avaliacao);
 
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
             throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
         } else {
-            Avaliacao avaliacao = dto.toEntity();
             avaliacao.setCliente(optCliente.get());
             avaliacao.setEstacionamento(optEstacio.get());
             optEstacio.get().getAvaliacoes().add(avaliacao);
@@ -80,5 +83,18 @@ public class AvaliacaoService {
             avaliacaoRepository.delete(optAvaliacao.get());
             optAvaliacao.get().getEstacionamento().getAvaliacoes().remove(optAvaliacao.get());
         }
+    }
+
+    public void validarAvaliacaoUnica(Avaliacao avaliacao) {
+        Cliente cliente = avaliacao.getCliente();
+        Estacionamento estacionamento = avaliacao.getEstacionamento();
+
+        avaliacaoRepository.findAll()
+                .forEach(a -> {
+                    if (a.getCliente() == cliente && a.getEstacionamento() == estacionamento) {
+                        throw new MultiplasAvaliacoesIguais("O cliente já tem uma avaliação registrada para este" +
+                                "estabelecimento");
+                    }
+                });
     }
 }
