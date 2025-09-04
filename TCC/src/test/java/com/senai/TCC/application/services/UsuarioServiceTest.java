@@ -1,11 +1,10 @@
-package com.senai.TCC;
+package com.senai.TCC.application.services;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TccApplicationTests {
+class UsuarioServiceTest {
 
 	@Test
 	void contextLoads() {
