@@ -3,9 +3,11 @@ package com.senai.TCC.application.services.usuario;
 import com.senai.TCC.application.dtos.usuarioDTO.ClienteDTO;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -25,27 +27,34 @@ public class ClienteService {
     public ClienteDTO cadastrarCliente(ClienteDTO dto) {
         Cliente cliente = dto.toEntity();
 
-        clienteRepository.save(cliente);
-
-        return dto;
+        return ClienteDTO.fromEntity(
+                clienteRepository.save(cliente));
     }
 
     public ClienteDTO atualizarCliente(ClienteDTO dto, Long id) {
-        var optCliente = clienteRepository.findById(id);
+        Optional<Cliente> optCliente = clienteRepository.findById(id);
 
-        if (optCliente.isPresent()) {
-            var cliente = optCliente.get();
-            cliente.setNome(dto.nome());
-            cliente.setEmail(dto.email());
-            cliente.setSenha(dto.senha());
-            cliente.setDataNascimento(dto.dataNascimento());
-            clienteRepository.save(cliente);
+        if (optCliente.isEmpty()) {
+            throw new IdNaoCadastrado("Cliente buscado não cadastrado no sistema");
         }
 
-        return dto;
+        Cliente cliente = optCliente.get();
+        cliente.setNome(dto.nome());
+        cliente.setEmail(dto.email());
+        cliente.setSenha(dto.senha());
+        cliente.setDataNascimento(dto.dataNascimento());
+        return ClienteDTO.fromEntity(clienteRepository.save(cliente));
     }
 
     public void deletarCliente(Long id) {
-        clienteRepository.deleteById(id);
+        Optional<Cliente> optCliente = clienteRepository.findById(id);
+
+        if (optCliente.isEmpty()) {
+            throw new IdNaoCadastrado("Cliente buscado não cadastrado no sistema");
+        }
+
+        Cliente cliente = optCliente.get();
+
+        clienteRepository.delete(cliente);
     }
 }
