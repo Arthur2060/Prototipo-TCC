@@ -4,6 +4,7 @@ import com.senai.TCC.application.dtos.AcessoDTO;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.model.entities.Acesso;
+import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -34,40 +35,68 @@ public class AcessoService {
         Acesso acesso = dto.toEntity();
 
         acesso.calcularHorasTotais();
-        if (estacionamentoRepository.findById(dto.estacioId()).isPresent()) {
-            acesso.setEstacionamento(estacionamentoRepository.findById(dto.estacioId()).get());
-        } else {
+
+        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
+        if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
         }
 
+        Estacionamento estacionamento = optEstacionamento.get();
+
+        acesso.setEstacionamento(estacionamento);
+        estacionamento.getAcessos().add(acesso);
+
+        estacionamentoRepository.save(estacionamento);
         return AcessoDTO.fromEntity(acessoRepository.save(acesso));
     }
 
     @Transactional
     public AcessoDTO atualizarAcesso(AcessoDTO dto, Long id) {
         Optional<Acesso> optAcesso = acessoRepository.findById(id);
+        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
-        if (optAcesso.isEmpty()) {
-            throw new IdNaoCadastrado("O Acesso buscado não existe no sistema");
-        } else {
-            optAcesso.get().setHoraDeEntrada(dto.horaDeEntrada());
-            optAcesso.get().setHoraDeSaida(dto.horaDeSaida());
-            optAcesso.get().calcularHorasTotais();
-            optAcesso.get().setPlacaDoCarro(dto.placaDoCarro());
-            optAcesso.get().setValorAPagar(dto.valorAPagar());
-            if (estacionamentoRepository.findById(dto.estacioId()).isPresent()) {
-                optAcesso.get().setEstacionamento(estacionamentoRepository.findById(dto.estacioId()).get());
-            } else {
-                throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
-            }
-            return AcessoDTO.fromEntity(acessoRepository.save(optAcesso.get()));
+        if (optAcesso.isEmpty() || optEstacionamento.isEmpty()) {
+            throw new IdNaoCadastrado("O Acesso ou estacionamento buscado não existe no sistema");
         }
+
+        Acesso acesso = optAcesso.get();
+        Estacionamento estacionamento = optEstacionamento.get();
+
+        acesso.setHoraDeEntrada(dto.horaDeEntrada());
+        acesso.setHoraDeSaida(dto.horaDeSaida());
+        acesso.calcularHorasTotais();
+        acesso.setPlacaDoCarro(dto.placaDoCarro());
+        acesso.setValorAPagar(dto.valorAPagar());
+        acesso.setEstacionamento(estacionamento);
+
+        if (!estacionamento.getId()
+                .equals(
+                        acesso.getEstacionamento().getId()
+                )
+        ) {
+            acesso.getEstacionamento().getAcessos().remove(acesso);
+            estacionamento.getAcessos().add(acesso);
+            acesso.setEstacionamento(estacionamento);
+        }
+
+        estacionamentoRepository.save(estacionamento);
+        return AcessoDTO.fromEntity(acessoRepository.save(optAcesso.get()));
     }
 
     @Transactional
     public void deletarAcesso(Long id) {
-        if (acessoRepository.findById(id).isPresent()) {
-            acessoRepository.delete(acessoRepository.findById(id).get());
+        Optional<Acesso> optAcesso = acessoRepository.findById(id);
+
+        if (optAcesso.isEmpty()) {
+            throw new IdNaoCadastrado("Acesso buscado não cadastrado no sistema");
         }
+
+        Acesso acesso = optAcesso.get();
+        Estacionamento estacionamento = acesso.getEstacionamento();
+
+        estacionamento.getAcessos().remove(acesso);
+
+        acessoRepository.save(acesso);
+        estacionamentoRepository.save(estacionamento);
     }
 }
