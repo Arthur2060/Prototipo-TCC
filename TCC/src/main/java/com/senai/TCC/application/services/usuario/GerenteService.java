@@ -33,33 +33,58 @@ public class GerenteService {
         Gerente gerente = dto.toEntity();
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
-        if (optEstacionamento.isPresent()) {
-            gerente.setEstacionamento(optEstacionamento.get());
-        } else {
+        if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
         }
 
-        gerenteRepository.save(gerente);
+        Estacionamento estacionamento = optEstacionamento.get();
 
-        return dto;
+        estacionamento.getGerentes().add(gerente);
+        gerente.setEstacionamento(estacionamento);
+
+        estacionamentoRepository.save(estacionamento);
+        return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
     }
 
     public GerenteDTO atualizarGerente(GerenteDTO dto, Long id) {
         var optGerente = gerenteRepository.findById(id);
 
-        if (optGerente.isPresent()) {
-            var gerente = optGerente.get();
-            gerente.setNome(dto.nome());
-            gerente.setEmail(dto.email());
-            gerente.setSenha(dto.senha());
-            gerente.setDataNascimento(dto.dataNascimento());
-            gerenteRepository.save(gerente);
+        if (optGerente.isEmpty()) {
+            throw new IdNaoCadastrado("Id do gerente buscado não encontrado no sistema!");
         }
 
-        return dto;
+        Gerente gerente = optGerente.get();
+
+        gerente.setNome(dto.nome());
+        gerente.setEmail(dto.email());
+        gerente.setSenha(dto.senha());
+        gerente.setDataNascimento(dto.dataNascimento());
+
+        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(gerente.getEstacionamento().getId());
+
+        if (optEstacionamento.isEmpty()) {
+            throw new IdNaoCadastrado("Estacionamento desejado a adicionar não cadastrado no sistema!");
+        }
+
+        Estacionamento estacionamento = optEstacionamento.get();
+
+        gerente.setEstacionamento(estacionamento);
+        estacionamento.getGerentes().add(gerente);
+
+        estacionamentoRepository.save(estacionamento);
+        return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
     }
 
     public void deletarGerente(Long id) {
-        gerenteRepository.deleteById(id);
+        Optional<Gerente> optGerente = gerenteRepository.findById(id);
+
+        if (optGerente.isEmpty()) {
+            throw new IdNaoCadastrado("Id do gerente buscado não encontrado no sistema!");
+        }
+
+        Gerente gerente = optGerente.get();
+        gerente.getEstacionamento().getGerentes().remove(gerente);
+
+        gerenteRepository.delete(gerente);
     }
 }
