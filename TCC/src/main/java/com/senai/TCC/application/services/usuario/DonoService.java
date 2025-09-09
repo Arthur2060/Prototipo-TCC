@@ -15,11 +15,8 @@ import java.util.Optional;
 public class DonoService {
     private final DonoRepository donoRepository;
 
-    private final EstacionamentoRepository estacionamentoRepository;
-
-    public DonoService(DonoRepository donoRepository, EstacionamentoRepository estacionamentoRepository) {
+    public DonoService(DonoRepository donoRepository) {
         this.donoRepository = donoRepository;
-        this.estacionamentoRepository = estacionamentoRepository;
     }
 
     public List<DonoDTO> listarDonos() {
@@ -33,9 +30,7 @@ public class DonoService {
     public DonoDTO cadastrarDono(DonoDTO dto) {
         DonoEstacionamento dono = dto.toEntity();
 
-        donoRepository.save(dono);
-
-        return dto;
+        return DonoDTO.fromEntity(donoRepository.save(dono));
     }
 
     @Transactional
@@ -44,15 +39,16 @@ public class DonoService {
 
         if (optDono.isEmpty()) {
             throw new IdNaoCadastrado("O Id não foi encontrado no sistema!");
-        } else {
-            optDono.get().setNome(dto.nome());
-            optDono.get().setEmail(dto.email());
-            optDono.get().setSenha(dto.senha());
-            optDono.get().setDataNascimento(dto.dataNascimento());
-            donoRepository.save(optDono.get());
         }
 
-        return dto;
+        DonoEstacionamento dono = optDono.get();
+
+        dono.setNome(dto.nome());
+        dono.setEmail(dto.email());
+        dono.setSenha(dto.senha());
+        dono.setDataNascimento(dto.dataNascimento());
+
+        return DonoDTO.fromEntity(donoRepository.save(optDono.get()));
     }
 
     @Transactional
@@ -61,8 +57,10 @@ public class DonoService {
 
         if (optDono.isEmpty()) {
             throw new IdNaoCadastrado("O Id não foi encontrado no sistema!");
-        } else {
-            donoRepository.delete(optDono.get());
         }
+
+        DonoEstacionamento dono = optDono.get();
+
+        donoRepository.delete(dono);
     }
 }
