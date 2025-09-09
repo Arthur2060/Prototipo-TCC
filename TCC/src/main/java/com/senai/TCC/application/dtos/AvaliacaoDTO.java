@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 public record AvaliacaoDTO(
         Long id,
-        @NotNull
         @Schema
         (
                 name = "clienteId",
@@ -17,21 +16,18 @@ public record AvaliacaoDTO(
                 examples = "1"
         )
         Long clienteId,
-        @NotNull
         @Schema(
                 name = "estacioId",
                 description = "ID do estacionamento que foi avaliado",
                 examples = "1"
         )
         Long estacioId,
-        @NotNull
         @Schema(
                 name = "nota",
                 description = "Nota dada pelo cliente ao estacionamento, de 0 a 5",
                 examples = "3"
         )
         Short nota,
-        @Nullable
         @Schema(
                 name = "comentario",
                 description = "Comentario feito pelo cliente sobre o estacionamento",

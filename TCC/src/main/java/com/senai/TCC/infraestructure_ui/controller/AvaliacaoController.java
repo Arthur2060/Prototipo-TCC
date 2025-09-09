@@ -38,7 +38,7 @@ public class AvaliacaoController {
             summary = "Cadastrar nova avaliação",
             description = "Adiciona uma nova avaliação ao sistema"
     )
-    public ResponseEntity<AvaliacaoDTO> cadastrarAvaliacao(AvaliacaoDTO dto) {
+    public ResponseEntity<AvaliacaoDTO> cadastrarAvaliacao(@RequestBody AvaliacaoDTO dto) {
         return ResponseEntity.ok(service.cadastrarAvaliacao(dto));
     }
 
@@ -48,8 +48,8 @@ public class AvaliacaoController {
             summary = "Atualizar uma avaliação",
             description = "Atualiza uma avaliação já cadastrada no sistema"
     )
-    public ResponseEntity<AvaliacaoDTO> atualizarAvaliacao(@PathVariable Long avaliacaoId, AvaliacaoDTO dto) {
-        return ResponseEntity.ok(service.atualizarAvaliacao(dto, avaliacaoId));
+    public ResponseEntity<AvaliacaoDTO> atualizarAvaliacao(@PathVariable Long id, AvaliacaoDTO dto) {
+        return ResponseEntity.ok(service.atualizarAvaliacao(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -58,8 +58,8 @@ public class AvaliacaoController {
             summary = "Deletar uma avaliação",
             description = "Deleta uma avaliação já cadastrada no sistema"
     )
-    public ResponseEntity<Void> deletarAvaliacao(@PathVariable Long avaliacaoId) {
-        service.deletarAvaliacao(avaliacaoId);
+    public ResponseEntity<Void> deletarAvaliacao(@PathVariable Long id) {
+        service.deletarAvaliacao(id);
         return ResponseEntity.noContent().build();
     }
 }

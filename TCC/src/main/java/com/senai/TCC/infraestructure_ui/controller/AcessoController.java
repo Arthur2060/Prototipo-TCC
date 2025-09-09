@@ -72,8 +72,8 @@ public class AcessoController {
             description = "Atualiza um acesso já cadastrado no sistema",
             tags = {"Acesso"}
     )
-    public ResponseEntity<AcessoDTO> atualizarAcesso(@PathVariable Long acessoId, @RequestBody AcessoDTO dto) {
-        return ResponseEntity.ok(service.atualizarAcesso(dto, acessoId));
+    public ResponseEntity<AcessoDTO> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoDTO dto) {
+        return ResponseEntity.ok(service.atualizarAcesso(dto, id));
     }
 
     @DeleteMapping("/{id}")
