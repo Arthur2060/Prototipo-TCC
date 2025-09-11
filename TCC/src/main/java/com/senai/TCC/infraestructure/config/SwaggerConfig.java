@@ -12,7 +12,7 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Para AI")
+                        .title("Inpark")
                         .summary("Nome em processo...")
                         .description("Este é o protótipo de projeto para TCC da escola e faculdade SENAI \"Anchieta\" Vila Mariana, " +
                                 "este projeto tem como objetivo criar um sistema de reserva e gerenciamento de vagas de estacionamento, " +

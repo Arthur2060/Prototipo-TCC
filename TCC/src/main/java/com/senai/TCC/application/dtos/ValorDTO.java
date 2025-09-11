@@ -33,6 +33,11 @@ public record ValorDTO(
         )
         Periodo periodo,
 
+        @Schema(
+            name = "estacioId",
+            description = "ID do estacionamento associado a esse valor",
+            examples = "1"
+        )
         Long estacioId
 ) {
     public Valor toEntity() {

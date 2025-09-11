@@ -13,7 +13,7 @@ public record ReservaDTO(
                 name = "clienteId",
                 description = "Cliente que solicitou a reserva"
         )
-        Long usuarioId,
+        Long clienteId,
         @Schema(
                 name = "estacioId",
                 description = "Estabelecimento cadastrado em que a reserva foi solicitada"

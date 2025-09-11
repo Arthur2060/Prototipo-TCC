@@ -36,7 +36,7 @@ public class ReservaService {
 
     public ReservaDTO cadastrarReserva(ReservaDTO dto) {
         Reserva novaReserva = dto.toEntity();
-        Optional<Cliente> optionalCliente = clienteRepository.findById(dto.usuarioId());
+        Optional<Cliente> optionalCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
         if (optionalCliente.isEmpty() || optionalEstacionamento.isEmpty()) {
