@@ -17,7 +17,7 @@ public record AcessoDTO(
         @Schema(
                 name = "horaDeEntrada",
                 description = "Hora em que o carro entrou",
-                examples = "17:50",
+                examples = "17:50:00",
                 type = "string",
                 pattern = "HH:mm:ss"
         )
@@ -25,7 +25,7 @@ public record AcessoDTO(
         @Schema(
                 name = "horaDeSaida",
                 description = "Hora em que o carro saiu",
-                examples = "19:30",
+                examples = "19:30:00",
                 type = "string",
                 pattern = "HH:mm:ss"
         )
