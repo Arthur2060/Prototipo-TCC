@@ -30,18 +30,18 @@ public class AcessoController {
             method = "GET",
             summary = "Listar todos os acessos",
             description = "Retorna uma lista de todos os acessos cadastrados no sistema.",
-            tags = {"Acesso"}
+            tags = {"Acesso controller"}
     )
     public ResponseEntity<List<AcessoDTO>> listarAcessos() {
         return ResponseEntity.ok(service.listarAcessos());
     }
 
-    @PostMapping("/{id}")
+    @PostMapping
     @Operation(
             method = "POST",
             summary = "Cadastrar novo acesso",
             description = "Adiciona um novo acesso ao sistema",
-            tags = {"Acesso"},
+            tags = {"Acesso controller"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Dados do acesso a ser cadastrado",
                     required = true,
@@ -70,7 +70,7 @@ public class AcessoController {
             method = "PUT",
             summary = "Atualizar um acesso",
             description = "Atualiza um acesso já cadastrado no sistema",
-            tags = {"Acesso"}
+            tags = {"Acesso controller"}
     )
     public ResponseEntity<AcessoDTO> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoDTO dto) {
         return ResponseEntity.ok(service.atualizarAcesso(dto, id));
@@ -81,7 +81,7 @@ public class AcessoController {
             method = "DELETE",
             summary = "Deletar um acesso",
             description = "Deleta um acesso já cadastrado no sistema",
-            tags = {"Acesso"}
+            tags = {"Acesso controller"}
     )
     public void deletarAcesso(@PathVariable Long id) {
         service.deletarAcesso(id);

@@ -17,5 +17,6 @@ public class Gerente extends Usuario{
     private String cpfOuCnpj;
 
     @ManyToOne
+    @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
 }

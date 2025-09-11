@@ -20,6 +20,7 @@ public class Acesso {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
 
     private String placaDoCarro;

@@ -25,7 +25,8 @@ public class ClienteController {
     @GetMapping
     @Operation(
             summary = "Listar todos os clientes",
-            description = "Retorna uma lista de todos os clientes cadastrados no sistema."
+            description = "Retorna uma lista de todos os clientes cadastrados no sistema.",
+            tags = {"Cliente controller"}
     )
     public ResponseEntity<List<ClienteDTO>> listarClientes() {
         return ResponseEntity.ok(clienteService.listarClientes());
@@ -35,7 +36,7 @@ public class ClienteController {
     @Operation(
             summary = "Cadastrar um novo cliente",
             description = "Cadastra um novo cliente no sistema com base nos dados fornecidos.",
-            tags = {"Cliente"},
+            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -55,7 +56,7 @@ public class ClienteController {
     @Operation(
             summary = "Atualizar um cliente existente",
             description = "Atualiza os dados de um cliente existente com base no ID fornecido.",
-            tags = {"Cliente"},
+            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -75,7 +76,7 @@ public class ClienteController {
     @Operation(
             summary = "Deletar um cliente",
             description = "Deleta um cliente existente com base no ID fornecido.",
-            tags = {"Cliente"},
+            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",

@@ -11,7 +11,7 @@ public record ValorDTO(
         @Schema(
                 name = "tipoDeCobranca",
                 description = "Tipo de cobrança do estacionamento, definido por enum Cobranca",
-                examples = "FIXO"
+                examples = "PORHORA"
         )
         Cobranca tipoDeCobranca,
         @Schema(
@@ -29,7 +29,7 @@ public record ValorDTO(
         @Schema(
                 name = "periodo",
                 description = "Período de cobrança do estacionamento, definido por enum Periodo",
-                examples = "MANHA"
+                examples = "FINALDESEMANA"
         )
         Periodo periodo,
 

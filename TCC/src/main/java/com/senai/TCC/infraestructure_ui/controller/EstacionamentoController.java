@@ -30,7 +30,7 @@ public class EstacionamentoController {
             method = "GET",
             summary = "Listar todos os estacionamentos",
             description = "Retorna uma lista de todos os estacionamentos cadastrados no sistema.",
-            tags = {"Estacionamento"}
+            tags = {"Estacionamento controller"}
     )
     public ResponseEntity<List<EstacionamentoDTO>> listarEstacionamentos() {
         return ResponseEntity.ok(service.listarTodosOsEstacionamentos());
@@ -41,7 +41,7 @@ public class EstacionamentoController {
             method = "POST",
             summary = "Cadastrar um novo estacionamento",
             description = "Cadastra um novo estacionamento no sistema com base nos dados fornecidos.",
-            tags = {"Estacionamento"},
+            tags = {"Estacionamento controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -86,7 +86,7 @@ public class EstacionamentoController {
             method = "PUT",
             summary = "Atualizar um estacionamento existente",
             description = "Atualiza os dados de um estacionamento existente com base no ID fornecido.",
-            tags = {"Estacionamento"},
+            tags = {"Estacionamento controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -107,7 +107,7 @@ public class EstacionamentoController {
             method = "DELETE",
             summary = "Desativar um estacionamento",
             description = "Desativa um estacionamento existente com base no ID fornecido.",
-            tags = {"Estacionamento"},
+            tags = {"Estacionamento controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
