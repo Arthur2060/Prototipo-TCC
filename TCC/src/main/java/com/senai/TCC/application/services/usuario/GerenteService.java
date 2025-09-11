@@ -42,7 +42,6 @@ public class GerenteService {
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
 
-        estacionamentoRepository.save(estacionamento);
         return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
     }
 
@@ -71,7 +70,6 @@ public class GerenteService {
         gerente.setEstacionamento(estacionamento);
         estacionamento.getGerentes().add(gerente);
 
-        estacionamentoRepository.save(estacionamento);
         return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
     }
 

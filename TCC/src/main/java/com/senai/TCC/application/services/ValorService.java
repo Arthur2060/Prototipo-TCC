@@ -42,10 +42,7 @@ public class ValorService {
         novoValor.setEstacionamento(estacionamento);
         estacionamento.getValores().add(novoValor);
 
-        estacionamentoRepository.save(estacionamento);
-        valorRepository.save(novoValor);
-
-        return dto;
+        return ValorDTO.fromEntity(valorRepository.save(novoValor));
     }
 
     @Transactional
@@ -71,9 +68,7 @@ public class ValorService {
             estacionamento.getValores().add(valor);
         }
 
-        valorRepository.save(valor);
-        estacionamentoRepository.save(estacionamento);
-        return dto;
+        return ValorDTO.fromEntity(valorRepository.save(valor));
     }
 
     @Transactional

@@ -58,8 +58,6 @@ public class AvaliacaoService {
 
             estacionamento.calcularNotaMedia();
 
-            estacionamentoRepository.save(estacionamento);
-            clienteRepository.save(cliente);
             return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
@@ -89,8 +87,6 @@ public class AvaliacaoService {
 
                 estacionamento.calcularNotaMedia();
 
-                estacionamentoRepository.save(estacionamento);
-                clienteRepository.save(cliente);
                 return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
             }
     }

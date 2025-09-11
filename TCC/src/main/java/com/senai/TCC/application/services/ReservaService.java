@@ -52,10 +52,6 @@ public class ReservaService {
         estacionamento.getReservas().add(novaReserva);
         cliente.getReservas().add(novaReserva);
 
-
-        clienteRepository.save(cliente);
-        estacionamentoRepository.save(estacionamento);
-
         return ReservaDTO.fromEntity(reservaRepository.save(novaReserva));
     }
 

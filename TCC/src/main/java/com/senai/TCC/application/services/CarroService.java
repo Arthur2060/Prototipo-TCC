@@ -32,7 +32,7 @@ public class CarroService {
 
     @Transactional
     public CarroDTO cadastrarCarro(CarroDTO dto) {
-        Carro carro = carroRepository.save(dto.toEntity());
+        Carro carro = dto.toEntity();
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
 
         if (optCliente.isEmpty()) {
@@ -42,7 +42,6 @@ public class CarroService {
         Cliente cliente = optCliente.get();
         cliente.getCarros().add(carro);
         carro.setCliente(cliente);
-        clienteRepository.save(cliente);
 
         return CarroDTO.fromEntity(carroRepository.save(carro));
     }
@@ -64,8 +63,6 @@ public class CarroService {
             clienteOriginal.getCarros().remove(carro);
             carro.setCliente(cliente);
             cliente.getCarros().add(carro);
-            clienteRepository.save(clienteOriginal);
-            clienteRepository.save(cliente);
         }
 
         carro.setPlaca(dto.placa());
@@ -87,7 +84,5 @@ public class CarroService {
         Carro carro = optCarro.get();
         Cliente cliente = carro.getCliente();
         cliente.getCarros().remove(carro);
-        clienteRepository.save(cliente);
-        carroRepository.deleteById(id);
     }
 }

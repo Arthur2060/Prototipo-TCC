@@ -46,7 +46,6 @@ public class AcessoService {
         acesso.setEstacionamento(estacionamento);
         estacionamento.getAcessos().add(acesso);
 
-        estacionamentoRepository.save(estacionamento);
         return AcessoDTO.fromEntity(acessoRepository.save(acesso));
     }
 
@@ -79,7 +78,6 @@ public class AcessoService {
             acesso.setEstacionamento(estacionamento);
         }
 
-        estacionamentoRepository.save(estacionamento);
         return AcessoDTO.fromEntity(acessoRepository.save(optAcesso.get()));
     }
 
@@ -96,7 +94,6 @@ public class AcessoService {
 
         estacionamento.getAcessos().remove(acesso);
 
-        acessoRepository.save(acesso);
         estacionamentoRepository.save(estacionamento);
     }
 }
