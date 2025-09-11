@@ -25,5 +25,6 @@ public class Valor {
     private Periodo periodo;
 
     @ManyToOne
+    @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
 }

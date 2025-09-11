@@ -32,7 +32,7 @@ public record GerenteDTO(
         @Schema(
                 name = "dataNascimento",
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
-                examples = "18-09-2000"
+                examples = "2000-09-12"
         )
         Date dataNascimento,
 

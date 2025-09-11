@@ -4,8 +4,9 @@ import com.senai.TCC.model.entities.Carro;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record CarroDTO(
+        Long id,
         @Schema(
-                name = "ID do usuario",
+                name = "usuarioId",
                 example = "3",
                 description = "ID do usuario proprietário do carro"
         )
@@ -44,6 +45,7 @@ public record CarroDTO(
 
     public static CarroDTO fromEntity(Carro carro) {
         return new CarroDTO(
+                carro.getId(),
                 carro.getCliente().getId(),
                 carro.getPlaca(),
                 carro.getModelo(),

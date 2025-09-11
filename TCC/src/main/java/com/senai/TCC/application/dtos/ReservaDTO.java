@@ -10,8 +10,8 @@ import java.util.Date;
 public record ReservaDTO(
         Long id,
         @Schema(
-                name = "usuarioId",
-                description = "Usuario que solicitou a reserva"
+                name = "clienteId",
+                description = "Cliente que solicitou a reserva"
         )
         Long usuarioId,
         @Schema(
@@ -28,7 +28,7 @@ public record ReservaDTO(
         @Schema(
                 name = "horaDaReserva",
                 description = "Hora em que a reserva foi feita, necessario estar dentro do horario de funcionamento do estacionamento",
-                examples = "14:30",
+                examples = "14:30:00",
                 type = "string",
                 pattern = "HH:mm:ss"
         )

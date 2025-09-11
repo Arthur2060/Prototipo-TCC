@@ -37,10 +37,10 @@ public class Estacionamento {
     @ManyToOne
     private DonoEstacionamento dono;
 
-    @OneToMany
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gerente> gerentes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Valor> valores;
 
     private LocalTime horaAbertura;
@@ -51,10 +51,10 @@ public class Estacionamento {
     private Double notaMedia;
     private Integer quantidadeDeAvaliacoes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Avaliacao> avaliacoes;
 
-    @OneToMany
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
 
     private Double latitude;

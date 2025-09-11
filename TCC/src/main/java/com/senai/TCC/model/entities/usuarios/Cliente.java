@@ -3,6 +3,7 @@ package com.senai.TCC.model.entities.usuarios;
 import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Reserva;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -22,8 +23,8 @@ import java.util.List;
 public class Cliente extends Usuario{
     @OneToMany
     private List<Carro> Carros;
-    @OneToMany
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
-    @OneToMany
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Avaliacao> avaliacoes;
 }
