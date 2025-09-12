@@ -94,6 +94,6 @@ public class AcessoService {
 
         estacionamento.getAcessos().remove(acesso);
 
-        estacionamentoRepository.save(estacionamento);
+        acessoRepository.delete(acesso);
     }
 }

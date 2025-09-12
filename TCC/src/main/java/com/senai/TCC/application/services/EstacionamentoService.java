@@ -69,8 +69,11 @@ public class EstacionamentoService {
 
         if (optEst.isEmpty()) {
             throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
-        } else {
-            estacionamentoRepository.delete(optEst.get());
         }
+
+        Estacionamento estacionamento = optEst.get();
+        estacionamento.getDono().getEstacionamentos().remove(estacionamento);
+
+        estacionamentoRepository.delete(estacionamento);
     }
 }

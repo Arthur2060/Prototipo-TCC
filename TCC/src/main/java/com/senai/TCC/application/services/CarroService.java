@@ -85,6 +85,6 @@ public class CarroService {
         Cliente cliente = carro.getCliente();
         cliente.getCarros().remove(carro);
 
-        carroRepository.deleteById(id);
+        carroRepository.delete(carro);
     }
 }

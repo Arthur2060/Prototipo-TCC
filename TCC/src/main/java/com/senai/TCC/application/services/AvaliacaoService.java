@@ -97,9 +97,9 @@ public class AvaliacaoService {
 
         if (optAvaliacao.isPresent()) {
             Avaliacao avaliacao = optAvaliacao.get();
+
             Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(avaliacao.getEstacionamento().getId());
             Optional<Cliente> optCliente = clienteRepository.findById(avaliacao.getCliente().getId());
-
             if (optCliente.isEmpty() || optEstacio.isEmpty()) {
                 throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
             }
@@ -109,7 +109,8 @@ public class AvaliacaoService {
 
             estacionamento.getAvaliacoes().remove(avaliacao);
             cliente.getAvaliacoes().remove(avaliacao);
-            avaliacaoRepository.delete(optAvaliacao.get());
+
+            avaliacaoRepository.delete(avaliacao);
         }
     }
 
