@@ -39,14 +39,4 @@ public record AvaliacaoResponse(
         )
         LocalDateTime dataDeAvaliacao
 ) {
-    public static AvaliacaoResponse fromEntity(Avaliacao avaliacao) {
-        return new AvaliacaoResponse(
-                avaliacao.getId(),
-                avaliacao.getCliente().getId(),
-                avaliacao.getEstacionamento().getId(),
-                avaliacao.getNota(),
-                avaliacao.getComentario(),
-                avaliacao.getDataDeAvaliacao()
-        );
-    }
 }

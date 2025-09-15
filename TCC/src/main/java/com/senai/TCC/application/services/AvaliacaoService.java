@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.mappers.AvaliacaoMapper;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -33,13 +34,13 @@ public class AvaliacaoService {
     public List<AvaliacaoResponse> listarAvaliacoes() {
         return avaliacaoRepository.findAll()
                 .stream()
-                .map(AvaliacaoResponse::fromEntity)
+                .map(AvaliacaoMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
     public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoCreateRequest dto) {
-        Avaliacao avaliacao = dto.toEntity();
+        Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
@@ -59,7 +60,7 @@ public class AvaliacaoService {
 
             estacionamento.calcularNotaMedia();
 
-            return AvaliacaoResponse.fromEntity(avaliacaoRepository.save(avaliacao));
+            return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
 
@@ -88,7 +89,7 @@ public class AvaliacaoService {
 
                 estacionamento.calcularNotaMedia();
 
-                return AvaliacaoResponse.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
+                return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
             }
     }
 

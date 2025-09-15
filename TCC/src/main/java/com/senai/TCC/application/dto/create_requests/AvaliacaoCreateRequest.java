@@ -38,13 +38,4 @@ public record AvaliacaoCreateRequest(
         )
         LocalDateTime dataDeAvaliacao
 ) {
-    public Avaliacao toEntity() {
-        Avaliacao avaliacao = new Avaliacao();
-
-        avaliacao.setDataDeAvaliacao(dataDeAvaliacao);
-        avaliacao.setNota(nota);
-        avaliacao.setComentario(comentario);
-
-        return avaliacao;
-    }
 }
