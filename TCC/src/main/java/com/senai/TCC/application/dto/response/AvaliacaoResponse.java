@@ -1,18 +1,18 @@
-package com.senai.TCC.application.dto;
+package com.senai.TCC.application.dto.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Avaliacao;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-public record AvaliacaoDTO(
+public record AvaliacaoResponse(
         Long id,
         @Schema
-        (
-                name = "clienteId",
-                description = "ID do cliente que fez a avaliação",
-                examples = "1"
-        )
+                (
+                        name = "clienteId",
+                        description = "ID do cliente que fez a avaliação",
+                        examples = "1"
+                )
         Long clienteId,
         @Schema(
                 name = "estacioId",
@@ -39,18 +39,8 @@ public record AvaliacaoDTO(
         )
         LocalDateTime dataDeAvaliacao
 ) {
-    public Avaliacao toEntity() {
-        Avaliacao avaliacao = new Avaliacao();
-
-        avaliacao.setDataDeAvaliacao(dataDeAvaliacao);
-        avaliacao.setComentario(comentario);
-        avaliacao.setNota(nota);
-
-        return avaliacao;
-    }
-
-    public static AvaliacaoDTO fromEntity(Avaliacao avaliacao) {
-        return new AvaliacaoDTO(
+    public static AvaliacaoResponse fromEntity(Avaliacao avaliacao) {
+        return new AvaliacaoResponse(
                 avaliacao.getId(),
                 avaliacao.getCliente().getId(),
                 avaliacao.getEstacionamento().getId(),

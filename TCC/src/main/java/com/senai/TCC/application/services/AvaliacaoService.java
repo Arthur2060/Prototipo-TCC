@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.AvaliacaoDTO;
+import com.senai.TCC.application.dto.request.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
@@ -29,15 +30,15 @@ public class AvaliacaoService {
         this.clienteRepository = clienteRepository;
     }
 
-    public List<AvaliacaoDTO> listarAvaliacoes() {
+    public List<AvaliacaoResponse> listarAvaliacoes() {
         return avaliacaoRepository.findAll()
                 .stream()
-                .map(AvaliacaoDTO::fromEntity)
+                .map(AvaliacaoResponse::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public AvaliacaoDTO cadastrarAvaliacao(AvaliacaoDTO dto) {
+    public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoCreateRequest dto) {
         Avaliacao avaliacao = dto.toEntity();
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
@@ -58,12 +59,12 @@ public class AvaliacaoService {
 
             estacionamento.calcularNotaMedia();
 
-            return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(avaliacao));
+            return AvaliacaoResponse.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
 
     @Transactional
-    public AvaliacaoDTO atualizarAvaliacao(AvaliacaoDTO dto, Long id) {
+    public AvaliacaoResponse atualizarAvaliacao(AvaliacaoCreateRequest dto, Long id) {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
@@ -87,7 +88,7 @@ public class AvaliacaoService {
 
                 estacionamento.calcularNotaMedia();
 
-                return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
+                return AvaliacaoResponse.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
             }
     }
 
