@@ -44,14 +44,4 @@ public record AcessoResponse(
         )
         Long estacioId
 ) {
-    public static AcessoResponse fromEntity(Acesso acesso) {
-        return new AcessoResponse(
-                acesso.getId(),
-                acesso.getPlacaDoCarro(),
-                acesso.getHoraDeEntrada(),
-                acesso.getHoraDeSaida(),
-                acesso.getValorAPagar(),
-                acesso.getEstacionamento().getId()
-        );
-    }
 }

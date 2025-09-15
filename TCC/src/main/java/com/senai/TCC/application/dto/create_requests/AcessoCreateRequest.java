@@ -44,15 +44,4 @@ public record AcessoCreateRequest(
         )
         Long estacioId
 ) {
-    public Acesso toEntity() {
-        Acesso acesso = new Acesso();
-
-        acesso.setPlacaDoCarro(placaDoCarro);
-        acesso.setHoraDeEntrada(horaDeEntrada);
-        acesso.setValorAPagar(valorAPagar);
-        acesso.setHoraDeSaida(horaDeSaida);
-        acesso.calcularHorasTotais();
-
-        return acesso;
-    }
 }
