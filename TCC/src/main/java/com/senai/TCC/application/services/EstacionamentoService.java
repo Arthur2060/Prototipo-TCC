@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.create_requests.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.mappers.EstacionamentoMapper;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.Estacionamento;
@@ -27,13 +28,13 @@ public class EstacionamentoService {
     public List<EstacionamentoResponse> listarTodosOsEstacionamentos() {
         return estacionamentoRepository.findAll()
                 .stream()
-                .map(EstacionamentoResponse::fromEntity)
+                .map(EstacionamentoMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
     public EstacionamentoResponse cadastrarEstacionamento(EstacionamentoCreateRequest dto, Long id) {
-        Estacionamento novoEst = dto.toEntity();
+        Estacionamento novoEst = EstacionamentoMapper.toEntity(dto);
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
@@ -44,7 +45,7 @@ public class EstacionamentoService {
             novoEst.setFuncionamento(true);
         }
 
-        return EstacionamentoResponse.fromEntity(estacionamentoRepository.save(novoEst));
+        return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(novoEst));
     }
 
     @Transactional
@@ -61,7 +62,7 @@ public class EstacionamentoService {
             optEst.get().setNome(dto.nome());
         }
 
-        return EstacionamentoResponse.fromEntity(estacionamentoRepository.save(optEst.get()));
+        return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(optEst.get()));
     }
 
     @Transactional

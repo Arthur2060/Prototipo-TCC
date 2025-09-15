@@ -79,20 +79,4 @@ public record EstacionamentoResponse(
         )
         String numeroDeEscrituraImovel
 ) {
-        public static  EstacionamentoResponse fromEntity(Estacionamento estacionamento) {
-                return new EstacionamentoResponse(
-                        estacionamento.getId(),
-                        estacionamento.getNome(),
-                        estacionamento.getEndereco(),
-                        estacionamento.getCEP(),
-                        estacionamento.getNumero(),
-                        estacionamento.getFoto(),
-                        estacionamento.getNumeroDeEscrituraImovel(),
-                        estacionamento.getHoraFechamento(),
-                        estacionamento.getHoraAbertura(),
-                        estacionamento.getVagaPreferenciais(),
-                        estacionamento.getMaxVagas(),
-                        estacionamento.getNumeroDeEscrituraImovel()
-                );
-        }
 }

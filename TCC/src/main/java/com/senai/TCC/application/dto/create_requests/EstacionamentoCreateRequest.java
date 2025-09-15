@@ -77,22 +77,5 @@ public record EstacionamentoCreateRequest(
                 examples = "987654321"
         )
         String numeroDeEscrituraImovel
-) {
-    public Estacionamento toEntity() {
-        Estacionamento estacionamento = new Estacionamento();
-
-        estacionamento.setNome(nome);
-        estacionamento.setEndereco(endereco);
-        estacionamento.setCEP(CEP);
-        estacionamento.setNumero(numero);
-        estacionamento.setFoto(foto);
-        estacionamento.setNumeroAlvaraDeFuncionamento(numeroAlvaraDeFuncionamento);
-        estacionamento.setHoraFechamento(horaFechamento);
-        estacionamento.setHoraAbertura(horaAbertura);
-        estacionamento.setVagaPreferenciais(vagasPreferenciais);
-        estacionamento.setMaxVagas(maximoDeVagas);
-        estacionamento.setNumeroDeEscrituraImovel(numeroDeEscrituraImovel);
-
-        return estacionamento;
-    }
+){
 }
