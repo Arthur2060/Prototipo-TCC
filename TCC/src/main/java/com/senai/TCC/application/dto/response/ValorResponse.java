@@ -40,14 +40,4 @@ public record ValorResponse(
         )
         Long estacioId
 ) {
-    public static ValorResponse fromEntity(Valor valor) {
-        return new ValorResponse(
-                valor.getId(),
-                valor.getTipoDeCobranca(),
-                valor.getTipoDePagamento(),
-                valor.getPreco(),
-                valor.getPeriodo(),
-                valor.getEstacionamento().getId()
-        );
-    }
 }

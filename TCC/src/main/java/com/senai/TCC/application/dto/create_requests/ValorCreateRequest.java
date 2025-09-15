@@ -39,14 +39,4 @@ public record ValorCreateRequest(
         )
         Long estacioId
 ) {
-    public Valor toEntity() {
-        Valor valor = new Valor();
-
-        valor.setPreco(preco);
-        valor.setPeriodo(periodo);
-        valor.setTipoDeCobranca(tipoDeCobranca);
-        valor.setTipoDePagamento(tipoDePagamento);
-
-        return valor;
-    }
 }

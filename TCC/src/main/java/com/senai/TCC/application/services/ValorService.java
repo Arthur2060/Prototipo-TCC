@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.dto.mappers.ValorMapper;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;
@@ -27,13 +28,13 @@ public class ValorService {
     public List<ValorResponse> listarValor() {
         return valorRepository.findAll()
                 .stream()
-                .map(ValorResponse::fromEntity)
+                .map(ValorMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
     public ValorResponse cadastrarValor(ValorCreateRequest dto) {
-        Valor novoValor = dto.toEntity();
+        Valor novoValor = ValorMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id de estacionamento especificado não encontrado no sistema");
@@ -43,7 +44,7 @@ public class ValorService {
         novoValor.setEstacionamento(estacionamento);
         estacionamento.getValores().add(novoValor);
 
-        return ValorResponse.fromEntity(valorRepository.save(novoValor));
+        return ValorMapper.fromEntity(valorRepository.save(novoValor));
     }
 
     @Transactional
@@ -69,7 +70,7 @@ public class ValorService {
             estacionamento.getValores().add(valor);
         }
 
-        return ValorResponse.fromEntity(valorRepository.save(valor));
+        return ValorMapper.fromEntity(valorRepository.save(valor));
     }
 
     @Transactional
