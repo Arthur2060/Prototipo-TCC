@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.usuarioDTO.GerenteDTO;
+import com.senai.TCC.application.dto.request.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
@@ -22,14 +23,14 @@ public class GerenteService {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public List<GerenteDTO> listarGerentes() {
+    public List<GerenteResponse> listarGerentes() {
         return gerenteRepository.findAll()
                 .stream()
-                .map(GerenteDTO::fromEntity)
+                .map(GerenteResponse::fromEntity)
                 .toList();
     }
 
-    public GerenteDTO cadastrarGerente(GerenteDTO dto) {
+    public GerenteResponse cadastrarGerente(GerenteCreateRequest dto) {
         Gerente gerente = dto.toEntity();
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
@@ -42,10 +43,10 @@ public class GerenteService {
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
 
-        return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
+        return GerenteResponse.fromEntity(gerenteRepository.save(gerente));
     }
 
-    public GerenteDTO atualizarGerente(GerenteDTO dto, Long id) {
+    public GerenteResponse atualizarGerente(GerenteCreateRequest dto, Long id) {
         var optGerente = gerenteRepository.findById(id);
 
         if (optGerente.isEmpty()) {
@@ -70,7 +71,7 @@ public class GerenteService {
         gerente.setEstacionamento(estacionamento);
         estacionamento.getGerentes().add(gerente);
 
-        return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
+        return GerenteResponse.fromEntity(gerenteRepository.save(gerente));
     }
 
     public void deletarGerente(Long id) {
