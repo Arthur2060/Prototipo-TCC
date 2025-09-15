@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.request.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.create_requests.EstacionamentoCreateRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.Estacionamento;

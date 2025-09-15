@@ -1,4 +1,4 @@
-package com.senai.TCC.application.dto.request;
+package com.senai.TCC.application.dto.create_requests;
 
 import com.senai.TCC.model.entities.Acesso;
 import io.swagger.v3.oas.annotations.media.Schema;

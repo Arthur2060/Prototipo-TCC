@@ -1,4 +1,4 @@
-package com.senai.TCC.application.dto.request;
+package com.senai.TCC.application.dto.create_requests;
 
 import com.senai.TCC.model.entities.Valor;
 import com.senai.TCC.model.enums.Cobranca;

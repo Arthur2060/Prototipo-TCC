@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.request.ValorCreateRequest;
+import com.senai.TCC.application.dto.create_requests.ValorCreateRequest;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;

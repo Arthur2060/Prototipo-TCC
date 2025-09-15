@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.request.CarroCreateRequest;
+import com.senai.TCC.application.dto.create_requests.CarroCreateRequest;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.application.services.CarroService;
 import io.swagger.v3.oas.annotations.Operation;

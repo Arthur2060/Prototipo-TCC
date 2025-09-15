@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.request.CarroCreateRequest;
+import com.senai.TCC.application.dto.create_requests.CarroCreateRequest;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;

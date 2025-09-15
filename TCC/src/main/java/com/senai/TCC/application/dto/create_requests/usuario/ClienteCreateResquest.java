@@ -1,11 +1,11 @@
-package com.senai.TCC.application.dto.request.usuario;
+package com.senai.TCC.application.dto.create_requests.usuario;
 
-import com.senai.TCC.model.entities.usuarios.Gerente;
+import com.senai.TCC.model.entities.usuarios.Cliente;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record GerenteCreateRequest(
+public record ClienteCreateResquest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -33,31 +33,16 @@ public record GerenteCreateRequest(
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "2000-09-12"
         )
-        Date dataNascimento,
-
-        @Schema(
-                name = "cpfOuCnpj",
-                description = "Documento oficial necessário para contratar um gerente",
-                examples = "123.456.789-10"
-        )
-        String cpfOuCnpj,
-
-        @Schema(
-                name = "estacionamentoId",
-                description = "ID do estacionamento que o gerente irá gerenciar",
-                examples = "1"
-        )
-        Long estacionamentoId
+        Date dataNascimento
 ) {
-    public Gerente toEntity() {
-        Gerente gerente = new Gerente();
+    public Cliente toEntity() {
+        Cliente cliente = new Cliente();
 
-        gerente.setNome(nome);
-        gerente.setCpfOuCnpj(cpfOuCnpj);
-        gerente.setEmail(email);
-        gerente.setSenha(senha);
-        gerente.setDataNascimento(dataNascimento);
+        cliente.setNome(nome);
+        cliente.setEmail(email);
+        cliente.setDataNascimento(dataNascimento);
+        cliente.setSenha(senha);
 
-        return gerente;
+        return cliente;
     }
 }

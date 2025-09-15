@@ -1,4 +1,4 @@
-package com.senai.TCC.application.dto.request.usuario;
+package com.senai.TCC.application.dto.create_requests.usuario;
 
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;

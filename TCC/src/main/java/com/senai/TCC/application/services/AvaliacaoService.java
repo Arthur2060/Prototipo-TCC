@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.request.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.create_requests.AvaliacaoCreateRequest;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;

@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.request.ReservaCreateRequest;
+import com.senai.TCC.application.dto.create_requests.ReservaCreateRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.application.services.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
