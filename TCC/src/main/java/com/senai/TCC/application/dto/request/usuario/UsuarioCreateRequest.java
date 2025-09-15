@@ -1,17 +1,15 @@
-package com.senai.TCC.application.dto.usuarioDTO;
+package com.senai.TCC.application.dto.request.usuario;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.entities.usuarios.Usuario;
 import com.senai.TCC.model.enums.TipoDeUsuario;
-import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalido;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record UsuarioDTO(
-        Long id,
+public record UsuarioCreateRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -62,23 +60,5 @@ public record UsuarioDTO(
         usuario.setDataNascimento(dataNascimento);
 
         return usuario;
-    }
-
-    public static UsuarioDTO fromEntity(Usuario user) {
-        TipoDeUsuario tipo = switch (user) {
-            case Gerente gerente -> TipoDeUsuario.GERENTE;
-            case DonoEstacionamento dono -> TipoDeUsuario.DONO;
-            case Cliente cliente -> TipoDeUsuario.CLIENTE;
-            default -> throw new TipoDeUsuarioInvalido("O tipo de usuario da classe é invalido!");
-        };
-
-        return new UsuarioDTO(
-                user.getId(),
-                user.getNome(),
-                user.getEmail(),
-                user.getSenha(),
-                user.getDataNascimento(),
-                tipo
-        );
     }
 }
