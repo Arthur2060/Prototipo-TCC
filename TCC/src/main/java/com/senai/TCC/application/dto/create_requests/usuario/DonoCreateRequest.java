@@ -35,14 +35,4 @@ public record DonoCreateRequest(
         )
         Date dataNascimento
 ) {
-    public DonoEstacionamento toEntity() {
-        DonoEstacionamento dono = new DonoEstacionamento();
-
-        dono.setNome(nome);
-        dono.setEmail(email);
-        dono.setSenha(senha);
-        dono.setDataNascimento(dataNascimento);
-
-        return dono;
-    }
 }

@@ -36,13 +36,4 @@ public record DonoResponse(
         )
         Date dataNascimento
 ) {
-    public static DonoResponse fromEntity(DonoEstacionamento dono) {
-        return new DonoResponse(
-            dono.getId(),
-            dono.getNome(),
-            dono.getEmail(),
-            dono.getSenha(),
-            dono.getDataNascimento()
-        );
-}
 }
