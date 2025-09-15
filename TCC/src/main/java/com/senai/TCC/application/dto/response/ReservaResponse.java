@@ -1,13 +1,13 @@
-package com.senai.TCC.application.dto;
+package com.senai.TCC.application.dto.response;
 
+import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.enums.StatusReserva;
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.senai.TCC.model.entities.Reserva;
 
 import java.sql.Time;
 import java.util.Date;
 
-public record ReservaDTO(
+public record ReservaResponse(
         Long id,
         @Schema(
                 name = "clienteId",
@@ -35,18 +35,8 @@ public record ReservaDTO(
         Time horaDaReserva,
         StatusReserva status
 ) {
-    public Reserva toEntity() {
-        Reserva reserva = new Reserva();
-
-        reserva.setDataDaReserva(dataDaReserva);
-        reserva.setHoraDaReserva(horaDaReserva);
-        reserva.setStatus(status);
-
-        return reserva;
-    }
-
-    public static ReservaDTO fromEntity(Reserva reserva) {
-        return new ReservaDTO(
+    public static ReservaResponse fromEntity(Reserva reserva) {
+        return new ReservaResponse(
                 reserva.getId(),
                 reserva.getCliente().getId(),
                 reserva.getEstacionamento().getId(),

@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.ReservaDTO;
+import com.senai.TCC.application.dto.request.ReservaCreateRequest;
+import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ReservaRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
@@ -27,14 +28,14 @@ public class ReservaService {
         this.reservaRepository = reservaRepository;
     }
 
-    public List<ReservaDTO> listarReservas() {
+    public List<ReservaResponse> listarReservas() {
         return reservaRepository.findAll()
                 .stream()
-                .map(ReservaDTO::fromEntity)
+                .map(ReservaResponse::fromEntity)
                 .toList();
     }
 
-    public ReservaDTO cadastrarReserva(ReservaDTO dto) {
+    public ReservaResponse cadastrarReserva(ReservaCreateRequest dto) {
         Reserva novaReserva = dto.toEntity();
         Optional<Cliente> optionalCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(dto.estacioId());
@@ -52,10 +53,10 @@ public class ReservaService {
         estacionamento.getReservas().add(novaReserva);
         cliente.getReservas().add(novaReserva);
 
-        return ReservaDTO.fromEntity(reservaRepository.save(novaReserva));
+        return ReservaResponse.fromEntity(reservaRepository.save(novaReserva));
     }
 
-    public ReservaDTO atualizarReserva(ReservaDTO dto, Long id) {
+    public ReservaResponse atualizarReserva(ReservaCreateRequest dto, Long id) {
         Optional<Reserva> optionalReserva = reservaRepository.findById(id);
 
         if (optionalReserva.isEmpty()) {
@@ -68,7 +69,7 @@ public class ReservaService {
         reserva.setHoraDaReserva(dto.horaDaReserva());
         reserva.setStatus(dto.status());
 
-        return ReservaDTO.fromEntity(reservaRepository.save(reserva));
+        return ReservaResponse.fromEntity(reservaRepository.save(reserva));
     }
 
     public void deletarReserva(Long id) {
