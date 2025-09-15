@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.usuarioDTO.ClienteDTO;
+import com.senai.TCC.application.dto.request.usuario.ClienteCreateResponse;
+import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
@@ -17,21 +18,21 @@ public class ClienteService {
         this.clienteRepository = clienteRepository;
     }
 
-    public List<ClienteDTO> listarClientes() {
+    public List<ClienteResponse> listarClientes() {
         return clienteRepository.findAll()
                 .stream()
-                .map(ClienteDTO::fromEntity)
+                .map(ClienteResponse::fromEntity)
                 .toList();
     }
 
-    public ClienteDTO cadastrarCliente(ClienteDTO dto) {
+    public ClienteResponse cadastrarCliente(ClienteCreateResponse dto) {
         Cliente cliente = dto.toEntity();
 
-        return ClienteDTO.fromEntity(
+        return ClienteResponse.fromEntity(
                 clienteRepository.save(cliente));
     }
 
-    public ClienteDTO atualizarCliente(ClienteDTO dto, Long id) {
+    public ClienteResponse atualizarCliente(ClienteCreateResponse dto, Long id) {
         Optional<Cliente> optCliente = clienteRepository.findById(id);
 
         if (optCliente.isEmpty()) {
@@ -43,7 +44,8 @@ public class ClienteService {
         cliente.setEmail(dto.email());
         cliente.setSenha(dto.senha());
         cliente.setDataNascimento(dto.dataNascimento());
-        return ClienteDTO.fromEntity(clienteRepository.save(cliente));
+
+        return ClienteResponse.fromEntity(clienteRepository.save(cliente));
     }
 
     public void deletarCliente(Long id) {
