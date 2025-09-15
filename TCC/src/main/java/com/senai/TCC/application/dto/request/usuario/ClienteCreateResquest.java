@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record ClienteCreateResponse(
+public record ClienteCreateResquest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",

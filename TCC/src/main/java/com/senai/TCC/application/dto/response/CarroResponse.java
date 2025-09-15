@@ -1,6 +1,5 @@
 package com.senai.TCC.application.dto.response;
 
-import com.senai.TCC.application.dto.CarroDTO;
 import com.senai.TCC.model.entities.Carro;
 import io.swagger.v3.oas.annotations.media.Schema;
 

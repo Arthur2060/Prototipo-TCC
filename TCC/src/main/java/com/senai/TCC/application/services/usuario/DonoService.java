@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.usuarioDTO.DonoDTO;
+import com.senai.TCC.application.dto.request.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
@@ -18,22 +19,22 @@ public class DonoService {
         this.donoRepository = donoRepository;
     }
 
-    public List<DonoDTO> listarDonos() {
+    public List<DonoResponse> listarDonos() {
         return donoRepository.findAll()
                 .stream()
-                .map(DonoDTO::fromEntity)
+                .map(DonoResponse::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public DonoDTO cadastrarDono(DonoDTO dto) {
+    public DonoResponse cadastrarDono(DonoCreateRequest dto) {
         DonoEstacionamento dono = dto.toEntity();
 
-        return DonoDTO.fromEntity(donoRepository.save(dono));
+        return DonoResponse.fromEntity(donoRepository.save(dono));
     }
 
     @Transactional
-    public DonoDTO atualizarDono(DonoDTO dto, Long id) {
+    public DonoResponse atualizarDono(DonoCreateRequest dto, Long id) {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
@@ -47,7 +48,7 @@ public class DonoService {
         dono.setSenha(dto.senha());
         dono.setDataNascimento(dto.dataNascimento());
 
-        return DonoDTO.fromEntity(donoRepository.save(optDono.get()));
+        return DonoResponse.fromEntity(donoRepository.save(optDono.get()));
     }
 
     @Transactional

@@ -1,12 +1,11 @@
-package com.senai.TCC.application.dto.usuarioDTO;
+package com.senai.TCC.application.dto.request.usuario;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record DonoDTO(
-        Long id,
+public record DonoCreateRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -45,15 +44,5 @@ public record DonoDTO(
         dono.setDataNascimento(dataNascimento);
 
         return dono;
-    }
-
-    public static DonoDTO fromEntity(DonoEstacionamento dono) {
-        return new DonoDTO(
-                dono.getId(),
-                dono.getNome(),
-                dono.getEmail(),
-                dono.getSenha(),
-                dono.getDataNascimento()
-        );
     }
 }
