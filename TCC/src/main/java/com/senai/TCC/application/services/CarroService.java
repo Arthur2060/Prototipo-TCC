@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.create_requests.CarroCreateRequest;
+import com.senai.TCC.application.dto.mappers.CarroMapper;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
@@ -27,13 +28,13 @@ public class CarroService {
     public List<CarroResponse> listarCarros() {
         return carroRepository.findAll()
                 .stream()
-                .map(CarroResponse::fromEntity)
+                .map(CarroMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
     public CarroResponse cadastrarCarro(CarroCreateRequest dto) {
-        Carro carro = dto.toEntity();
+        Carro carro = CarroMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
 
         if (optCliente.isEmpty()) {
@@ -44,7 +45,7 @@ public class CarroService {
         cliente.getCarros().add(carro);
         carro.setCliente(cliente);
 
-        return CarroResponse.fromEntity(carroRepository.save(carro));
+        return CarroMapper.fromEntity(carroRepository.save(carro));
     }
 
     @Transactional
@@ -71,7 +72,7 @@ public class CarroService {
         carro.setCor(dto.cor());
 
 
-        return CarroResponse.fromEntity(carroRepository.save(carro));
+        return CarroMapper.fromEntity(carroRepository.save(carro));
     }
 
     @Transactional

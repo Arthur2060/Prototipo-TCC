@@ -32,13 +32,4 @@ public record CarroCreateRequest(
         )
         String cor
 ) {
-    public Carro toEntity() {
-        Carro carro = new Carro();
-
-        carro.setCor(cor);
-        carro.setModelo(modelo);
-        carro.setPlaca(placa);
-
-        return carro;
-    }
 }

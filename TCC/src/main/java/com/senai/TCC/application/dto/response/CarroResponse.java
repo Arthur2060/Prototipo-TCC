@@ -33,14 +33,4 @@ public record CarroResponse(
         )
         String cor
 ) {
-
-    public static CarroResponse fromEntity(Carro carro) {
-        return new CarroResponse(
-                carro.getId(),
-                carro.getCliente().getId(),
-                carro.getPlaca(),
-                carro.getModelo(),
-                carro.getCor()
-        );
-    }
 }
