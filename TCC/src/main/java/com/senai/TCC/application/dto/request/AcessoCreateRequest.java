@@ -1,11 +1,11 @@
-package com.senai.TCC.application.dto;
+package com.senai.TCC.application.dto.request;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Acesso;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Time;
 
-public record AcessoDTO(
+public record AcessoCreateRequest(
         Long id,
         @Schema(
                 name = "placaDoCarro",
@@ -49,21 +49,10 @@ public record AcessoDTO(
 
         acesso.setPlacaDoCarro(placaDoCarro);
         acesso.setHoraDeEntrada(horaDeEntrada);
+        acesso.setValorAPagar(valorAPagar);
         acesso.setHoraDeSaida(horaDeSaida);
         acesso.calcularHorasTotais();
-        acesso.setValorAPagar(valorAPagar);
 
         return acesso;
-    }
-
-    public static AcessoDTO fromEntity(Acesso acesso) {
-        return new AcessoDTO(
-                acesso.getId(),
-                acesso.getPlacaDoCarro(),
-                acesso.getHoraDeEntrada(),
-                acesso.getHoraDeSaida(),
-                acesso.getValorAPagar(),
-                acesso.getEstacionamento().getId()
-        );
     }
 }

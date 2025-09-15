@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.AcessoDTO;
+import com.senai.TCC.application.dto.request.AcessoCreateRequest;
+import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.model.entities.Acesso;
@@ -23,15 +24,15 @@ public class AcessoService {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public List<AcessoDTO> listarAcessos() {
+    public List<AcessoResponse> listarAcessos() {
         return acessoRepository.findAll()
                 .stream()
-                .map(AcessoDTO::fromEntity)
+                .map(AcessoResponse::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public AcessoDTO cadastrarAcesso(AcessoDTO dto) {
+    public AcessoResponse cadastrarAcesso(AcessoCreateRequest dto) {
         Acesso acesso = dto.toEntity();
 
         acesso.calcularHorasTotais();
@@ -46,11 +47,11 @@ public class AcessoService {
         acesso.setEstacionamento(estacionamento);
         estacionamento.getAcessos().add(acesso);
 
-        return AcessoDTO.fromEntity(acessoRepository.save(acesso));
+        return AcessoResponse.fromEntity(acessoRepository.save(acesso));
     }
 
     @Transactional
-    public AcessoDTO atualizarAcesso(AcessoDTO dto, Long id) {
+    public AcessoResponse atualizarAcesso(AcessoCreateRequest dto, Long id) {
         Optional<Acesso> optAcesso = acessoRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -78,7 +79,7 @@ public class AcessoService {
             acesso.setEstacionamento(estacionamento);
         }
 
-        return AcessoDTO.fromEntity(acessoRepository.save(optAcesso.get()));
+        return AcessoResponse.fromEntity(acessoRepository.save(optAcesso.get()));
     }
 
     @Transactional

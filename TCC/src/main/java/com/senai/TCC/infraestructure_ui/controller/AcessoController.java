@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.AcessoDTO;
+import com.senai.TCC.application.dto.request.AcessoCreateRequest;
+import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.application.services.AcessoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +33,7 @@ public class AcessoController {
             description = "Retorna uma lista de todos os acessos cadastrados no sistema.",
             tags = {"Acesso controller"}
     )
-    public ResponseEntity<List<AcessoDTO>> listarAcessos() {
+    public ResponseEntity<List<AcessoResponse>> listarAcessos() {
         return ResponseEntity.ok(service.listarAcessos());
     }
 
@@ -46,10 +47,9 @@ public class AcessoController {
                     description = "Dados do acesso a ser cadastrado",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = AcessoDTO.class),
+                            schema = @Schema(implementation = AcessoCreateRequest.class),
                             examples = @ExampleObject(value = """
                                     {
-                                       "id": 0,
                                        "placaDoCarro": "string",
                                        "horaDeEntrada": "09:38:51",
                                        "horaDeSaida": "19:38:51",
@@ -61,7 +61,7 @@ public class AcessoController {
                     )
             )
     )
-    public ResponseEntity<AcessoDTO> cadastrarAcesso(@RequestBody AcessoDTO dto) {
+    public ResponseEntity<AcessoResponse> cadastrarAcesso(@RequestBody AcessoCreateRequest dto) {
         return ResponseEntity.ok(service.cadastrarAcesso(dto));
     }
 
@@ -72,7 +72,7 @@ public class AcessoController {
             description = "Atualiza um acesso já cadastrado no sistema",
             tags = {"Acesso controller"}
     )
-    public ResponseEntity<AcessoDTO> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoDTO dto) {
+    public ResponseEntity<AcessoResponse> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoCreateRequest dto) {
         return ResponseEntity.ok(service.atualizarAcesso(dto, id));
     }
 
@@ -83,7 +83,8 @@ public class AcessoController {
             description = "Deleta um acesso já cadastrado no sistema",
             tags = {"Acesso controller"}
     )
-    public void deletarAcesso(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarAcesso(@PathVariable Long id) {
         service.deletarAcesso(id);
+        return ResponseEntity.noContent().build();
     }
 }
