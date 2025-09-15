@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.ValorDTO;
+import com.senai.TCC.application.dto.request.ValorCreateRequest;
+import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;
 import com.senai.TCC.model.entities.Estacionamento;
@@ -23,15 +24,15 @@ public class ValorService {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public List<ValorDTO> listarValor() {
+    public List<ValorResponse> listarValor() {
         return valorRepository.findAll()
                 .stream()
-                .map(ValorDTO::fromEntity)
+                .map(ValorResponse::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public ValorDTO cadastrarValor(ValorDTO dto) {
+    public ValorResponse cadastrarValor(ValorCreateRequest dto) {
         Valor novoValor = dto.toEntity();
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
@@ -42,11 +43,11 @@ public class ValorService {
         novoValor.setEstacionamento(estacionamento);
         estacionamento.getValores().add(novoValor);
 
-        return ValorDTO.fromEntity(valorRepository.save(novoValor));
+        return ValorResponse.fromEntity(valorRepository.save(novoValor));
     }
 
     @Transactional
-    public ValorDTO atualizarValor(ValorDTO dto, Long id) {
+    public ValorResponse atualizarValor(ValorCreateRequest dto, Long id) {
         Optional<Valor> optValor = valorRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -68,7 +69,7 @@ public class ValorService {
             estacionamento.getValores().add(valor);
         }
 
-        return ValorDTO.fromEntity(valorRepository.save(valor));
+        return ValorResponse.fromEntity(valorRepository.save(valor));
     }
 
     @Transactional

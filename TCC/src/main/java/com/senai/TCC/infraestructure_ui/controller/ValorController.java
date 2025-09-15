@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.ValorDTO;
+import com.senai.TCC.application.dto.request.ValorCreateRequest;
+import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.application.services.ValorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +28,7 @@ public class ValorController {
             summary = "Listar valores",
             description = "Lista todos os valores cadastrados no sistema"
     )
-    public ResponseEntity<List<ValorDTO>> listarValor() {
+    public ResponseEntity<List<ValorResponse>> listarValor() {
         return ResponseEntity.ok(valorService.listarValor());
     }
 
@@ -36,7 +37,7 @@ public class ValorController {
             summary = "Cadastrar valor",
             description = "Cadastra um novo valor no sistema"
     )
-    public ResponseEntity<ValorDTO> cadastrarValor(ValorDTO dto) {
+    public ResponseEntity<ValorResponse> cadastrarValor(ValorCreateRequest dto) {
         return ResponseEntity.ok(valorService.cadastrarValor(dto));
     }
 
@@ -45,7 +46,7 @@ public class ValorController {
             summary = "Atualizar valor",
             description = "Atualiza um valor cadastrado no sistema"
     )
-    public ResponseEntity<ValorDTO> atualizarValor(@RequestBody ValorDTO dto, @PathVariable Long id) {
+    public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorCreateRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(valorService.atualizarValor(dto, id));
     }
 
