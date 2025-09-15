@@ -1,9 +1,7 @@
-package com.senai.TCC.application.dtos;
+package com.senai.TCC.application.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Avaliacao;
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 

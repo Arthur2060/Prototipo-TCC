@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dtos.AvaliacaoDTO;
+import com.senai.TCC.application.dto.AvaliacaoDTO;
 import com.senai.TCC.application.services.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

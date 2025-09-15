@@ -1,11 +1,11 @@
-package com.senai.TCC.application.dtos.usuarioDTO;
+package com.senai.TCC.application.dto.usuarioDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import com.senai.TCC.model.entities.usuarios.Cliente;
 
 import java.util.Date;
 
-public record DonoDTO(
+public record ClienteDTO(
         Long id,
         @Schema(
                 name = "nome",
@@ -35,25 +35,26 @@ public record DonoDTO(
                 examples = "2000-09-12"
         )
         Date dataNascimento
+
 ) {
-    public DonoEstacionamento toEntity() {
-        DonoEstacionamento dono = new DonoEstacionamento();
+    public Cliente toEntity() {
+        Cliente cliente = new Cliente();
 
-        dono.setNome(nome);
-        dono.setEmail(email);
-        dono.setSenha(senha);
-        dono.setDataNascimento(dataNascimento);
+        cliente.setNome(nome);
+        cliente.setEmail(email);
+        cliente.setDataNascimento(dataNascimento);
+        cliente.setSenha(senha);
 
-        return dono;
+        return cliente;
     }
 
-    public static DonoDTO fromEntity(DonoEstacionamento dono) {
-        return new DonoDTO(
-                dono.getId(),
-                dono.getNome(),
-                dono.getEmail(),
-                dono.getSenha(),
-                dono.getDataNascimento()
+    public static ClienteDTO fromEntity(Cliente cliente) {
+        return new ClienteDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getEmail(),
+                cliente.getSenha(),
+                cliente.getDataNascimento()
         );
     }
 }

@@ -1,10 +1,9 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.DonoDTO;
+import com.senai.TCC.application.dto.usuarioDTO.DonoDTO;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.stereotype.Service;
 

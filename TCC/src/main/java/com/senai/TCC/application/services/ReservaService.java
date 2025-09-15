@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.ReservaDTO;
+import com.senai.TCC.application.dto.ReservaDTO;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ReservaRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;

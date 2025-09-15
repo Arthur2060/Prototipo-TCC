@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.GerenteDTO;
+import com.senai.TCC.application.dto.usuarioDTO.GerenteDTO;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

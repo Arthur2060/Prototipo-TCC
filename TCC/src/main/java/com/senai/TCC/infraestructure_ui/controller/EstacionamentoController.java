@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dtos.EstacionamentoDTO;
+import com.senai.TCC.application.dto.request.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.application.services.EstacionamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,7 +33,7 @@ public class EstacionamentoController {
             description = "Retorna uma lista de todos os estacionamentos cadastrados no sistema.",
             tags = {"Estacionamento controller"}
     )
-    public ResponseEntity<List<EstacionamentoDTO>> listarEstacionamentos() {
+    public ResponseEntity<List<EstacionamentoResponse>> listarEstacionamentos() {
         return ResponseEntity.ok(service.listarTodosOsEstacionamentos());
     }
 
@@ -56,15 +57,14 @@ public class EstacionamentoController {
                     description = "Dados do estacionamento a ser cadastrado",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = EstacionamentoDTO.class),
+                            schema = @Schema(implementation = EstacionamentoCreateRequest.class),
                             examples = @ExampleObject(value = """
                                   {
-                                    "id": 0,
                                     "nome": "string",
                                     "endereco": "string",
                                     "CEP": "string",
                                     "numero": "string",
-                                    "foto": "string",
+                                    "foto": "file",
                                     "numeroAlvaraDeFuncionamento": "string",
                                     "horaFechamento": "22:22:22",
                                     "horaAbertura": "22:22:22",
@@ -77,7 +77,7 @@ public class EstacionamentoController {
                     )
             )
     )
-    public ResponseEntity<EstacionamentoDTO> cadastrarEstacionamento(@RequestBody EstacionamentoDTO dto, @PathVariable Long id) {
+    public ResponseEntity<EstacionamentoResponse> cadastrarEstacionamento(@RequestBody EstacionamentoCreateRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.cadastrarEstacionamento(dto, id));
     }
 
@@ -98,7 +98,7 @@ public class EstacionamentoController {
                     )
             }
     )
-    public ResponseEntity<EstacionamentoDTO> atualizarEstacionamento(@RequestBody EstacionamentoDTO dto, @PathVariable Long id) {
+    public ResponseEntity<EstacionamentoResponse> atualizarEstacionamento(@RequestBody EstacionamentoCreateRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarEstacionamento(dto, id));
     }
 
@@ -119,7 +119,8 @@ public class EstacionamentoController {
                     )
             }
     )
-    public void desativarEstacionamento(@PathVariable Long id) {
+    public ResponseEntity<Void> desativarEstacionamento(@PathVariable Long id) {
         service.desativarEstacionamento(id);
+        return ResponseEntity.noContent().build();
     }
 }

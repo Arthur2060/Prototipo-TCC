@@ -1,4 +1,4 @@
-package com.senai.TCC.application.dtos;
+package com.senai.TCC.application.dto;
 
 import com.senai.TCC.model.enums.StatusReserva;
 import io.swagger.v3.oas.annotations.media.Schema;

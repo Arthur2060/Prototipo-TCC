@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.ValorDTO;
+import com.senai.TCC.application.dto.ValorDTO;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;
 import com.senai.TCC.model.entities.Estacionamento;

@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.ClienteDTO;
+import com.senai.TCC.application.dto.usuarioDTO.ClienteDTO;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;

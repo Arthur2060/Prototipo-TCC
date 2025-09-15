@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.EstacionamentoDTO;
+import com.senai.TCC.application.dto.request.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
@@ -23,15 +24,15 @@ public class EstacionamentoService {
         this.donoRepository = donoRepository;
     }
 
-    public List<EstacionamentoDTO> listarTodosOsEstacionamentos() {
+    public List<EstacionamentoResponse> listarTodosOsEstacionamentos() {
         return estacionamentoRepository.findAll()
                 .stream()
-                .map(EstacionamentoDTO::fromEntity)
+                .map(EstacionamentoResponse::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public EstacionamentoDTO cadastrarEstacionamento(EstacionamentoDTO dto, Long id) {
+    public EstacionamentoResponse cadastrarEstacionamento(EstacionamentoCreateRequest dto, Long id) {
         Estacionamento novoEst = dto.toEntity();
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
@@ -43,11 +44,11 @@ public class EstacionamentoService {
             novoEst.setFuncionamento(true);
         }
 
-        return EstacionamentoDTO.fromEntity(estacionamentoRepository.save(novoEst));
+        return EstacionamentoResponse.fromEntity(estacionamentoRepository.save(novoEst));
     }
 
     @Transactional
-    public EstacionamentoDTO atualizarEstacionamento(EstacionamentoDTO dto, Long id) {
+    public EstacionamentoResponse atualizarEstacionamento(EstacionamentoCreateRequest dto, Long id) {
         Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
 
         if (optEst.isEmpty()) {
@@ -60,7 +61,7 @@ public class EstacionamentoService {
             optEst.get().setNome(dto.nome());
         }
 
-        return EstacionamentoDTO.fromEntity(estacionamentoRepository.save(optEst.get()));
+        return EstacionamentoResponse.fromEntity(estacionamentoRepository.save(optEst.get()));
     }
 
     @Transactional

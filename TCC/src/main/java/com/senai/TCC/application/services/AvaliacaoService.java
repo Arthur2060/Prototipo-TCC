@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.AvaliacaoDTO;
+import com.senai.TCC.application.dto.AvaliacaoDTO;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;

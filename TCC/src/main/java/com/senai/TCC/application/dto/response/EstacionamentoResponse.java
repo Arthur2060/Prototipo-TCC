@@ -1,12 +1,12 @@
-package com.senai.TCC.application.dtos;
+package com.senai.TCC.application.dto.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Estacionamento;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.File;
 import java.time.LocalTime;
 
-public record EstacionamentoDTO(
+public record EstacionamentoResponse(
         Long id,
         @Schema(
                 name = "nome",
@@ -79,38 +79,20 @@ public record EstacionamentoDTO(
         )
         String numeroDeEscrituraImovel
 ) {
-    public Estacionamento toEntity() {
-        Estacionamento estacionamento = new Estacionamento();
-
-        estacionamento.setNome(nome);
-        estacionamento.setEndereco(endereco);
-        estacionamento.setCEP(CEP);
-        estacionamento.setNumero(numero);
-        estacionamento.setFoto(foto);
-        estacionamento.setNumeroAlvaraDeFuncionamento(numeroAlvaraDeFuncionamento);
-        estacionamento.setHoraFechamento(horaFechamento);
-        estacionamento.setHoraAbertura(horaAbertura);
-        estacionamento.setVagaPreferenciais(vagasPreferenciais);
-        estacionamento.setMaxVagas(maximoDeVagas);
-        estacionamento.setNumeroDeEscrituraImovel(numeroDeEscrituraImovel);
-
-        return estacionamento;
-    }
-
-    public static EstacionamentoDTO fromEntity(Estacionamento estacionamento) {
-        return new EstacionamentoDTO(
-                estacionamento.getId(),
-                estacionamento.getNome(),
-                estacionamento.getEndereco(),
-                estacionamento.getCEP(),
-                estacionamento.getNumero(),
-                estacionamento.getFoto(),
-                estacionamento.getNumeroAlvaraDeFuncionamento(),
-                estacionamento.getHoraFechamento(),
-                estacionamento.getHoraAbertura(),
-                estacionamento.getVagaPreferenciais(),
-                estacionamento.getMaxVagas(),
-                estacionamento.getNumeroDeEscrituraImovel()
-        );
-    }
+        public static  EstacionamentoResponse fromEntity(Estacionamento estacionamento) {
+                return new EstacionamentoResponse(
+                        estacionamento.getId(),
+                        estacionamento.getNome(),
+                        estacionamento.getEndereco(),
+                        estacionamento.getCEP(),
+                        estacionamento.getNumero(),
+                        estacionamento.getFoto(),
+                        estacionamento.getNumeroDeEscrituraImovel(),
+                        estacionamento.getHoraFechamento(),
+                        estacionamento.getHoraAbertura(),
+                        estacionamento.getVagaPreferenciais(),
+                        estacionamento.getMaxVagas(),
+                        estacionamento.getNumeroDeEscrituraImovel()
+                );
+        }
 }
