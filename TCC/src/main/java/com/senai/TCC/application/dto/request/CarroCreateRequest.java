@@ -1,10 +1,9 @@
-package com.senai.TCC.application.dto;
+package com.senai.TCC.application.dto.request;
 
 import com.senai.TCC.model.entities.Carro;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record CarroDTO(
-        Long id,
+public record CarroCreateRequest(
         @Schema(
                 name = "clienteId",
                 example = "3",
@@ -41,15 +40,5 @@ public record CarroDTO(
         carro.setPlaca(placa);
 
         return carro;
-    }
-
-    public static CarroDTO fromEntity(Carro carro) {
-        return new CarroDTO(
-                carro.getId(),
-                carro.getCliente().getId(),
-                carro.getPlaca(),
-                carro.getModelo(),
-                carro.getCor()
-        );
     }
 }
