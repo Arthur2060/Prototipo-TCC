@@ -35,14 +35,4 @@ public record ClienteCreateResquest(
         )
         Date dataNascimento
 ) {
-    public Cliente toEntity() {
-        Cliente cliente = new Cliente();
-
-        cliente.setNome(nome);
-        cliente.setEmail(email);
-        cliente.setDataNascimento(dataNascimento);
-        cliente.setSenha(senha);
-
-        return cliente;
-    }
 }

@@ -37,13 +37,4 @@ public record ClienteResponse(
         Date dataNascimento
 
 ) {
-    public static ClienteResponse fromEntity(Cliente cliente) {
-        return new ClienteResponse(
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getEmail(),
-                cliente.getSenha(),
-                cliente.getDataNascimento()
-        );
-    }
 }
