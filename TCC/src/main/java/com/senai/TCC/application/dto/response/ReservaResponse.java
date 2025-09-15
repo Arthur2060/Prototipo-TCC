@@ -35,14 +35,4 @@ public record ReservaResponse(
         Time horaDaReserva,
         StatusReserva status
 ) {
-    public static ReservaResponse fromEntity(Reserva reserva) {
-        return new ReservaResponse(
-                reserva.getId(),
-                reserva.getCliente().getId(),
-                reserva.getEstacionamento().getId(),
-                reserva.getDataDaReserva(),
-                reserva.getHoraDaReserva(),
-                reserva.getStatus()
-        );
-    }
 }

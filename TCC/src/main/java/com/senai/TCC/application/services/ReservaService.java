@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.create_requests.ReservaCreateRequest;
+import com.senai.TCC.application.dto.mappers.ReservaMapper;
 import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ReservaRepository;
@@ -31,12 +32,12 @@ public class ReservaService {
     public List<ReservaResponse> listarReservas() {
         return reservaRepository.findAll()
                 .stream()
-                .map(ReservaResponse::fromEntity)
+                .map(ReservaMapper::fromEntity)
                 .toList();
     }
 
     public ReservaResponse cadastrarReserva(ReservaCreateRequest dto) {
-        Reserva novaReserva = dto.toEntity();
+        Reserva novaReserva = ReservaMapper.toEntity(dto);
         Optional<Cliente> optionalCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -53,7 +54,7 @@ public class ReservaService {
         estacionamento.getReservas().add(novaReserva);
         cliente.getReservas().add(novaReserva);
 
-        return ReservaResponse.fromEntity(reservaRepository.save(novaReserva));
+        return ReservaMapper.fromEntity(reservaRepository.save(novaReserva));
     }
 
     public ReservaResponse atualizarReserva(ReservaCreateRequest dto, Long id) {
@@ -69,7 +70,7 @@ public class ReservaService {
         reserva.setHoraDaReserva(dto.horaDaReserva());
         reserva.setStatus(dto.status());
 
-        return ReservaResponse.fromEntity(reservaRepository.save(reserva));
+        return ReservaMapper.fromEntity(reservaRepository.save(reserva));
     }
 
     public void deletarReserva(Long id) {

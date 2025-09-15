@@ -34,13 +34,4 @@ public record ReservaCreateRequest(
         Time horaDaReserva,
         StatusReserva status
 ) {
-    public Reserva toEntity() {
-        Reserva reserva = new Reserva();
-
-        reserva.setDataDaReserva(dataDaReserva);
-        reserva.setHoraDaReserva(horaDaReserva);
-        reserva.setStatus(status);
-
-        return reserva;
-    }
 }
