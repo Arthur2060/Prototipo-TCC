@@ -49,21 +49,4 @@ public record UsuarioResponse(
         )
         TipoDeUsuario tipoDeUsuario
 ) {
-    public static UsuarioResponse fromEntity(Usuario user) {
-        TipoDeUsuario tipo = switch (user) {
-            case Gerente gerente -> TipoDeUsuario.GERENTE;
-            case DonoEstacionamento dono -> TipoDeUsuario.DONO;
-            case Cliente cliente -> TipoDeUsuario.CLIENTE;
-            default -> throw new TipoDeUsuarioInvalido("O tipo de usuario da classe é invalido!");
-        };
-
-        return new UsuarioResponse(
-                user.getId(),
-                user.getNome(),
-                user.getEmail(),
-                user.getSenha(),
-                user.getDataNascimento(),
-                tipo
-        );
-    }
 }

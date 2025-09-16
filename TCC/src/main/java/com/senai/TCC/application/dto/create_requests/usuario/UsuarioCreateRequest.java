@@ -47,18 +47,4 @@ public record UsuarioCreateRequest(
         )
         TipoDeUsuario tipoDeUsuario
 ) {
-    public Usuario toEntity() {
-        Usuario usuario = switch (tipoDeUsuario) {
-            case GERENTE -> new Gerente();
-            case DONO -> new DonoEstacionamento();
-            case CLIENTE -> new Cliente();
-        };
-
-        usuario.setNome(nome);
-        usuario.setSenha(senha);
-        usuario.setEmail(email);
-        usuario.setDataNascimento(dataNascimento);
-
-        return usuario;
-    }
 }
