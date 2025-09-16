@@ -1,6 +1,8 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.ValorDTO;
+import com.senai.TCC.application.dto.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.mappers.ValorMapper;
+import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;
 import com.senai.TCC.model.entities.Estacionamento;
@@ -23,16 +25,16 @@ public class ValorService {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public List<ValorDTO> listarValor() {
+    public List<ValorResponse> listarValor() {
         return valorRepository.findAll()
                 .stream()
-                .map(ValorDTO::fromEntity)
+                .map(ValorMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public ValorDTO cadastrarValor(ValorDTO dto) {
-        Valor novoValor = dto.toEntity();
+    public ValorResponse cadastrarValor(ValorCreateRequest dto) {
+        Valor novoValor = ValorMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id de estacionamento especificado não encontrado no sistema");
@@ -42,11 +44,11 @@ public class ValorService {
         novoValor.setEstacionamento(estacionamento);
         estacionamento.getValores().add(novoValor);
 
-        return ValorDTO.fromEntity(valorRepository.save(novoValor));
+        return ValorMapper.fromEntity(valorRepository.save(novoValor));
     }
 
     @Transactional
-    public ValorDTO atualizarValor(ValorDTO dto, Long id) {
+    public ValorResponse atualizarValor(ValorCreateRequest dto, Long id) {
         Optional<Valor> optValor = valorRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -68,7 +70,7 @@ public class ValorService {
             estacionamento.getValores().add(valor);
         }
 
-        return ValorDTO.fromEntity(valorRepository.save(valor));
+        return ValorMapper.fromEntity(valorRepository.save(valor));
     }
 
     @Transactional

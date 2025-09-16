@@ -1,6 +1,8 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.AvaliacaoDTO;
+import com.senai.TCC.application.dto.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.mappers.AvaliacaoMapper;
+import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
@@ -29,16 +31,16 @@ public class AvaliacaoService {
         this.clienteRepository = clienteRepository;
     }
 
-    public List<AvaliacaoDTO> listarAvaliacoes() {
+    public List<AvaliacaoResponse> listarAvaliacoes() {
         return avaliacaoRepository.findAll()
                 .stream()
-                .map(AvaliacaoDTO::fromEntity)
+                .map(AvaliacaoMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public AvaliacaoDTO cadastrarAvaliacao(AvaliacaoDTO dto) {
-        Avaliacao avaliacao = dto.toEntity();
+    public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoCreateRequest dto) {
+        Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
@@ -58,12 +60,12 @@ public class AvaliacaoService {
 
             estacionamento.calcularNotaMedia();
 
-            return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(avaliacao));
+            return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
 
     @Transactional
-    public AvaliacaoDTO atualizarAvaliacao(AvaliacaoDTO dto, Long id) {
+    public AvaliacaoResponse atualizarAvaliacao(AvaliacaoCreateRequest dto, Long id) {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
@@ -87,7 +89,7 @@ public class AvaliacaoService {
 
                 estacionamento.calcularNotaMedia();
 
-                return AvaliacaoDTO.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
+                return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
             }
     }
 

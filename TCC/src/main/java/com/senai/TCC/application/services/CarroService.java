@@ -1,6 +1,8 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.CarroDTO;
+import com.senai.TCC.application.dto.create_requests.CarroCreateRequest;
+import com.senai.TCC.application.mappers.CarroMapper;
+import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Carro;
@@ -23,16 +25,16 @@ public class CarroService {
         this.clienteRepository = clienteRepository;
     }
 
-    public List<CarroDTO> listarCarros() {
+    public List<CarroResponse> listarCarros() {
         return carroRepository.findAll()
                 .stream()
-                .map(CarroDTO::fromEntity)
+                .map(CarroMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public CarroDTO cadastrarCarro(CarroDTO dto) {
-        Carro carro = dto.toEntity();
+    public CarroResponse cadastrarCarro(CarroCreateRequest dto) {
+        Carro carro = CarroMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
 
         if (optCliente.isEmpty()) {
@@ -43,11 +45,11 @@ public class CarroService {
         cliente.getCarros().add(carro);
         carro.setCliente(cliente);
 
-        return CarroDTO.fromEntity(carroRepository.save(carro));
+        return CarroMapper.fromEntity(carroRepository.save(carro));
     }
 
     @Transactional
-    public CarroDTO atualizarCarro(CarroDTO dto, Long id) {
+    public CarroResponse atualizarCarro(CarroCreateRequest dto, Long id) {
         Optional<Carro> carroOriginal = carroRepository.findById(id);
         Optional<Cliente> novoCliente = clienteRepository.findById(dto.clienteId());
 
@@ -70,7 +72,7 @@ public class CarroService {
         carro.setCor(dto.cor());
 
 
-        return CarroDTO.fromEntity(carroRepository.save(carro));
+        return CarroMapper.fromEntity(carroRepository.save(carro));
     }
 
     @Transactional

@@ -1,17 +1,16 @@
-package com.senai.TCC.application.dtos;
+package com.senai.TCC.application.dto.create_requests;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Estacionamento;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.File;
 import java.time.LocalTime;
 
-public record EstacionamentoDTO(
-        Long id,
+public record EstacionamentoCreateRequest(
         @Schema(
                 name = "nome",
-                description = "Nome do estacionamento.",
-                examples = "Estacionamento Central"
+                description = "Nome do estacionamento criado",
+                examples = "EstacioPlay"
         )
         String nome,
         @Schema(
@@ -78,39 +77,5 @@ public record EstacionamentoDTO(
                 examples = "987654321"
         )
         String numeroDeEscrituraImovel
-) {
-    public Estacionamento toEntity() {
-        Estacionamento estacionamento = new Estacionamento();
-
-        estacionamento.setNome(nome);
-        estacionamento.setEndereco(endereco);
-        estacionamento.setCEP(CEP);
-        estacionamento.setNumero(numero);
-        estacionamento.setFoto(foto);
-        estacionamento.setNumeroAlvaraDeFuncionamento(numeroAlvaraDeFuncionamento);
-        estacionamento.setHoraFechamento(horaFechamento);
-        estacionamento.setHoraAbertura(horaAbertura);
-        estacionamento.setVagaPreferenciais(vagasPreferenciais);
-        estacionamento.setMaxVagas(maximoDeVagas);
-        estacionamento.setNumeroDeEscrituraImovel(numeroDeEscrituraImovel);
-
-        return estacionamento;
-    }
-
-    public static EstacionamentoDTO fromEntity(Estacionamento estacionamento) {
-        return new EstacionamentoDTO(
-                estacionamento.getId(),
-                estacionamento.getNome(),
-                estacionamento.getEndereco(),
-                estacionamento.getCEP(),
-                estacionamento.getNumero(),
-                estacionamento.getFoto(),
-                estacionamento.getNumeroAlvaraDeFuncionamento(),
-                estacionamento.getHoraFechamento(),
-                estacionamento.getHoraAbertura(),
-                estacionamento.getVagaPreferenciais(),
-                estacionamento.getMaxVagas(),
-                estacionamento.getNumeroDeEscrituraImovel()
-        );
-    }
+){
 }

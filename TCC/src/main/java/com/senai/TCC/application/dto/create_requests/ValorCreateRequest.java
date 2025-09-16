@@ -1,13 +1,12 @@
-package com.senai.TCC.application.dtos;
+package com.senai.TCC.application.dto.create_requests;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.Valor;
 import com.senai.TCC.model.enums.Cobranca;
 import com.senai.TCC.model.enums.Metodo;
 import com.senai.TCC.model.enums.Periodo;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-public record ValorDTO(
-        Long id,
+public record ValorCreateRequest(
         @Schema(
                 name = "tipoDeCobranca",
                 description = "Tipo de cobrança do estacionamento, definido por enum Cobranca",
@@ -34,31 +33,10 @@ public record ValorDTO(
         Periodo periodo,
 
         @Schema(
-            name = "estacioId",
-            description = "ID do estacionamento associado a esse valor",
-            examples = "1"
+                name = "estacioId",
+                description = "ID do estacionamento associado a esse valor",
+                examples = "1"
         )
         Long estacioId
 ) {
-    public Valor toEntity() {
-        Valor valor = new Valor();
-
-        valor.setPreco(preco);
-        valor.setPeriodo(periodo);
-        valor.setTipoDeCobranca(tipoDeCobranca);
-        valor.setTipoDePagamento(tipoDePagamento);
-
-        return valor;
-    }
-
-    public static ValorDTO fromEntity(Valor valor) {
-        return new ValorDTO(
-                valor.getId(),
-                valor.getTipoDeCobranca(),
-                valor.getTipoDePagamento(),
-                valor.getPreco(),
-                valor.getPeriodo(),
-                valor.getEstacionamento().getId()
-        );
-    }
 }
