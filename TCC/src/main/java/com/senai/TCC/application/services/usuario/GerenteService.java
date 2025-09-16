@@ -43,6 +43,7 @@ public class GerenteService {
 
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
+        gerente.setStatus(true);
 
         return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
@@ -84,7 +85,7 @@ public class GerenteService {
 
         Gerente gerente = optGerente.get();
         gerente.getEstacionamento().getGerentes().remove(gerente);
-
-        gerenteRepository.delete(gerente);
+        gerente.setStatus(false);
+        gerenteRepository.save(gerente);
     }
 }

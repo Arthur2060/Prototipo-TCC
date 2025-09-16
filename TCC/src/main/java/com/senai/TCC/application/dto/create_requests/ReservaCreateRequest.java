@@ -32,6 +32,6 @@ public record ReservaCreateRequest(
                 pattern = "HH:mm:ss"
         )
         Time horaDaReserva,
-        StatusReserva status
+        StatusReserva statusReserva
 ) {
 }

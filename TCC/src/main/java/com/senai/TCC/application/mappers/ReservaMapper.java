@@ -11,7 +11,7 @@ public class ReservaMapper {
 
         reserva.setDataDaReserva(dto.dataDaReserva());
         reserva.setHoraDaReserva(dto.horaDaReserva());
-        reserva.setStatus(dto.status());
+        reserva.setStatusReserva(dto.statusReserva());
 
         return reserva;
     }
@@ -23,6 +23,7 @@ public class ReservaMapper {
                 reserva.getEstacionamento().getId(),
                 reserva.getDataDaReserva(),
                 reserva.getHoraDaReserva(),
+                reserva.getStatusReserva(),
                 reserva.getStatus()
         );
     }

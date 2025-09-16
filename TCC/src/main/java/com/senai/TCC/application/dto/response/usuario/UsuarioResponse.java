@@ -47,6 +47,12 @@ public record UsuarioResponse(
                         "CLIENTE, GERENTE ou DONO.",
                 examples = "CLENTE"
         )
-        TipoDeUsuario tipoDeUsuario
+        TipoDeUsuario tipoDeUsuario,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

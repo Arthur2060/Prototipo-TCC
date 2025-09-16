@@ -24,7 +24,8 @@ public class ValorMapper {
                 valor.getTipoDePagamento(),
                 valor.getPreco(),
                 valor.getPeriodo(),
-                valor.getEstacionamento().getId()
+                valor.getEstacionamento().getId(),
+                valor.getStatus()
         );
     }
 }

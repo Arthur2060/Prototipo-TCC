@@ -23,7 +23,8 @@ public class ClienteMapper {
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getSenha(),
-                cliente.getDataNascimento()
+                cliente.getDataNascimento(),
+                cliente.getStatus()
         );
     }
 }

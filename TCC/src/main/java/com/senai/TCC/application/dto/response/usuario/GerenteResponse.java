@@ -48,6 +48,12 @@ public record GerenteResponse(
                 description = "ID do estacionamento que o gerente irá gerenciar",
                 examples = "1"
         )
-        Long estacionamentoId
+        Long estacionamentoId,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

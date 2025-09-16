@@ -60,6 +60,7 @@ public class AvaliacaoService {
 
             estacionamento.calcularNotaMedia();
 
+            avaliacao.setStatus(true);
             return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
@@ -112,7 +113,8 @@ public class AvaliacaoService {
             estacionamento.getAvaliacoes().remove(avaliacao);
             cliente.getAvaliacoes().remove(avaliacao);
 
-            avaliacaoRepository.delete(avaliacao);
+            avaliacao.setStatus(false);
+            avaliacaoRepository.save(avaliacao);
         }
     }
 

@@ -30,7 +30,7 @@ public class DonoService {
     @Transactional
     public DonoResponse cadastrarDono(DonoCreateRequest dto) {
         DonoEstacionamento dono = DonoMapper.toEntity(dto);
-
+        dono.setStatus(true);
         return DonoMapper.fromEntity(donoRepository.save(dono));
     }
 
@@ -61,7 +61,7 @@ public class DonoService {
         }
 
         DonoEstacionamento dono = optDono.get();
-
-        donoRepository.delete(dono);
+        dono.setStatus(false);
+        donoRepository.save(dono);
     }
 }

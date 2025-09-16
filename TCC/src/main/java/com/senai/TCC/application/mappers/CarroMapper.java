@@ -22,7 +22,8 @@ public class CarroMapper {
                 carro.getCliente().getId(),
                 carro.getPlaca(),
                 carro.getModelo(),
-                carro.getCor()
+                carro.getCor(),
+                carro.getStatus()
         );
     }
 }

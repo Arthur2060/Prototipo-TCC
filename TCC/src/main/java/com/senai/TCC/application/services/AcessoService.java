@@ -48,6 +48,7 @@ public class AcessoService {
         acesso.setEstacionamento(estacionamento);
         estacionamento.getAcessos().add(acesso);
 
+        acesso.setStatus(true);
         return AcessoMapper.fromEntity(acessoRepository.save(acesso));
     }
 
@@ -96,6 +97,7 @@ public class AcessoService {
 
         estacionamento.getAcessos().remove(acesso);
 
-        acessoRepository.delete(acesso);
+        acesso.setStatus(false);
+        acessoRepository.save(acesso);
     }
 }

@@ -44,6 +44,7 @@ public class ValorService {
         novoValor.setEstacionamento(estacionamento);
         estacionamento.getValores().add(novoValor);
 
+        novoValor.setStatus(true);
         return ValorMapper.fromEntity(valorRepository.save(novoValor));
     }
 
@@ -81,6 +82,9 @@ public class ValorService {
             throw new IdNaoCadastrado("Id de valor especificado não encontrado no sistema");
         }
 
-        valorRepository.delete(optionalValor.get());
+        Valor valor = optionalValor.get();
+
+        valor.setStatus(false);
+        valorRepository.save(valor);
     }
 }

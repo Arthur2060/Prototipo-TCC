@@ -31,6 +31,12 @@ public record CarroResponse(
                 example = "Fuxia",
                 description = "Cor do carro"
         )
-        String cor
+        String cor,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

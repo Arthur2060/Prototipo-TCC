@@ -27,7 +27,8 @@ public class GerenteMapper {
                 gerente.getSenha(),
                 gerente.getDataNascimento(),
                 gerente.getCpfOuCnpj(),
-                gerente.getEstacionamento().getId()
+                gerente.getEstacionamento().getId(),
+                gerente.getStatus()
         );
     }
 }

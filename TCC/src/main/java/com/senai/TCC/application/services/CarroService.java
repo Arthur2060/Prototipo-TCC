@@ -45,6 +45,7 @@ public class CarroService {
         cliente.getCarros().add(carro);
         carro.setCliente(cliente);
 
+        carro.setStatus(true);
         return CarroMapper.fromEntity(carroRepository.save(carro));
     }
 
@@ -87,6 +88,7 @@ public class CarroService {
         Cliente cliente = carro.getCliente();
         cliente.getCarros().remove(carro);
 
-        carroRepository.delete(carro);
+        carro.setStatus(false);
+        carroRepository.save(carro);
     }
 }

@@ -45,6 +45,7 @@ public class EstacionamentoService {
             novoEst.setFuncionamento(true);
         }
 
+        novoEst.setStatus(true);
         return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(novoEst));
     }
 
@@ -76,6 +77,7 @@ public class EstacionamentoService {
         Estacionamento estacionamento = optEst.get();
         estacionamento.getDono().getEstacionamentos().remove(estacionamento);
 
-        estacionamentoRepository.delete(estacionamento);
+        estacionamento.setStatus(false);
+        estacionamentoRepository.save(estacionamento);
     }
 }

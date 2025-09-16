@@ -24,7 +24,8 @@ public class AvaliacaoMapper {
                 avaliacao.getEstacionamento().getId(),
                 avaliacao.getNota(),
                 avaliacao.getComentario(),
-                avaliacao.getDataDeAvaliacao()
+                avaliacao.getDataDeAvaliacao(),
+                avaliacao.getStatus()
         );
     }
 }

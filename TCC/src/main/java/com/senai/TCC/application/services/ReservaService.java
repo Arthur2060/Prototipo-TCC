@@ -54,6 +54,7 @@ public class ReservaService {
         estacionamento.getReservas().add(novaReserva);
         cliente.getReservas().add(novaReserva);
 
+        novaReserva.setStatus(true);
         return ReservaMapper.fromEntity(reservaRepository.save(novaReserva));
     }
 
@@ -84,6 +85,8 @@ public class ReservaService {
 
         reserva.getCliente().getReservas().remove(reserva);
         reserva.getEstacionamento().getReservas().remove(reserva);
-        reservaRepository.delete(reserva);
+
+        reserva.setStatus(false);
+        reservaRepository.save(reserva);
     }
 }

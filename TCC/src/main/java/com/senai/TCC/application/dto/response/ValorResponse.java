@@ -38,6 +38,12 @@ public record ValorResponse(
                 description = "ID do estacionamento associado a esse valor",
                 examples = "1"
         )
-        Long estacioId
+        Long estacioId,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

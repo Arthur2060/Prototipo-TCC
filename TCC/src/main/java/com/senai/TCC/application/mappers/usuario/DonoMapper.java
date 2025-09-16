@@ -23,7 +23,8 @@ public class DonoMapper {
                 dono.getNome(),
                 dono.getEmail(),
                 dono.getSenha(),
-                dono.getDataNascimento()
+                dono.getDataNascimento(),
+                dono.getStatus()
         );
     }
 }

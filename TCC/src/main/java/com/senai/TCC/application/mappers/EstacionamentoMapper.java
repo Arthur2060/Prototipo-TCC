@@ -19,7 +19,8 @@ public class EstacionamentoMapper {
                 estacionamento.getHoraAbertura(),
                 estacionamento.getVagaPreferenciais(),
                 estacionamento.getMaxVagas(),
-                estacionamento.getNumeroDeEscrituraImovel()
+                estacionamento.getNumeroDeEscrituraImovel(),
+                estacionamento.getStatus()
         );
     }
 

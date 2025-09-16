@@ -28,6 +28,7 @@ public class ClienteService {
 
     public ClienteResponse cadastrarCliente(ClienteCreateRequest dto) {
         Cliente cliente = ClienteMapper.toEntity(dto);
+        cliente.setStatus(true);
 
         return ClienteMapper.fromEntity(
                 clienteRepository.save(cliente));
@@ -57,7 +58,7 @@ public class ClienteService {
         }
 
         Cliente cliente = optCliente.get();
-
-        clienteRepository.delete(cliente);
+        cliente.setStatus(false);
+        clienteRepository.save(cliente);
     }
 }

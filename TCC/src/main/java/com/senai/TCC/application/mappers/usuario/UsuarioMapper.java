@@ -41,7 +41,8 @@ public class UsuarioMapper {
                 user.getEmail(),
                 user.getSenha(),
                 user.getDataNascimento(),
-                tipo
+                tipo,
+                user.getStatus()
         );
     }
 }
