@@ -49,15 +49,4 @@ public record GerenteCreateRequest(
         )
         Long estacionamentoId
 ) {
-    public Gerente toEntity() {
-        Gerente gerente = new Gerente();
-
-        gerente.setNome(nome);
-        gerente.setCpfOuCnpj(cpfOuCnpj);
-        gerente.setEmail(email);
-        gerente.setSenha(senha);
-        gerente.setDataNascimento(dataNascimento);
-
-        return gerente;
-    }
 }

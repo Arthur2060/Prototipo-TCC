@@ -1,6 +1,7 @@
 package com.senai.TCC.application.services.usuario;
 
 import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
@@ -26,12 +27,12 @@ public class GerenteService {
     public List<GerenteResponse> listarGerentes() {
         return gerenteRepository.findAll()
                 .stream()
-                .map(GerenteResponse::fromEntity)
+                .map(GerenteMapper::fromEntity)
                 .toList();
     }
 
     public GerenteResponse cadastrarGerente(GerenteCreateRequest dto) {
-        Gerente gerente = dto.toEntity();
+        Gerente gerente = GerenteMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
         if (optEstacionamento.isEmpty()) {
@@ -43,7 +44,7 @@ public class GerenteService {
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
 
-        return GerenteResponse.fromEntity(gerenteRepository.save(gerente));
+        return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
 
     public GerenteResponse atualizarGerente(GerenteCreateRequest dto, Long id) {
@@ -71,7 +72,7 @@ public class GerenteService {
         gerente.setEstacionamento(estacionamento);
         estacionamento.getGerentes().add(gerente);
 
-        return GerenteResponse.fromEntity(gerenteRepository.save(gerente));
+        return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
 
     public void deletarGerente(Long id) {

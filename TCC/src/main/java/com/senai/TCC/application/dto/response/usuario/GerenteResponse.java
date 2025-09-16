@@ -50,15 +50,4 @@ public record GerenteResponse(
         )
         Long estacionamentoId
 ) {
-    public static GerenteResponse fromEntity(Gerente gerente) {
-        return new GerenteResponse(
-            gerente.getId(),
-            gerente.getNome(),
-            gerente.getEmail(),
-            gerente.getSenha(),
-            gerente.getDataNascimento(),
-            gerente.getCpfOuCnpj(),
-            gerente.getEstacionamento().getId()
-        );
-}
 }
