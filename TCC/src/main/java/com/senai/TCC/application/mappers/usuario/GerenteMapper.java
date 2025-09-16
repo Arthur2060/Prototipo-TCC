@@ -1,4 +1,4 @@
-package com.senai.TCC.application.dto.mappers.usuario;
+package com.senai.TCC.application.mappers.usuario;
 
 import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;

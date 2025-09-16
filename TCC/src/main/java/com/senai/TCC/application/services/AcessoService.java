@@ -1,7 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.create_requests.AcessoCreateRequest;
-import com.senai.TCC.application.dto.mappers.AcessoMapper;
+import com.senai.TCC.application.mappers.AcessoMapper;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;

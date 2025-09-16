@@ -1,7 +1,7 @@
 package com.senai.TCC.application.services.usuario;
 
 import com.senai.TCC.application.dto.create_requests.usuario.DonoCreateRequest;
-import com.senai.TCC.application.dto.mappers.usuario.DonoMapper;
+import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;

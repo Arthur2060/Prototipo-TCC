@@ -1,4 +1,4 @@
-package com.senai.TCC.application.dto.mappers;
+package com.senai.TCC.application.mappers;
 
 import com.senai.TCC.application.dto.create_requests.ReservaCreateRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;
