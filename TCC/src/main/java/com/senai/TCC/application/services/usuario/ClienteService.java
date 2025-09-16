@@ -20,7 +20,7 @@ public class ClienteService {
     }
 
     public List<ClienteResponse> listarClientes() {
-        return clienteRepository.findAll()
+        return clienteRepository.findByStatusTrue()
                 .stream()
                 .map(ClienteMapper::fromEntity)
                 .toList();

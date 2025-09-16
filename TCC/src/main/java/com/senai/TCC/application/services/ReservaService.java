@@ -30,7 +30,7 @@ public class ReservaService {
     }
 
     public List<ReservaResponse> listarReservas() {
-        return reservaRepository.findAll()
+        return reservaRepository.findByStatusTrue()
                 .stream()
                 .map(ReservaMapper::fromEntity)
                 .toList();
@@ -69,7 +69,7 @@ public class ReservaService {
 
         reserva.setDataDaReserva(dto.dataDaReserva());
         reserva.setHoraDaReserva(dto.horaDaReserva());
-        reserva.setStatus(dto.status());
+        reserva.setStatusReserva(dto.statusReserva());
 
         return ReservaMapper.fromEntity(reservaRepository.save(reserva));
     }

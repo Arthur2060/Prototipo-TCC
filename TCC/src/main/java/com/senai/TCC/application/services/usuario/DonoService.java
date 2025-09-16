@@ -21,7 +21,7 @@ public class DonoService {
     }
 
     public List<DonoResponse> listarDonos() {
-        return donoRepository.findAll()
+        return donoRepository.findByStatusTrue()
                 .stream()
                 .map(DonoMapper::fromEntity)
                 .toList();

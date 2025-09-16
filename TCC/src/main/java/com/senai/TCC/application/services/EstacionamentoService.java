@@ -26,7 +26,7 @@ public class EstacionamentoService {
     }
 
     public List<EstacionamentoResponse> listarTodosOsEstacionamentos() {
-        return estacionamentoRepository.findAll()
+        return estacionamentoRepository.findByStatusTrue()
                 .stream()
                 .map(EstacionamentoMapper::fromEntity)
                 .toList();

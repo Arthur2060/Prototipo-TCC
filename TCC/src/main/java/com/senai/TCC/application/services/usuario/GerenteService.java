@@ -25,7 +25,7 @@ public class GerenteService {
     }
 
     public List<GerenteResponse> listarGerentes() {
-        return gerenteRepository.findAll()
+        return gerenteRepository.findByStatusTrue()
                 .stream()
                 .map(GerenteMapper::fromEntity)
                 .toList();

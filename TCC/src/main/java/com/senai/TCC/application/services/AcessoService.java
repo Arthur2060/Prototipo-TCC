@@ -26,7 +26,7 @@ public class AcessoService {
     }
 
     public List<AcessoResponse> listarAcessos() {
-        return acessoRepository.findAll()
+        return acessoRepository.findByStatusTrue()
                 .stream()
                 .map(AcessoMapper::fromEntity)
                 .toList();

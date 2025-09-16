@@ -26,7 +26,7 @@ public class ValorService {
     }
 
     public List<ValorResponse> listarValor() {
-        return valorRepository.findAll()
+        return valorRepository.findByStatusTrue()
                 .stream()
                 .map(ValorMapper::fromEntity)
                 .toList();

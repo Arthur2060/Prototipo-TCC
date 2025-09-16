@@ -26,7 +26,7 @@ public class CarroService {
     }
 
     public List<CarroResponse> listarCarros() {
-        return carroRepository.findAll()
+        return carroRepository.findByStatusTrue()
                 .stream()
                 .map(CarroMapper::fromEntity)
                 .toList();

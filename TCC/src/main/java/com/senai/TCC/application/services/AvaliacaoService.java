@@ -32,7 +32,7 @@ public class AvaliacaoService {
     }
 
     public List<AvaliacaoResponse> listarAvaliacoes() {
-        return avaliacaoRepository.findAll()
+        return avaliacaoRepository.findByStatusTrue()
                 .stream()
                 .map(AvaliacaoMapper::fromEntity)
                 .toList();
