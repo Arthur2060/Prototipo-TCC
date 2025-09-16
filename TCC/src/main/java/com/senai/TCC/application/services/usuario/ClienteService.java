@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.ClienteCreateResquest;
+import com.senai.TCC.application.dto.create_requests.usuario.ClienteCreateRequest;
 import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
@@ -26,14 +26,14 @@ public class ClienteService {
                 .toList();
     }
 
-    public ClienteResponse cadastrarCliente(ClienteCreateResquest dto) {
+    public ClienteResponse cadastrarCliente(ClienteCreateRequest dto) {
         Cliente cliente = ClienteMapper.toEntity(dto);
 
         return ClienteMapper.fromEntity(
                 clienteRepository.save(cliente));
     }
 
-    public ClienteResponse atualizarCliente(ClienteCreateResquest dto, Long id) {
+    public ClienteResponse atualizarCliente(ClienteCreateRequest dto, Long id) {
         Optional<Cliente> optCliente = clienteRepository.findById(id);
 
         if (optCliente.isEmpty()) {
