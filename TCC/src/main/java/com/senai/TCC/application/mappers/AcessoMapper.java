@@ -23,8 +23,8 @@ public class AcessoMapper {
                 acesso.getPlacaDoCarro(),
                 acesso.getHoraDeEntrada(),
                 acesso.getHoraDeSaida(),
-                acesso.getValorAPagar(),
                 acesso.getTotalHoras(),
+                acesso.getValorAPagar(),
                 acesso.getEstacionamento().getId(),
                 acesso.getStatus()
         );

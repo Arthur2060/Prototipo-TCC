@@ -35,7 +35,7 @@ public record AcessoResponse(
                 description = "Total de horas que o carro ficou no estacionamento",
                 examples = "1.5"
         )
-        Double totalHoras,
+        Integer totalHoras,
         @Schema(
                 name = "valorAPagar",
                 description = "Valor total a pagar pelo tempo de uso do estacionamento",
