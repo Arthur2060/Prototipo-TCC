@@ -32,6 +32,16 @@ public class AcessoService {
                 .toList();
     }
 
+    public AcessoResponse buscarPorId(Long id) {
+        Optional<Acesso> optionalAcesso = acessoRepository.findById(id);
+
+        if (optionalAcesso.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return AcessoMapper.fromEntity(optionalAcesso.get());
+    }
+
     @Transactional
     public AcessoResponse cadastrarAcesso(AcessoRequest dto) {
         Acesso acesso = AcessoMapper.toEntity(dto);

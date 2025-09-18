@@ -10,8 +10,6 @@ import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import com.senai.TCC.model.exceptions.MultiplasAvaliacoesIguais;
-import com.senai.TCC.model.exceptions.TempoLimiteDeAvaliacaoExpedido;
 import com.senai.TCC.model.service.ValidadorAvaliacao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -48,6 +46,16 @@ public class AvaliacaoService {
                 .stream()
                 .map(AvaliacaoMapper::fromEntity)
                 .toList();
+    }
+
+    public AvaliacaoResponse buscarPorId(Long id) {
+        Optional<Avaliacao> optionalAvaliacao = avaliacaoRepository.findById(id);
+
+        if (optionalAvaliacao.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return AvaliacaoMapper.fromEntity(optionalAvaliacao.get());
     }
 
     @Transactional

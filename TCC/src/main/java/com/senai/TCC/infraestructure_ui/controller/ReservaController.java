@@ -2,6 +2,7 @@ package com.senai.TCC.infraestructure_ui.controller;
 
 import com.senai.TCC.application.dto.requests.ReservaRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +32,16 @@ public class ReservaController {
     )
     public ResponseEntity<List<ReservaResponse>> listarReservas() {
         return ResponseEntity.ok(service.listarReservas());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Reserva Controller"}
+    )
+    public ResponseEntity<ReservaResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping

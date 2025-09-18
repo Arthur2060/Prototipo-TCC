@@ -36,6 +36,16 @@ public class ReservaService {
                 .toList();
     }
 
+    public ReservaResponse buscarPorId(Long id) {
+        Optional<Reserva> optionalReserva = reservaRepository.findById(id);
+
+        if (optionalReserva.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return ReservaMapper.fromEntity(optionalReserva.get());
+    }
+
     public ReservaResponse cadastrarReserva(ReservaRequest dto) {
         Reserva novaReserva = ReservaMapper.toEntity(dto);
         Optional<Cliente> optionalCliente = clienteRepository.findById(dto.clienteId());

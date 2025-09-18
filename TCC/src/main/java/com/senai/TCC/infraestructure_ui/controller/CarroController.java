@@ -17,10 +17,10 @@ import java.util.List;
         description = "Realiza operações referentes aos carros"
 )
 public class CarroController {
-    private final CarroService carroService;
+    private final CarroService service;
 
-    public CarroController(CarroService carroService) {
-        this.carroService = carroService;
+    public CarroController(CarroService service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -29,7 +29,17 @@ public class CarroController {
             description = "Lista todos os carros cadastrados no sistema"
     )
     public ResponseEntity<List<CarroResponse>> listarCarros() {
-        return ResponseEntity.ok(carroService.listarCarros());
+        return ResponseEntity.ok(service.listarCarros());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Carro Controller"}
+    )
+    public ResponseEntity<CarroResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -38,7 +48,7 @@ public class CarroController {
             description = "Cadastra um novo carro no sistema"
     )
     public ResponseEntity<CarroResponse> cadastrarCarro(@RequestBody CarroRequest dto) {
-        return ResponseEntity.ok(carroService.cadastrarCarro(dto));
+        return ResponseEntity.ok(service.cadastrarCarro(dto));
     }
 
     @PutMapping("/{id}")
@@ -47,7 +57,7 @@ public class CarroController {
             description = "Atualiza os dados de um carro cadastrado no sistema"
     )
     public ResponseEntity<CarroResponse> atualizarCarro(@RequestBody CarroRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(carroService.atualizarCarro(dto, id));
+        return ResponseEntity.ok(service.atualizarCarro(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +66,6 @@ public class CarroController {
             description = "Deleta um carro cadastrado no sistema"
     )
     public void deletarCarro(@PathVariable Long id) {
-        carroService.deletarCarro(id);
+        service.deletarCarro(id);
     }
 }

@@ -26,6 +26,16 @@ public class ClienteService {
                 .toList();
     }
 
+    public ClienteResponse buscarPorId(Long id) {
+        Optional<Cliente> optionalCliente = clienteRepository.findById(id);
+
+        if (optionalCliente.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return ClienteMapper.fromEntity(optionalCliente.get());
+    }
+
     public ClienteResponse cadastrarCliente(ClienteRequest dto) {
         Cliente cliente = ClienteMapper.toEntity(dto);
         cliente.setStatus(true);

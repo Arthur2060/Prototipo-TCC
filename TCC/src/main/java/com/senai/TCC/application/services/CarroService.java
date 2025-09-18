@@ -32,6 +32,16 @@ public class CarroService {
                 .toList();
     }
 
+    public CarroResponse buscarPorId(Long id) {
+        Optional<Carro> optionalCarro = carroRepository.findById(id);
+
+        if (optionalCarro.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return CarroMapper.fromEntity(optionalCarro.get());
+    }
+
     @Transactional
     public CarroResponse cadastrarCarro(CarroRequest dto) {
         Carro carro = CarroMapper.toEntity(dto);

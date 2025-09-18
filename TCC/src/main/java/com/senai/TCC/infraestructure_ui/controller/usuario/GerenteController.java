@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
 import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,16 @@ public class GerenteController {
     )
     public ResponseEntity<List<GerenteResponse>> listarGerentes() {
         return ResponseEntity.ok(service.listarGerentes());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Gerente Controller"}
+    )
+    public ResponseEntity<GerenteResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping

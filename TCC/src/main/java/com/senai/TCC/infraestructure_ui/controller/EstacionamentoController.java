@@ -2,6 +2,7 @@ package com.senai.TCC.infraestructure_ui.controller;
 
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.EstacionamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,6 +36,16 @@ public class EstacionamentoController {
     )
     public ResponseEntity<List<EstacionamentoResponse>> listarEstacionamentos() {
         return ResponseEntity.ok(service.listarTodosOsEstacionamentos());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Estacionamento Controller"}
+    )
+    public ResponseEntity<EstacionamentoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping("/{id}")

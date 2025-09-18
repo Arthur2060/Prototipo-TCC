@@ -31,6 +31,16 @@ public class GerenteService {
                 .toList();
     }
 
+    public GerenteResponse buscarPorId(Long id) {
+        Optional<Gerente> optionalGerente = gerenteRepository.findById(id);
+
+        if (optionalGerente.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return GerenteMapper.fromEntity(optionalGerente.get());
+    }
+
     public GerenteResponse cadastrarGerente(GerenteRequest dto) {
         Gerente gerente = GerenteMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());

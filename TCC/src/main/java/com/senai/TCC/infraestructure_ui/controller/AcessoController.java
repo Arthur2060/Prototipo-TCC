@@ -2,6 +2,7 @@ package com.senai.TCC.infraestructure_ui.controller;
 
 import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.AcessoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,6 +36,16 @@ public class AcessoController {
     )
     public ResponseEntity<List<AcessoResponse>> listarAcessos() {
         return ResponseEntity.ok(service.listarAcessos());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Acesso Controller"}
+    )
+    public ResponseEntity<AcessoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping

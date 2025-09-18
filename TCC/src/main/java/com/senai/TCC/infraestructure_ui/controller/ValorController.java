@@ -17,10 +17,10 @@ import java.util.List;
         description = "Realiza operações referentes à valores de estacionamento"
 )
 public class ValorController {
-    private final ValorService valorService;
+    private final ValorService service;
 
-    public ValorController(ValorService valorService) {
-        this.valorService = valorService;
+    public ValorController(ValorService service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -29,7 +29,17 @@ public class ValorController {
             description = "Lista todos os valores cadastrados no sistema"
     )
     public ResponseEntity<List<ValorResponse>> listarValor() {
-        return ResponseEntity.ok(valorService.listarValor());
+        return ResponseEntity.ok(service.listarValor());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Valor Controller"}
+    )
+    public ResponseEntity<ValorResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -38,7 +48,7 @@ public class ValorController {
             description = "Cadastra um novo valor no sistema"
     )
     public ResponseEntity<ValorResponse> cadastrarValor(ValorRequest dto) {
-        return ResponseEntity.ok(valorService.cadastrarValor(dto));
+        return ResponseEntity.ok(service.cadastrarValor(dto));
     }
 
     @PutMapping("/{id}")
@@ -47,7 +57,7 @@ public class ValorController {
             description = "Atualiza um valor cadastrado no sistema"
     )
     public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(valorService.atualizarValor(dto, id));
+        return ResponseEntity.ok(service.atualizarValor(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +66,6 @@ public class ValorController {
             description = "Deleta um valor cadastrado no sistema"
     )
     public void deletarValor(@PathVariable Long id) {
-        valorService.deletarValor(id);
+        service.deletarValor(id);
     }
 }

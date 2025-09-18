@@ -17,10 +17,10 @@ import java.util.List;
         description = "Realiza operações relacionadas a clientes."
 )
 public class ClienteController {
-    private final ClienteService clienteService;
+    private final ClienteService service;
 
-    public ClienteController(ClienteService clienteService) {
-        this.clienteService = clienteService;
+    public ClienteController(ClienteService service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -30,7 +30,17 @@ public class ClienteController {
             tags = {"Cliente controller"}
     )
     public ResponseEntity<List<ClienteResponse>> listarClientes() {
-        return ResponseEntity.ok(clienteService.listarClientes());
+        return ResponseEntity.ok(service.listarClientes());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Cliente Controller"}
+    )
+    public ResponseEntity<ClienteResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -50,7 +60,7 @@ public class ClienteController {
             }
     )
     public ResponseEntity<ClienteResponse> cadastrarCliente(@RequestBody ClienteRequest dto) {
-        return ResponseEntity.ok(clienteService.cadastrarCliente(dto));
+        return ResponseEntity.ok(service.cadastrarCliente(dto));
     }
 
     @PutMapping("/{id}")
@@ -70,7 +80,7 @@ public class ClienteController {
             }
     )
     public ResponseEntity<ClienteResponse> atualizarCliente(@RequestBody ClienteRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(clienteService.atualizarCliente(dto, id));
+        return ResponseEntity.ok(service.atualizarCliente(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -90,6 +100,6 @@ public class ClienteController {
             }
     )
     public void deletarCliente(@PathVariable Long id) {
-        clienteService.deletarCliente(id);
+        service.deletarCliente(id);
     }
 }

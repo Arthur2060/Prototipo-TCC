@@ -2,6 +2,7 @@ package com.senai.TCC.infraestructure_ui.controller;
 
 import com.senai.TCC.application.dto.requests.AvaliacaoRequest;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +32,16 @@ public class AvaliacaoController {
     )
     public ResponseEntity<List<AvaliacaoResponse>> listarAvaliacoes() {
         return ResponseEntity.ok(service.listarAvaliacoes());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Avaliação Controller"}
+    )
+    public ResponseEntity<AvaliacaoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping

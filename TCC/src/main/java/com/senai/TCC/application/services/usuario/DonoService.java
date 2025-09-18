@@ -27,6 +27,16 @@ public class DonoService {
                 .toList();
     }
 
+    public DonoResponse buscarPorId(Long id) {
+        Optional<DonoEstacionamento> optionalDono = donoRepository.findById(id);
+
+        if (optionalDono.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return DonoMapper.fromEntity(optionalDono.get());
+    }
+
     @Transactional
     public DonoResponse cadastrarDono(DonoRequest dto) {
         DonoEstacionamento dono = DonoMapper.toEntity(dto);

@@ -32,6 +32,16 @@ public class EstacionamentoService {
                 .toList();
     }
 
+    public EstacionamentoResponse buscarPorId(Long id) {
+        Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(id);
+
+        if (optionalEstacionamento.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return EstacionamentoMapper.fromEntity(optionalEstacionamento.get());
+    }
+
     @Transactional
     public EstacionamentoResponse cadastrarEstacionamento(EstacionamentoRequest dto, Long id) {
         Estacionamento novoEst = EstacionamentoMapper.toEntity(dto);

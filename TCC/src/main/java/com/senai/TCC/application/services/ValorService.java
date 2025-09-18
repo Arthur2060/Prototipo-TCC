@@ -32,6 +32,16 @@ public class ValorService {
                 .toList();
     }
 
+    public ValorResponse buscarPorId(Long id) {
+        Optional<Valor> optionalValor = valorRepository.findById(id);
+
+        if (optionalValor.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return ValorMapper.fromEntity(optionalValor.get());
+    }
+
     @Transactional
     public ValorResponse cadastrarValor(ValorRequest dto) {
         Valor novoValor = ValorMapper.toEntity(dto);
