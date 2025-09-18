@@ -24,6 +24,8 @@ public class Valor {
     private Double preco;
     private Periodo periodo;
 
+    private Boolean status;
+
     @ManyToOne
     @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;

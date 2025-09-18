@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.dto.requests.ValorRequest;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.application.services.ValorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,10 +17,10 @@ import java.util.List;
         description = "Realiza operações referentes à valores de estacionamento"
 )
 public class ValorController {
-    private final ValorService valorService;
+    private final ValorService service;
 
-    public ValorController(ValorService valorService) {
-        this.valorService = valorService;
+    public ValorController(ValorService service) {
+        this.service = service;
     }
 
     @GetMapping
@@ -29,7 +29,17 @@ public class ValorController {
             description = "Lista todos os valores cadastrados no sistema"
     )
     public ResponseEntity<List<ValorResponse>> listarValor() {
-        return ResponseEntity.ok(valorService.listarValor());
+        return ResponseEntity.ok(service.listarValor());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Valor Controller"}
+    )
+    public ResponseEntity<ValorResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -37,8 +47,8 @@ public class ValorController {
             summary = "Cadastrar valor",
             description = "Cadastra um novo valor no sistema"
     )
-    public ResponseEntity<ValorResponse> cadastrarValor(ValorCreateRequest dto) {
-        return ResponseEntity.ok(valorService.cadastrarValor(dto));
+    public ResponseEntity<ValorResponse> cadastrarValor(ValorRequest dto) {
+        return ResponseEntity.ok(service.cadastrarValor(dto));
     }
 
     @PutMapping("/{id}")
@@ -46,8 +56,8 @@ public class ValorController {
             summary = "Atualizar valor",
             description = "Atualiza um valor cadastrado no sistema"
     )
-    public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorCreateRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(valorService.atualizarValor(dto, id));
+    public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorRequest dto, @PathVariable Long id) {
+        return ResponseEntity.ok(service.atualizarValor(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +66,6 @@ public class ValorController {
             description = "Deleta um valor cadastrado no sistema"
     )
     public void deletarValor(@PathVariable Long id) {
-        valorService.deletarValor(id);
+        service.deletarValor(id);
     }
 }

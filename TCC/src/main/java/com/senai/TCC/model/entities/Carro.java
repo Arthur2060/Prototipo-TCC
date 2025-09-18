@@ -23,4 +23,6 @@ public class Carro {
     private String placa;
     private String modelo;
     private String cor;
+
+    private Boolean status;
 }

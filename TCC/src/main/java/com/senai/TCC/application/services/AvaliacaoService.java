@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.requests.AvaliacaoRequest;
 import com.senai.TCC.application.mappers.AvaliacaoMapper;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
@@ -10,12 +10,16 @@ import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import com.senai.TCC.model.exceptions.MultiplasAvaliacoesIguais;
+import com.senai.TCC.model.service.ValidadorAvaliacao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AvaliacaoService {
@@ -25,27 +29,43 @@ public class AvaliacaoService {
 
     private final ClienteRepository clienteRepository;
 
-    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository, EstacionamentoRepository estacionamentoRepository, ClienteRepository clienteRepository) {
+    private final ValidadorAvaliacao validador;
+
+    public AvaliacaoService(AvaliacaoRepository avaliacaoRepository,
+                            EstacionamentoRepository estacionamentoRepository,
+                            ClienteRepository clienteRepository,
+                            ValidadorAvaliacao validador) {
         this.avaliacaoRepository = avaliacaoRepository;
         this.estacionamentoRepository = estacionamentoRepository;
         this.clienteRepository = clienteRepository;
+        this.validador = validador;
     }
 
     public List<AvaliacaoResponse> listarAvaliacoes() {
-        return avaliacaoRepository.findAll()
+        return avaliacaoRepository.findByStatusTrue()
                 .stream()
                 .map(AvaliacaoMapper::fromEntity)
                 .toList();
     }
 
+    public AvaliacaoResponse buscarPorId(Long id) {
+        Optional<Avaliacao> optionalAvaliacao = avaliacaoRepository.findById(id);
+
+        if (optionalAvaliacao.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return AvaliacaoMapper.fromEntity(optionalAvaliacao.get());
+    }
+
     @Transactional
-    public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoCreateRequest dto) {
+    public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoRequest dto) {
         Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
-        validarAvaliacaoUnica(avaliacao);
-        avaliacao.validarTamanhoDoComentario();
+        validador.validarAvaliacaoUnica(avaliacao);
+        validador.validarTamanhoDoComentario(avaliacao);
 
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
             throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
@@ -60,12 +80,13 @@ public class AvaliacaoService {
 
             estacionamento.calcularNotaMedia();
 
+            avaliacao.setStatus(true);
             return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
         }
     }
 
     @Transactional
-    public AvaliacaoResponse atualizarAvaliacao(AvaliacaoCreateRequest dto, Long id) {
+    public AvaliacaoResponse atualizarAvaliacao(AvaliacaoRequest dto, Long id) {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
@@ -79,7 +100,8 @@ public class AvaliacaoService {
                 Cliente cliente = optCliente.get();
                 Avaliacao avaliacao = optAvaliacao.get();
 
-                avaliacao.validarTamanhoDoComentario();
+                validador.validarAvaliacaoUnica(avaliacao);
+                validador.validarTamanhoDoComentario(avaliacao);
 
                 avaliacao.setNota(dto.nota());
                 avaliacao.setComentario(dto.comentario());
@@ -97,35 +119,28 @@ public class AvaliacaoService {
     public void deletarAvaliacao(Long id) {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
 
-        if (optAvaliacao.isPresent()) {
-            Avaliacao avaliacao = optAvaliacao.get();
-
-            Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(avaliacao.getEstacionamento().getId());
-            Optional<Cliente> optCliente = clienteRepository.findById(avaliacao.getCliente().getId());
-            if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-                throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
-            }
-
-            Estacionamento estacionamento = optEstacio.get();
-            Cliente cliente = optCliente.get();
-
-            estacionamento.getAvaliacoes().remove(avaliacao);
-            cliente.getAvaliacoes().remove(avaliacao);
-
-            avaliacaoRepository.delete(avaliacao);
+        if (optAvaliacao.isEmpty()) {
+            throw new IdNaoCadastrado("Não foi possivel encontrar a avalição buscada");
         }
+        Avaliacao avaliacao = optAvaliacao.get();
+
+        validador.validarAvaliacaoUnica(avaliacao);
+
+        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(avaliacao.getEstacionamento().getId());
+        Optional<Cliente> optCliente = clienteRepository.findById(avaliacao.getCliente().getId());
+
+        if (optCliente.isEmpty() || optEstacio.isEmpty()) {
+            throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
+        }
+
+        Estacionamento estacionamento = optEstacio.get();
+        Cliente cliente = optCliente.get();
+
+        estacionamento.getAvaliacoes().remove(avaliacao);
+        cliente.getAvaliacoes().remove(avaliacao);
+
+        avaliacao.setStatus(false);
+        avaliacaoRepository.save(avaliacao);
     }
 
-    public void validarAvaliacaoUnica(Avaliacao avaliacao) {
-        Cliente cliente = avaliacao.getCliente();
-        Estacionamento estacionamento = avaliacao.getEstacionamento();
-
-        avaliacaoRepository.findAll()
-                .forEach(a -> {
-                    if (a.getCliente() == cliente && a.getEstacionamento() == estacionamento) {
-                        throw new MultiplasAvaliacoesIguais("O cliente já tem uma avaliação registrada para este" +
-                                "estabelecimento");
-                    }
-                });
-    }
 }

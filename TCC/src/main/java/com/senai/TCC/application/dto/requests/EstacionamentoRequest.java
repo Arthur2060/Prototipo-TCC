@@ -1,12 +1,11 @@
-package com.senai.TCC.application.dto.create_requests;
+package com.senai.TCC.application.dto.requests;
 
-import com.senai.TCC.model.entities.Estacionamento;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.File;
 import java.time.LocalTime;
 
-public record EstacionamentoCreateRequest(
+public record EstacionamentoRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do estacionamento criado",

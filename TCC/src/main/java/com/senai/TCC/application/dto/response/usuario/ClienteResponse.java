@@ -34,7 +34,12 @@ public record ClienteResponse(
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "2000-09-12"
         )
-        Date dataNascimento
-
+        Date dataNascimento,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

@@ -37,6 +37,12 @@ public record AvaliacaoResponse(
                 description = "Data em que a avaliação foi feita",
                 examples = "2023-11-25T15:30:00"
         )
-        LocalDateTime dataDeAvaliacao
+        LocalDateTime dataDeAvaliacao,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

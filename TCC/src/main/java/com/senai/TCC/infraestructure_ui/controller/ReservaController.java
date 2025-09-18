@@ -1,7 +1,8 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.create_requests.ReservaCreateRequest;
+import com.senai.TCC.application.dto.requests.ReservaRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,13 +34,23 @@ public class ReservaController {
         return ResponseEntity.ok(service.listarReservas());
     }
 
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Reserva Controller"}
+    )
+    public ResponseEntity<ReservaResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
+    }
+
     @PostMapping
     @Operation(
             method = "POST",
             summary = "Cadastrar reserva",
             description = "Cadastra uma nova reserva no sistema"
     )
-    public ResponseEntity<ReservaResponse> cadastrarReserva(@RequestBody ReservaCreateRequest dto) {
+    public ResponseEntity<ReservaResponse> cadastrarReserva(@RequestBody ReservaRequest dto) {
         return ResponseEntity.ok(service.cadastrarReserva(dto));
     }
 
@@ -49,7 +60,7 @@ public class ReservaController {
             summary = "Atualizar reserva",
             description = "Altera as informações de uma reserva"
     )
-    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody ReservaCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody ReservaRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarReserva(dto, id));
     }
 

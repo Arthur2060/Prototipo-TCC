@@ -31,5 +31,7 @@ public class Reserva {
 
     private Date dataDaReserva;
     private Time horaDaReserva;
-    private StatusReserva status;
+    private StatusReserva statusReserva;
+
+    private Boolean status;
 }

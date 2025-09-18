@@ -1,17 +1,17 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.create_requests.ReservaCreateRequest;
+import com.senai.TCC.application.dto.requests.ReservaRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.model.entities.Reserva;
 
 public class ReservaMapper {
 
-    public static Reserva toEntity(ReservaCreateRequest dto) {
+    public static Reserva toEntity(ReservaRequest dto) {
         Reserva reserva = new Reserva();
 
         reserva.setDataDaReserva(dto.dataDaReserva());
         reserva.setHoraDaReserva(dto.horaDaReserva());
-        reserva.setStatus(dto.status());
+        reserva.setStatusReserva(dto.statusReserva());
 
         return reserva;
     }
@@ -23,6 +23,7 @@ public class ReservaMapper {
                 reserva.getEstacionamento().getId(),
                 reserva.getDataDaReserva(),
                 reserva.getHoraDaReserva(),
+                reserva.getStatusReserva(),
                 reserva.getStatus()
         );
     }

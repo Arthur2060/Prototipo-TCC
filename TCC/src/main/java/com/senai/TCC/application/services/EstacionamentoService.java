@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.create_requests.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.mappers.EstacionamentoMapper;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import jakarta.transaction.Transactional;
@@ -26,14 +26,24 @@ public class EstacionamentoService {
     }
 
     public List<EstacionamentoResponse> listarTodosOsEstacionamentos() {
-        return estacionamentoRepository.findAll()
+        return estacionamentoRepository.findByStatusTrue()
                 .stream()
                 .map(EstacionamentoMapper::fromEntity)
                 .toList();
     }
 
+    public EstacionamentoResponse buscarPorId(Long id) {
+        Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(id);
+
+        if (optionalEstacionamento.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return EstacionamentoMapper.fromEntity(optionalEstacionamento.get());
+    }
+
     @Transactional
-    public EstacionamentoResponse cadastrarEstacionamento(EstacionamentoCreateRequest dto, Long id) {
+    public EstacionamentoResponse cadastrarEstacionamento(EstacionamentoRequest dto, Long id) {
         Estacionamento novoEst = EstacionamentoMapper.toEntity(dto);
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
@@ -45,11 +55,12 @@ public class EstacionamentoService {
             novoEst.setFuncionamento(true);
         }
 
+        novoEst.setStatus(true);
         return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(novoEst));
     }
 
     @Transactional
-    public EstacionamentoResponse atualizarEstacionamento(EstacionamentoCreateRequest dto, Long id) {
+    public EstacionamentoResponse atualizarEstacionamento(EstacionamentoRequest dto, Long id) {
         Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
 
         if (optEst.isEmpty()) {
@@ -76,6 +87,7 @@ public class EstacionamentoService {
         Estacionamento estacionamento = optEst.get();
         estacionamento.getDono().getEstacionamentos().remove(estacionamento);
 
-        estacionamentoRepository.delete(estacionamento);
+        estacionamento.setStatus(false);
+        estacionamentoRepository.save(estacionamento);
     }
 }

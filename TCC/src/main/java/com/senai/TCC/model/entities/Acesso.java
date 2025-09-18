@@ -29,6 +29,8 @@ public class Acesso {
     private Integer totalHoras;
     private Double valorAPagar;
 
+    private Boolean status;
+
     public void calcularHorasTotais() {
         this.totalHoras = Integer.parseInt(
                 String.valueOf(

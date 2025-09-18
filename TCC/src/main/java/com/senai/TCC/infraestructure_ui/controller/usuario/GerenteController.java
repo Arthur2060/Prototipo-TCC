@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +33,16 @@ public class GerenteController {
         return ResponseEntity.ok(service.listarGerentes());
     }
 
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Gerente Controller"}
+    )
+    public ResponseEntity<GerenteResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
+    }
+
     @PostMapping
     @Operation(
             summary = "Cadastrar um novo gerente",
@@ -48,7 +59,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteCreateRequest dto) {
+    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteRequest dto) {
         return ResponseEntity.ok(service.cadastrarGerente(dto));
     }
 
@@ -68,7 +79,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarGerente(dto, id));
     }
 

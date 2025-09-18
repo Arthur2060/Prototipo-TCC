@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
+import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.usuario.DonoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +37,17 @@ public class DonoController {
         return ResponseEntity.ok(service.listarDonos());
     }
 
+
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Dono de estacionamento Controller"}
+    )
+    public ResponseEntity<DonoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
+    }
+
     @PostMapping
     @Operation(
             method = "POST",
@@ -44,7 +56,7 @@ public class DonoController {
                         " apenas com informações genéricas de usuario.",
             tags = {"Dono de estacionamento controller"}
     )
-    public ResponseEntity<DonoResponse> cadastrarDono(@RequestBody DonoCreateRequest dto) {
+    public ResponseEntity<DonoResponse> cadastrarDono(@RequestBody DonoRequest dto) {
         return ResponseEntity.ok(service.cadastrarDono(dto));
     }
 
@@ -55,7 +67,7 @@ public class DonoController {
             description = "Atualiza as informações de um dono já cadastrado no sistema.",
             tags = {"Dono de estacionamento controller"}
     )
-    public ResponseEntity<DonoResponse> atualizarDono(@RequestBody DonoCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<DonoResponse> atualizarDono(@RequestBody DonoRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarDono(dto, id));
     }
 

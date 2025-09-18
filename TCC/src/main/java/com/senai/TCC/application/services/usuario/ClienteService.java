@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.ClienteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.ClienteRequest;
 import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
@@ -20,20 +20,31 @@ public class ClienteService {
     }
 
     public List<ClienteResponse> listarClientes() {
-        return clienteRepository.findAll()
+        return clienteRepository.findByStatusTrue()
                 .stream()
                 .map(ClienteMapper::fromEntity)
                 .toList();
     }
 
-    public ClienteResponse cadastrarCliente(ClienteCreateRequest dto) {
+    public ClienteResponse buscarPorId(Long id) {
+        Optional<Cliente> optionalCliente = clienteRepository.findById(id);
+
+        if (optionalCliente.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return ClienteMapper.fromEntity(optionalCliente.get());
+    }
+
+    public ClienteResponse cadastrarCliente(ClienteRequest dto) {
         Cliente cliente = ClienteMapper.toEntity(dto);
+        cliente.setStatus(true);
 
         return ClienteMapper.fromEntity(
                 clienteRepository.save(cliente));
     }
 
-    public ClienteResponse atualizarCliente(ClienteCreateRequest dto, Long id) {
+    public ClienteResponse atualizarCliente(ClienteRequest dto, Long id) {
         Optional<Cliente> optCliente = clienteRepository.findById(id);
 
         if (optCliente.isEmpty()) {
@@ -57,7 +68,7 @@ public class ClienteService {
         }
 
         Cliente cliente = optCliente.get();
-
-        clienteRepository.delete(cliente);
+        cliente.setStatus(false);
+        clienteRepository.save(cliente);
     }
 }

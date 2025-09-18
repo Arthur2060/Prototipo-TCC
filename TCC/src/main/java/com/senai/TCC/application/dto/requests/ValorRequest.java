@@ -1,12 +1,11 @@
-package com.senai.TCC.application.dto.create_requests;
+package com.senai.TCC.application.dto.requests;
 
-import com.senai.TCC.model.entities.Valor;
 import com.senai.TCC.model.enums.Cobranca;
 import com.senai.TCC.model.enums.Metodo;
 import com.senai.TCC.model.enums.Periodo;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record ValorCreateRequest(
+public record ValorRequest(
         @Schema(
                 name = "tipoDeCobranca",
                 description = "Tipo de cobrança do estacionamento, definido por enum Cobranca",

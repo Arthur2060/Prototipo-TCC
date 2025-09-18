@@ -1,12 +1,12 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.dto.requests.ValorRequest;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.model.entities.Valor;
 
 public class ValorMapper {
 
-    public static Valor toEntity(ValorCreateRequest dto) {
+    public static Valor toEntity(ValorRequest dto) {
         Valor valor = new Valor();
 
         valor.setPreco(dto.preco());
@@ -24,7 +24,8 @@ public class ValorMapper {
                 valor.getTipoDePagamento(),
                 valor.getPreco(),
                 valor.getPeriodo(),
-                valor.getEstacionamento().getId()
+                valor.getEstacionamento().getId(),
+                valor.getStatus()
         );
     }
 }

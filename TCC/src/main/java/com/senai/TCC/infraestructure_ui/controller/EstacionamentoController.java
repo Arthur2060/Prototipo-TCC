@@ -1,7 +1,8 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.create_requests.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.EstacionamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,6 +38,16 @@ public class EstacionamentoController {
         return ResponseEntity.ok(service.listarTodosOsEstacionamentos());
     }
 
+    @GetMapping("/{id}")
+    @Operation(
+            summary = "Buscar por ID",
+            description = "Busca uma entidade em especifico através de ID",
+            tags = {"Estacionamento Controller"}
+    )
+    public ResponseEntity<EstacionamentoResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(service.buscarPorId(id));
+    }
+
     @PostMapping("/{id}")
     @Operation(
             method = "POST",
@@ -57,7 +68,7 @@ public class EstacionamentoController {
                     description = "Dados do estacionamento a ser cadastrado",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = EstacionamentoCreateRequest.class),
+                            schema = @Schema(implementation = EstacionamentoRequest.class),
                             examples = @ExampleObject(value = """
                                   {
                                     "nome": "string",
@@ -77,7 +88,7 @@ public class EstacionamentoController {
                     )
             )
     )
-    public ResponseEntity<EstacionamentoResponse> cadastrarEstacionamento(@RequestBody EstacionamentoCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<EstacionamentoResponse> cadastrarEstacionamento(@RequestBody EstacionamentoRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.cadastrarEstacionamento(dto, id));
     }
 
@@ -98,7 +109,7 @@ public class EstacionamentoController {
                     )
             }
     )
-    public ResponseEntity<EstacionamentoResponse> atualizarEstacionamento(@RequestBody EstacionamentoCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<EstacionamentoResponse> atualizarEstacionamento(@RequestBody EstacionamentoRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarEstacionamento(dto, id));
     }
 
