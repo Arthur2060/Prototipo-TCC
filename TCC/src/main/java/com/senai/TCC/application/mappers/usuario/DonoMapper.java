@@ -9,9 +9,9 @@ public class DonoMapper {
     public static DonoEstacionamento toEntity(DonoRequest dto) {
         DonoEstacionamento dono = new DonoEstacionamento();
 
-        dono.setNome(dono.getNome());
-        dono.setEmail(dono.getEmail());
-        dono.setSenha(dono.getSenha());
+        dono.setNome(dto.nome());
+        dono.setEmail(dto.email());
+        dono.setSenha(dto.senha());
         dono.setDataNascimento(dto.dataNascimento());
 
         return dono;
