@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.requests.create_requests.AcessoCreateRequest;
+import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.application.services.AcessoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +47,7 @@ public class AcessoController {
                     description = "Dados do acesso a ser cadastrado",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = AcessoCreateRequest.class),
+                            schema = @Schema(implementation = AcessoRequest.class),
                             examples = @ExampleObject(value = """
                                     {
                                        "placaDoCarro": "string",
@@ -61,7 +61,7 @@ public class AcessoController {
                     )
             )
     )
-    public ResponseEntity<AcessoResponse> cadastrarAcesso(@RequestBody AcessoCreateRequest dto) {
+    public ResponseEntity<AcessoResponse> cadastrarAcesso(@RequestBody AcessoRequest dto) {
         return ResponseEntity.ok(service.cadastrarAcesso(dto));
     }
 
@@ -72,7 +72,7 @@ public class AcessoController {
             description = "Atualiza um acesso já cadastrado no sistema",
             tags = {"Acesso controller"}
     )
-    public ResponseEntity<AcessoResponse> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoCreateRequest dto) {
+    public ResponseEntity<AcessoResponse> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoRequest dto) {
         return ResponseEntity.ok(service.atualizarAcesso(dto, id));
     }
 

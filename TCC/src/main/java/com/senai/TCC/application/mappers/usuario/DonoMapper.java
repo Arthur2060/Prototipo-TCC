@@ -1,12 +1,12 @@
 package com.senai.TCC.application.mappers.usuario;
 
-import com.senai.TCC.application.dto.requests.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 
 public class DonoMapper {
 
-    public static DonoEstacionamento toEntity(DonoCreateRequest dto) {
+    public static DonoEstacionamento toEntity(DonoRequest dto) {
         DonoEstacionamento dono = new DonoEstacionamento();
 
         dono.setNome(dono.getNome());

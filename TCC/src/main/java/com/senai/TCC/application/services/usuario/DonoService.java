@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.requests.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import jakarta.transaction.Transactional;
@@ -28,14 +28,14 @@ public class DonoService {
     }
 
     @Transactional
-    public DonoResponse cadastrarDono(DonoCreateRequest dto) {
+    public DonoResponse cadastrarDono(DonoRequest dto) {
         DonoEstacionamento dono = DonoMapper.toEntity(dto);
         dono.setStatus(true);
         return DonoMapper.fromEntity(donoRepository.save(dono));
     }
 
     @Transactional
-    public DonoResponse atualizarDono(DonoCreateRequest dto, Long id) {
+    public DonoResponse atualizarDono(DonoRequest dto, Long id) {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {

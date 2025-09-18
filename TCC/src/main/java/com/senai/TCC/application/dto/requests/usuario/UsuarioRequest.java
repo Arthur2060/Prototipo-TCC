@@ -1,10 +1,11 @@
-package com.senai.TCC.application.dto.requests.create_requests.usuario;
+package com.senai.TCC.application.dto.requests.usuario;
 
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record GerenteCreateRequest(
+public record UsuarioRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -35,17 +36,11 @@ public record GerenteCreateRequest(
         Date dataNascimento,
 
         @Schema(
-                name = "cpfOuCnpj",
-                description = "Documento oficial necessário para contratar um gerente",
-                examples = "123.456.789-10"
+                name = "tipoDeUsuario",
+                description = "Um dos quatro tipos de usuario possiveis:" +
+                        "CLIENTE, GERENTE ou DONO.",
+                examples = "CLENTE"
         )
-        String cpfOuCnpj,
-
-        @Schema(
-                name = "estacionamentoId",
-                description = "ID do estacionamento que o gerente irá gerenciar",
-                examples = "1"
-        )
-        Long estacionamentoId
+        TipoDeUsuario tipoDeUsuario
 ) {
 }

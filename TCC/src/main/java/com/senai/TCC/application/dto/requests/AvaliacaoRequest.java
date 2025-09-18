@@ -1,10 +1,10 @@
-package com.senai.TCC.application.dto.requests.create_requests;
+package com.senai.TCC.application.dto.requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-public record AvaliacaoCreateRequest(
+public record AvaliacaoRequest(
         @Schema
                 (
                         name = "clienteId",

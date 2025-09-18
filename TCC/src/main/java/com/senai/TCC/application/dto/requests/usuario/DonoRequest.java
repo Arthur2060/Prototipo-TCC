@@ -1,10 +1,10 @@
-package com.senai.TCC.application.dto.requests.create_requests.usuario;
+package com.senai.TCC.application.dto.requests.usuario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record ClienteCreateRequest(
+public record DonoRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",

@@ -1,12 +1,12 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.requests.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.requests.AvaliacaoRequest;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.model.entities.Avaliacao;
 
 public class AvaliacaoMapper {
 
-    public static Avaliacao toEntity(AvaliacaoCreateRequest dto) {
+    public static Avaliacao toEntity(AvaliacaoRequest dto) {
         Avaliacao avaliacao = new Avaliacao();
 
         avaliacao.setDataDeAvaliacao(dto.dataDeAvaliacao());

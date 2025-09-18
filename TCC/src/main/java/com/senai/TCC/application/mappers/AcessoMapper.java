@@ -1,11 +1,11 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.requests.create_requests.AcessoCreateRequest;
+import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.model.entities.Acesso;
 
 public class AcessoMapper {
-    public static Acesso toEntity(AcessoCreateRequest dto) {
+    public static Acesso toEntity(AcessoRequest dto) {
         Acesso acesso = new Acesso();
 
         acesso.setPlacaDoCarro(dto.placaDoCarro());

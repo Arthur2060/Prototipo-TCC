@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.requests.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.dto.requests.ValorRequest;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.application.services.ValorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +37,7 @@ public class ValorController {
             summary = "Cadastrar valor",
             description = "Cadastra um novo valor no sistema"
     )
-    public ResponseEntity<ValorResponse> cadastrarValor(ValorCreateRequest dto) {
+    public ResponseEntity<ValorResponse> cadastrarValor(ValorRequest dto) {
         return ResponseEntity.ok(valorService.cadastrarValor(dto));
     }
 
@@ -46,7 +46,7 @@ public class ValorController {
             summary = "Atualizar valor",
             description = "Atualiza um valor cadastrado no sistema"
     )
-    public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(valorService.atualizarValor(dto, id));
     }
 

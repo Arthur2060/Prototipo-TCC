@@ -1,6 +1,6 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.requests.create_requests.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.model.entities.Estacionamento;
 
@@ -24,7 +24,7 @@ public class EstacionamentoMapper {
         );
     }
 
-    public static Estacionamento toEntity(EstacionamentoCreateRequest dto) {
+    public static Estacionamento toEntity(EstacionamentoRequest dto) {
         Estacionamento estacionamento = new Estacionamento();
 
         estacionamento.setNome(dto.nome());

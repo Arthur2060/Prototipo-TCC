@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dto.requests.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,7 +48,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteCreateRequest dto) {
+    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteRequest dto) {
         return ResponseEntity.ok(service.cadastrarGerente(dto));
     }
 
@@ -68,7 +68,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarGerente(dto, id));
     }
 

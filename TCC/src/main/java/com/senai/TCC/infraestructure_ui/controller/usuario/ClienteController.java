@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dto.requests.create_requests.usuario.ClienteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.ClienteRequest;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.application.services.usuario.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +49,7 @@ public class ClienteController {
                     )
             }
     )
-    public ResponseEntity<ClienteResponse> cadastrarCliente(@RequestBody ClienteCreateRequest dto) {
+    public ResponseEntity<ClienteResponse> cadastrarCliente(@RequestBody ClienteRequest dto) {
         return ResponseEntity.ok(clienteService.cadastrarCliente(dto));
     }
 
@@ -69,7 +69,7 @@ public class ClienteController {
                     )
             }
     )
-    public ResponseEntity<ClienteResponse> atualizarCliente(@RequestBody ClienteCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<ClienteResponse> atualizarCliente(@RequestBody ClienteRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(clienteService.atualizarCliente(dto, id));
     }
 

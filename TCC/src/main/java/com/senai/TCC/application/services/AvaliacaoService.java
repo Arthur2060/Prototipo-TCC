@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.requests.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.requests.AvaliacaoRequest;
 import com.senai.TCC.application.mappers.AvaliacaoMapper;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.infraestructure.repositories.AvaliacaoRepository;
@@ -39,7 +39,7 @@ public class AvaliacaoService {
     }
 
     @Transactional
-    public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoCreateRequest dto) {
+    public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoRequest dto) {
         Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
@@ -66,7 +66,7 @@ public class AvaliacaoService {
     }
 
     @Transactional
-    public AvaliacaoResponse atualizarAvaliacao(AvaliacaoCreateRequest dto, Long id) {
+    public AvaliacaoResponse atualizarAvaliacao(AvaliacaoRequest dto, Long id) {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());

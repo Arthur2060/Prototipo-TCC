@@ -1,12 +1,12 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.requests.create_requests.CarroCreateRequest;
+import com.senai.TCC.application.dto.requests.CarroRequest;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.model.entities.Carro;
 
 public class CarroMapper {
 
-    public static Carro toEntity(CarroCreateRequest dto) {
+    public static Carro toEntity(CarroRequest dto) {
         Carro carro = new Carro();
 
         carro.setCor(dto.cor());

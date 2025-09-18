@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.requests.create_requests.CarroCreateRequest;
+import com.senai.TCC.application.dto.requests.CarroRequest;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.application.services.CarroService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +37,7 @@ public class CarroController {
             summary = "Cadastrar carro",
             description = "Cadastra um novo carro no sistema"
     )
-    public ResponseEntity<CarroResponse> cadastrarCarro(@RequestBody CarroCreateRequest dto) {
+    public ResponseEntity<CarroResponse> cadastrarCarro(@RequestBody CarroRequest dto) {
         return ResponseEntity.ok(carroService.cadastrarCarro(dto));
     }
 
@@ -46,7 +46,7 @@ public class CarroController {
             summary = "Atualizar carro",
             description = "Atualiza os dados de um carro cadastrado no sistema"
     )
-    public ResponseEntity<CarroResponse> atualizarCarro(@RequestBody CarroCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<CarroResponse> atualizarCarro(@RequestBody CarroRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(carroService.atualizarCarro(dto, id));
     }
 

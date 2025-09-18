@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.requests.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.dto.requests.ValorRequest;
 import com.senai.TCC.application.mappers.ValorMapper;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -33,7 +33,7 @@ public class ValorService {
     }
 
     @Transactional
-    public ValorResponse cadastrarValor(ValorCreateRequest dto) {
+    public ValorResponse cadastrarValor(ValorRequest dto) {
         Valor novoValor = ValorMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
@@ -49,7 +49,7 @@ public class ValorService {
     }
 
     @Transactional
-    public ValorResponse atualizarValor(ValorCreateRequest dto, Long id) {
+    public ValorResponse atualizarValor(ValorRequest dto, Long id) {
         Optional<Valor> optValor = valorRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 

@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.requests.create_requests.AcessoCreateRequest;
+import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.mappers.AcessoMapper;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
@@ -33,7 +33,7 @@ public class AcessoService {
     }
 
     @Transactional
-    public AcessoResponse cadastrarAcesso(AcessoCreateRequest dto) {
+    public AcessoResponse cadastrarAcesso(AcessoRequest dto) {
         Acesso acesso = AcessoMapper.toEntity(dto);
 
         acesso.calcularHorasTotais();
@@ -53,7 +53,7 @@ public class AcessoService {
     }
 
     @Transactional
-    public AcessoResponse atualizarAcesso(AcessoCreateRequest dto, Long id) {
+    public AcessoResponse atualizarAcesso(AcessoRequest dto, Long id) {
         Optional<Acesso> optAcesso = acessoRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 

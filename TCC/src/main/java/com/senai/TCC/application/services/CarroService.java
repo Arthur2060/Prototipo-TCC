@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.requests.create_requests.CarroCreateRequest;
+import com.senai.TCC.application.dto.requests.CarroRequest;
 import com.senai.TCC.application.mappers.CarroMapper;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.infraestructure.repositories.CarroRepository;
@@ -33,7 +33,7 @@ public class CarroService {
     }
 
     @Transactional
-    public CarroResponse cadastrarCarro(CarroCreateRequest dto) {
+    public CarroResponse cadastrarCarro(CarroRequest dto) {
         Carro carro = CarroMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
 
@@ -50,7 +50,7 @@ public class CarroService {
     }
 
     @Transactional
-    public CarroResponse atualizarCarro(CarroCreateRequest dto, Long id) {
+    public CarroResponse atualizarCarro(CarroRequest dto, Long id) {
         Optional<Carro> carroOriginal = carroRepository.findById(id);
         Optional<Cliente> novoCliente = clienteRepository.findById(dto.clienteId());
 

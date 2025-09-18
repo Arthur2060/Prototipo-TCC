@@ -1,8 +1,8 @@
-package com.senai.TCC.application.dto.requests.create_requests;
+package com.senai.TCC.application.dto.requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record CarroCreateRequest(
+public record CarroRequest(
         @Schema(
                 name = "clienteId",
                 example = "3",

@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.requests.create_requests.ReservaCreateRequest;
+import com.senai.TCC.application.dto.requests.ReservaRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.application.services.ReservaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +39,7 @@ public class ReservaController {
             summary = "Cadastrar reserva",
             description = "Cadastra uma nova reserva no sistema"
     )
-    public ResponseEntity<ReservaResponse> cadastrarReserva(@RequestBody ReservaCreateRequest dto) {
+    public ResponseEntity<ReservaResponse> cadastrarReserva(@RequestBody ReservaRequest dto) {
         return ResponseEntity.ok(service.cadastrarReserva(dto));
     }
 
@@ -49,7 +49,7 @@ public class ReservaController {
             summary = "Atualizar reserva",
             description = "Altera as informações de uma reserva"
     )
-    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody ReservaCreateRequest dto, @PathVariable Long id) {
+    public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody ReservaRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarReserva(dto, id));
     }
 

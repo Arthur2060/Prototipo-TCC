@@ -1,6 +1,6 @@
 package com.senai.TCC.application.mappers.usuario;
 
-import com.senai.TCC.application.dto.requests.create_requests.usuario.UsuarioCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.UsuarioRequest;
 import com.senai.TCC.application.dto.response.usuario.UsuarioResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
@@ -11,7 +11,7 @@ import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalido;
 
 public class UsuarioMapper {
 
-    public static Usuario toEntity(UsuarioCreateRequest dto) {
+    public static Usuario toEntity(UsuarioRequest dto) {
         Usuario usuario = switch (dto.tipoDeUsuario()) {
             case GERENTE -> new Gerente();
             case DONO -> new DonoEstacionamento();

@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.requests.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -31,7 +31,7 @@ public class GerenteService {
                 .toList();
     }
 
-    public GerenteResponse cadastrarGerente(GerenteCreateRequest dto) {
+    public GerenteResponse cadastrarGerente(GerenteRequest dto) {
         Gerente gerente = GerenteMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
@@ -48,7 +48,7 @@ public class GerenteService {
         return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
 
-    public GerenteResponse atualizarGerente(GerenteCreateRequest dto, Long id) {
+    public GerenteResponse atualizarGerente(GerenteRequest dto, Long id) {
         var optGerente = gerenteRepository.findById(id);
 
         if (optGerente.isEmpty()) {

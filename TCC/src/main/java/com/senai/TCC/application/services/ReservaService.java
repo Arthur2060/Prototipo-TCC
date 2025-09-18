@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.requests.create_requests.ReservaCreateRequest;
+import com.senai.TCC.application.dto.requests.ReservaRequest;
 import com.senai.TCC.application.mappers.ReservaMapper;
 import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -36,7 +36,7 @@ public class ReservaService {
                 .toList();
     }
 
-    public ReservaResponse cadastrarReserva(ReservaCreateRequest dto) {
+    public ReservaResponse cadastrarReserva(ReservaRequest dto) {
         Reserva novaReserva = ReservaMapper.toEntity(dto);
         Optional<Cliente> optionalCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(dto.estacioId());
@@ -58,7 +58,7 @@ public class ReservaService {
         return ReservaMapper.fromEntity(reservaRepository.save(novaReserva));
     }
 
-    public ReservaResponse atualizarReserva(ReservaCreateRequest dto, Long id) {
+    public ReservaResponse atualizarReserva(ReservaRequest dto, Long id) {
         Optional<Reserva> optionalReserva = reservaRepository.findById(id);
 
         if (optionalReserva.isEmpty()) {

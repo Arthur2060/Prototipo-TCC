@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.requests.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.requests.AvaliacaoRequest;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.application.services.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +39,7 @@ public class AvaliacaoController {
             summary = "Cadastrar nova avaliação",
             description = "Adiciona uma nova avaliação ao sistema"
     )
-    public ResponseEntity<AvaliacaoResponse> cadastrarAvaliacao(@RequestBody AvaliacaoCreateRequest dto) {
+    public ResponseEntity<AvaliacaoResponse> cadastrarAvaliacao(@RequestBody AvaliacaoRequest dto) {
         return ResponseEntity.ok(service.cadastrarAvaliacao(dto));
     }
 
@@ -49,7 +49,7 @@ public class AvaliacaoController {
             summary = "Atualizar uma avaliação",
             description = "Atualiza uma avaliação já cadastrada no sistema"
     )
-    public ResponseEntity<AvaliacaoResponse> atualizarAvaliacao(@PathVariable Long id, AvaliacaoCreateRequest dto) {
+    public ResponseEntity<AvaliacaoResponse> atualizarAvaliacao(@PathVariable Long id, AvaliacaoRequest dto) {
         return ResponseEntity.ok(service.atualizarAvaliacao(dto, id));
     }
 
