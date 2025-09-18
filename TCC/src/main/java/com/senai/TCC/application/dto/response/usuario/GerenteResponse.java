@@ -1,11 +1,11 @@
-package com.senai.TCC.application.dtos.usuarioDTO;
+package com.senai.TCC.application.dto.response.usuario;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.senai.TCC.model.entities.usuarios.Gerente;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record GerenteDTO(
+public record GerenteResponse(
         Long id,
         @Schema(
                 name = "nome",
@@ -50,27 +50,4 @@ public record GerenteDTO(
         )
         Long estacionamentoId
 ) {
-    public Gerente toEntity() {
-        Gerente gerente = new Gerente();
-
-        gerente.setNome(nome);
-        gerente.setCpfOuCnpj(cpfOuCnpj);
-        gerente.setEmail(email);
-        gerente.setSenha(senha);
-        gerente.setDataNascimento(dataNascimento);
-
-        return gerente;
-    }
-
-    public static GerenteDTO fromEntity(Gerente gerente) {
-        return new GerenteDTO(
-                gerente.getId(),
-                gerente.getNome(),
-                gerente.getEmail(),
-                gerente.getSenha(),
-                gerente.getDataNascimento(),
-                gerente.getCpfOuCnpj(),
-                gerente.getEstacionamento().getId()
-        );
-    }
 }

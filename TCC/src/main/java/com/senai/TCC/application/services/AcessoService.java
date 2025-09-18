@@ -1,6 +1,8 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dtos.AcessoDTO;
+import com.senai.TCC.application.dto.create_requests.AcessoCreateRequest;
+import com.senai.TCC.application.mappers.AcessoMapper;
+import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.model.entities.Acesso;
@@ -23,16 +25,16 @@ public class AcessoService {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public List<AcessoDTO> listarAcessos() {
+    public List<AcessoResponse> listarAcessos() {
         return acessoRepository.findAll()
                 .stream()
-                .map(AcessoDTO::fromEntity)
+                .map(AcessoMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public AcessoDTO cadastrarAcesso(AcessoDTO dto) {
-        Acesso acesso = dto.toEntity();
+    public AcessoResponse cadastrarAcesso(AcessoCreateRequest dto) {
+        Acesso acesso = AcessoMapper.toEntity(dto);
 
         acesso.calcularHorasTotais();
 
@@ -46,11 +48,11 @@ public class AcessoService {
         acesso.setEstacionamento(estacionamento);
         estacionamento.getAcessos().add(acesso);
 
-        return AcessoDTO.fromEntity(acessoRepository.save(acesso));
+        return AcessoMapper.fromEntity(acessoRepository.save(acesso));
     }
 
     @Transactional
-    public AcessoDTO atualizarAcesso(AcessoDTO dto, Long id) {
+    public AcessoResponse atualizarAcesso(AcessoCreateRequest dto, Long id) {
         Optional<Acesso> optAcesso = acessoRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -78,7 +80,7 @@ public class AcessoService {
             acesso.setEstacionamento(estacionamento);
         }
 
-        return AcessoDTO.fromEntity(acessoRepository.save(optAcesso.get()));
+        return AcessoMapper.fromEntity(acessoRepository.save(optAcesso.get()));
     }
 
     @Transactional
@@ -94,6 +96,6 @@ public class AcessoService {
 
         estacionamento.getAcessos().remove(acesso);
 
-        estacionamentoRepository.save(estacionamento);
+        acessoRepository.delete(acesso);
     }
 }

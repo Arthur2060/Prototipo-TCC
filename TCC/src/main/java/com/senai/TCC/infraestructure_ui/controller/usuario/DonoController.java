@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.DonoDTO;
+import com.senai.TCC.application.dto.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.services.usuario.DonoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +32,7 @@ public class DonoController {
             description = "Gera uma lista de todos os dono cadastrados no sistema.",
             tags = {"Dono de estacionamento controller"}
     )
-    public ResponseEntity<List<DonoDTO>> listarDonos() {
+    public ResponseEntity<List<DonoResponse>> listarDonos() {
         return ResponseEntity.ok(service.listarDonos());
     }
 
@@ -43,7 +44,7 @@ public class DonoController {
                         " apenas com informações genéricas de usuario.",
             tags = {"Dono de estacionamento controller"}
     )
-    public ResponseEntity<DonoDTO> cadastrarDono(@RequestBody DonoDTO dto) {
+    public ResponseEntity<DonoResponse> cadastrarDono(@RequestBody DonoCreateRequest dto) {
         return ResponseEntity.ok(service.cadastrarDono(dto));
     }
 
@@ -54,7 +55,7 @@ public class DonoController {
             description = "Atualiza as informações de um dono já cadastrado no sistema.",
             tags = {"Dono de estacionamento controller"}
     )
-    public ResponseEntity<DonoDTO> atualizarDono(@RequestBody DonoDTO dto, @PathVariable Long id) {
+    public ResponseEntity<DonoResponse> atualizarDono(@RequestBody DonoCreateRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarDono(dto, id));
     }
 

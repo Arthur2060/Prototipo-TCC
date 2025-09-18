@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dtos.AvaliacaoDTO;
+import com.senai.TCC.application.dto.create_requests.AvaliacaoCreateRequest;
+import com.senai.TCC.application.dto.response.AvaliacaoResponse;
 import com.senai.TCC.application.services.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +29,7 @@ public class AvaliacaoController {
             summary = "Listar todas as avaliações",
             description = "Retorna uma lista de todas as avaliações cadastradas no sistema."
     )
-    public ResponseEntity<List<AvaliacaoDTO>> listarAvaliacoes() {
+    public ResponseEntity<List<AvaliacaoResponse>> listarAvaliacoes() {
         return ResponseEntity.ok(service.listarAvaliacoes());
     }
 
@@ -38,7 +39,7 @@ public class AvaliacaoController {
             summary = "Cadastrar nova avaliação",
             description = "Adiciona uma nova avaliação ao sistema"
     )
-    public ResponseEntity<AvaliacaoDTO> cadastrarAvaliacao(@RequestBody AvaliacaoDTO dto) {
+    public ResponseEntity<AvaliacaoResponse> cadastrarAvaliacao(@RequestBody AvaliacaoCreateRequest dto) {
         return ResponseEntity.ok(service.cadastrarAvaliacao(dto));
     }
 
@@ -48,7 +49,7 @@ public class AvaliacaoController {
             summary = "Atualizar uma avaliação",
             description = "Atualiza uma avaliação já cadastrada no sistema"
     )
-    public ResponseEntity<AvaliacaoDTO> atualizarAvaliacao(@PathVariable Long id, AvaliacaoDTO dto) {
+    public ResponseEntity<AvaliacaoResponse> atualizarAvaliacao(@PathVariable Long id, AvaliacaoCreateRequest dto) {
         return ResponseEntity.ok(service.atualizarAvaliacao(dto, id));
     }
 

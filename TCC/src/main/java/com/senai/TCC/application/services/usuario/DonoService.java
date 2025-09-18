@@ -1,10 +1,11 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.DonoDTO;
+import com.senai.TCC.application.dto.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.mappers.usuario.DonoMapper;
+import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +20,22 @@ public class DonoService {
         this.donoRepository = donoRepository;
     }
 
-    public List<DonoDTO> listarDonos() {
+    public List<DonoResponse> listarDonos() {
         return donoRepository.findAll()
                 .stream()
-                .map(DonoDTO::fromEntity)
+                .map(DonoMapper::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public DonoDTO cadastrarDono(DonoDTO dto) {
-        DonoEstacionamento dono = dto.toEntity();
+    public DonoResponse cadastrarDono(DonoCreateRequest dto) {
+        DonoEstacionamento dono = DonoMapper.toEntity(dto);
 
-        return DonoDTO.fromEntity(donoRepository.save(dono));
+        return DonoMapper.fromEntity(donoRepository.save(dono));
     }
 
     @Transactional
-    public DonoDTO atualizarDono(DonoDTO dto, Long id) {
+    public DonoResponse atualizarDono(DonoCreateRequest dto, Long id) {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
@@ -48,7 +49,7 @@ public class DonoService {
         dono.setSenha(dto.senha());
         dono.setDataNascimento(dto.dataNascimento());
 
-        return DonoDTO.fromEntity(donoRepository.save(optDono.get()));
+        return DonoMapper.fromEntity(donoRepository.save(optDono.get()));
     }
 
     @Transactional

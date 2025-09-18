@@ -1,6 +1,8 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.GerenteDTO;
+import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.mappers.usuario.GerenteMapper;
+import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
@@ -22,15 +24,15 @@ public class GerenteService {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public List<GerenteDTO> listarGerentes() {
+    public List<GerenteResponse> listarGerentes() {
         return gerenteRepository.findAll()
                 .stream()
-                .map(GerenteDTO::fromEntity)
+                .map(GerenteMapper::fromEntity)
                 .toList();
     }
 
-    public GerenteDTO cadastrarGerente(GerenteDTO dto) {
-        Gerente gerente = dto.toEntity();
+    public GerenteResponse cadastrarGerente(GerenteCreateRequest dto) {
+        Gerente gerente = GerenteMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
         if (optEstacionamento.isEmpty()) {
@@ -42,10 +44,10 @@ public class GerenteService {
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
 
-        return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
+        return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
 
-    public GerenteDTO atualizarGerente(GerenteDTO dto, Long id) {
+    public GerenteResponse atualizarGerente(GerenteCreateRequest dto, Long id) {
         var optGerente = gerenteRepository.findById(id);
 
         if (optGerente.isEmpty()) {
@@ -70,7 +72,7 @@ public class GerenteService {
         gerente.setEstacionamento(estacionamento);
         estacionamento.getGerentes().add(gerente);
 
-        return GerenteDTO.fromEntity(gerenteRepository.save(gerente));
+        return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
 
     public void deletarGerente(Long id) {

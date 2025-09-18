@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.ClienteDTO;
+import com.senai.TCC.application.dto.create_requests.usuario.ClienteCreateRequest;
+import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.application.services.usuario.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +29,7 @@ public class ClienteController {
             description = "Retorna uma lista de todos os clientes cadastrados no sistema.",
             tags = {"Cliente controller"}
     )
-    public ResponseEntity<List<ClienteDTO>> listarClientes() {
+    public ResponseEntity<List<ClienteResponse>> listarClientes() {
         return ResponseEntity.ok(clienteService.listarClientes());
     }
 
@@ -48,7 +49,7 @@ public class ClienteController {
                     )
             }
     )
-    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody ClienteDTO dto) {
+    public ResponseEntity<ClienteResponse> cadastrarCliente(@RequestBody ClienteCreateRequest dto) {
         return ResponseEntity.ok(clienteService.cadastrarCliente(dto));
     }
 
@@ -68,7 +69,7 @@ public class ClienteController {
                     )
             }
     )
-    public ResponseEntity<ClienteDTO> atualizarCliente(@RequestBody ClienteDTO dto, @PathVariable Long id) {
+    public ResponseEntity<ClienteResponse> atualizarCliente(@RequestBody ClienteCreateRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(clienteService.atualizarCliente(dto, id));
     }
 

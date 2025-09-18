@@ -1,12 +1,11 @@
-package com.senai.TCC.application.dtos.usuarioDTO;
+package com.senai.TCC.application.dto.create_requests.usuario;
 
+import com.senai.TCC.model.entities.usuarios.Gerente;
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 
 import java.util.Date;
 
-public record DonoDTO(
-        Long id,
+public record GerenteCreateRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -34,26 +33,20 @@ public record DonoDTO(
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "2000-09-12"
         )
-        Date dataNascimento
+        Date dataNascimento,
+
+        @Schema(
+                name = "cpfOuCnpj",
+                description = "Documento oficial necessário para contratar um gerente",
+                examples = "123.456.789-10"
+        )
+        String cpfOuCnpj,
+
+        @Schema(
+                name = "estacionamentoId",
+                description = "ID do estacionamento que o gerente irá gerenciar",
+                examples = "1"
+        )
+        Long estacionamentoId
 ) {
-    public DonoEstacionamento toEntity() {
-        DonoEstacionamento dono = new DonoEstacionamento();
-
-        dono.setNome(nome);
-        dono.setEmail(email);
-        dono.setSenha(senha);
-        dono.setDataNascimento(dataNascimento);
-
-        return dono;
-    }
-
-    public static DonoDTO fromEntity(DonoEstacionamento dono) {
-        return new DonoDTO(
-                dono.getId(),
-                dono.getNome(),
-                dono.getEmail(),
-                dono.getSenha(),
-                dono.getDataNascimento()
-        );
-    }
 }

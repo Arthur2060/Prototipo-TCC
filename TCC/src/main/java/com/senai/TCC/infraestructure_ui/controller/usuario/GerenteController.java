@@ -1,6 +1,7 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dtos.usuarioDTO.GerenteDTO;
+import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +28,7 @@ public class GerenteController {
             summary = "Listar todos os gerentes",
             description = "Retorna uma lista de todos os gerentes cadastrados no sistema."
     )
-    public ResponseEntity<List<GerenteDTO>> listarGerentes() {
+    public ResponseEntity<List<GerenteResponse>> listarGerentes() {
         return ResponseEntity.ok(service.listarGerentes());
     }
 
@@ -47,7 +48,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteDTO> cadastrarGerente(@RequestBody GerenteDTO dto) {
+    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteCreateRequest dto) {
         return ResponseEntity.ok(service.cadastrarGerente(dto));
     }
 
@@ -67,7 +68,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteDTO> atualizarGerente(@RequestBody GerenteDTO dto, @PathVariable Long id) {
+    public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteCreateRequest dto, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarGerente(dto, id));
     }
 
