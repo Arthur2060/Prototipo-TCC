@@ -1,6 +1,6 @@
 package com.senai.TCC.application.mappers.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.UsuarioCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.usuario.UsuarioCreateRequest;
 import com.senai.TCC.application.dto.response.usuario.UsuarioResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;

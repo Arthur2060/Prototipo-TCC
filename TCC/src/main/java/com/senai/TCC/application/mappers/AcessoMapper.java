@@ -1,6 +1,6 @@
 package com.senai.TCC.application.mappers;
 
-import com.senai.TCC.application.dto.create_requests.AcessoCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.AcessoCreateRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.model.entities.Acesso;
 

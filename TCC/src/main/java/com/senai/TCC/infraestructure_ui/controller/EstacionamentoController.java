@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.create_requests.EstacionamentoCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.EstacionamentoCreateRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.application.services.EstacionamentoService;
 import io.swagger.v3.oas.annotations.Operation;

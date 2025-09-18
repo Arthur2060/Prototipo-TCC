@@ -1,6 +1,5 @@
-package com.senai.TCC.application.dto.create_requests;
+package com.senai.TCC.application.dto.requests.create_requests;
 
-import com.senai.TCC.model.entities.Estacionamento;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.File;

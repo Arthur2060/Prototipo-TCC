@@ -1,6 +1,5 @@
-package com.senai.TCC.application.dto.create_requests;
+package com.senai.TCC.application.dto.requests.create_requests;
 
-import com.senai.TCC.model.entities.Valor;
 import com.senai.TCC.model.enums.Cobranca;
 import com.senai.TCC.model.enums.Metodo;
 import com.senai.TCC.model.enums.Periodo;

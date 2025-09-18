@@ -1,9 +1,5 @@
-package com.senai.TCC.application.dto.create_requests.usuario;
+package com.senai.TCC.application.dto.requests.create_requests.usuario;
 
-import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.entities.usuarios.Gerente;
-import com.senai.TCC.model.entities.usuarios.Usuario;
 import com.senai.TCC.model.enums.TipoDeUsuario;
 import io.swagger.v3.oas.annotations.media.Schema;
 

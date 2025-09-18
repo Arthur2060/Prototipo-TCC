@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.create_requests.ReservaCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.ReservaCreateRequest;
 import com.senai.TCC.application.mappers.ReservaMapper;
 import com.senai.TCC.application.dto.response.ReservaResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;

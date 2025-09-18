@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.ClienteCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.usuario.ClienteCreateRequest;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.application.services.usuario.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;

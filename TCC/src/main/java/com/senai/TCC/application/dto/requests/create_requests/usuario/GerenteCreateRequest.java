@@ -1,11 +1,10 @@
-package com.senai.TCC.application.dto.create_requests.usuario;
+package com.senai.TCC.application.dto.requests.create_requests.usuario;
 
-import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
-public record DonoCreateRequest(
+public record GerenteCreateRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
@@ -33,6 +32,20 @@ public record DonoCreateRequest(
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
                 examples = "2000-09-12"
         )
-        Date dataNascimento
+        Date dataNascimento,
+
+        @Schema(
+                name = "cpfOuCnpj",
+                description = "Documento oficial necessário para contratar um gerente",
+                examples = "123.456.789-10"
+        )
+        String cpfOuCnpj,
+
+        @Schema(
+                name = "estacionamentoId",
+                description = "ID do estacionamento que o gerente irá gerenciar",
+                examples = "1"
+        )
+        Long estacionamentoId
 ) {
 }

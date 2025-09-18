@@ -1,6 +1,6 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.create_requests.AcessoCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.AcessoCreateRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.application.services.AcessoService;
 import io.swagger.v3.oas.annotations.Operation;

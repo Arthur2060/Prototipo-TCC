@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.create_requests.usuario.GerenteCreateRequest;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
