@@ -25,4 +25,6 @@ public abstract class Usuario {
     private String email;
     private String senha;
     private Date dataNascimento;
+
+    private Boolean status;
 }

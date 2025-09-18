@@ -1,13 +1,12 @@
-package com.senai.TCC.application.dto.create_requests;
+package com.senai.TCC.application.dto.requests;
 
-import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.enums.StatusReserva;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Time;
 import java.util.Date;
 
-public record ReservaCreateRequest(
+public record ReservaRequest(
         @Schema(
                 name = "clienteId",
                 description = "Cliente que solicitou a reserva"
@@ -32,6 +31,6 @@ public record ReservaCreateRequest(
                 pattern = "HH:mm:ss"
         )
         Time horaDaReserva,
-        StatusReserva status
+        StatusReserva statusReserva
 ) {
 }

@@ -33,6 +33,17 @@ public record ReservaResponse(
                 pattern = "HH:mm:ss"
         )
         Time horaDaReserva,
-        StatusReserva status
+        @Schema(
+                name = "statusReserva",
+                description = "Status atual da reserva",
+                examples = "PENDENTE"
+        )
+        StatusReserva statusReserva,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }

@@ -1,11 +1,10 @@
-package com.senai.TCC.application.dto.create_requests;
+package com.senai.TCC.application.dto.requests;
 
-import com.senai.TCC.model.entities.Acesso;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Time;
 
-public record AcessoCreateRequest(
+public record AcessoRequest(
         Long id,
         @Schema(
                 name = "placaDoCarro",

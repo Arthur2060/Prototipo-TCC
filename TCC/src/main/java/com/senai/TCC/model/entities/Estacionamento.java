@@ -67,6 +67,7 @@ public class Estacionamento {
     private String numeroDeEscrituraImovel;
     private Metodo metodoDePagamento;
 
+    private Boolean status;
     @OneToMany
     private List<Acesso> acessos;
 

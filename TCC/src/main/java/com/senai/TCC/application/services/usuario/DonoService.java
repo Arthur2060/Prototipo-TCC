@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import jakarta.transaction.Transactional;
@@ -21,21 +21,31 @@ public class DonoService {
     }
 
     public List<DonoResponse> listarDonos() {
-        return donoRepository.findAll()
+        return donoRepository.findByStatusTrue()
                 .stream()
                 .map(DonoMapper::fromEntity)
                 .toList();
     }
 
-    @Transactional
-    public DonoResponse cadastrarDono(DonoCreateRequest dto) {
-        DonoEstacionamento dono = DonoMapper.toEntity(dto);
+    public DonoResponse buscarPorId(Long id) {
+        Optional<DonoEstacionamento> optionalDono = donoRepository.findById(id);
 
+        if (optionalDono.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return DonoMapper.fromEntity(optionalDono.get());
+    }
+
+    @Transactional
+    public DonoResponse cadastrarDono(DonoRequest dto) {
+        DonoEstacionamento dono = DonoMapper.toEntity(dto);
+        dono.setStatus(true);
         return DonoMapper.fromEntity(donoRepository.save(dono));
     }
 
     @Transactional
-    public DonoResponse atualizarDono(DonoCreateRequest dto, Long id) {
+    public DonoResponse atualizarDono(DonoRequest dto, Long id) {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
@@ -61,7 +71,7 @@ public class DonoService {
         }
 
         DonoEstacionamento dono = optDono.get();
-
-        donoRepository.delete(dono);
+        dono.setStatus(false);
+        donoRepository.save(dono);
     }
 }

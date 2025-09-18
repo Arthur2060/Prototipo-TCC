@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services.usuario;
 
-import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -25,13 +25,23 @@ public class GerenteService {
     }
 
     public List<GerenteResponse> listarGerentes() {
-        return gerenteRepository.findAll()
+        return gerenteRepository.findByStatusTrue()
                 .stream()
                 .map(GerenteMapper::fromEntity)
                 .toList();
     }
 
-    public GerenteResponse cadastrarGerente(GerenteCreateRequest dto) {
+    public GerenteResponse buscarPorId(Long id) {
+        Optional<Gerente> optionalGerente = gerenteRepository.findById(id);
+
+        if (optionalGerente.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return GerenteMapper.fromEntity(optionalGerente.get());
+    }
+
+    public GerenteResponse cadastrarGerente(GerenteRequest dto) {
         Gerente gerente = GerenteMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
@@ -43,11 +53,12 @@ public class GerenteService {
 
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
+        gerente.setStatus(true);
 
         return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
     }
 
-    public GerenteResponse atualizarGerente(GerenteCreateRequest dto, Long id) {
+    public GerenteResponse atualizarGerente(GerenteRequest dto, Long id) {
         var optGerente = gerenteRepository.findById(id);
 
         if (optGerente.isEmpty()) {
@@ -84,7 +95,7 @@ public class GerenteService {
 
         Gerente gerente = optGerente.get();
         gerente.getEstacionamento().getGerentes().remove(gerente);
-
-        gerenteRepository.delete(gerente);
+        gerente.setStatus(false);
+        gerenteRepository.save(gerente);
     }
 }

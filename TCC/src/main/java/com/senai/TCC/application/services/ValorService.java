@@ -1,6 +1,6 @@
 package com.senai.TCC.application.services;
 
-import com.senai.TCC.application.dto.create_requests.ValorCreateRequest;
+import com.senai.TCC.application.dto.requests.ValorRequest;
 import com.senai.TCC.application.mappers.ValorMapper;
 import com.senai.TCC.application.dto.response.ValorResponse;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -26,14 +26,24 @@ public class ValorService {
     }
 
     public List<ValorResponse> listarValor() {
-        return valorRepository.findAll()
+        return valorRepository.findByStatusTrue()
                 .stream()
                 .map(ValorMapper::fromEntity)
                 .toList();
     }
 
+    public ValorResponse buscarPorId(Long id) {
+        Optional<Valor> optionalValor = valorRepository.findById(id);
+
+        if (optionalValor.isEmpty()) {
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+        }
+
+        return ValorMapper.fromEntity(optionalValor.get());
+    }
+
     @Transactional
-    public ValorResponse cadastrarValor(ValorCreateRequest dto) {
+    public ValorResponse cadastrarValor(ValorRequest dto) {
         Valor novoValor = ValorMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
@@ -44,11 +54,12 @@ public class ValorService {
         novoValor.setEstacionamento(estacionamento);
         estacionamento.getValores().add(novoValor);
 
+        novoValor.setStatus(true);
         return ValorMapper.fromEntity(valorRepository.save(novoValor));
     }
 
     @Transactional
-    public ValorResponse atualizarValor(ValorCreateRequest dto, Long id) {
+    public ValorResponse atualizarValor(ValorRequest dto, Long id) {
         Optional<Valor> optValor = valorRepository.findById(id);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
@@ -81,6 +92,9 @@ public class ValorService {
             throw new IdNaoCadastrado("Id de valor especificado não encontrado no sistema");
         }
 
-        valorRepository.delete(optionalValor.get());
+        Valor valor = optionalValor.get();
+
+        valor.setStatus(false);
+        valorRepository.save(valor);
     }
 }

@@ -77,6 +77,12 @@ public record EstacionamentoResponse(
                 description = "Número de escritura do imóvel do estacionamento.",
                 examples = "987654321"
         )
-        String numeroDeEscrituraImovel
+        String numeroDeEscrituraImovel,
+        @Schema(
+                name = "status",
+                description = "Status da entidade, se está ativa ou inativa no sistema",
+                examples = "true"
+        )
+        Boolean status
 ) {
 }
