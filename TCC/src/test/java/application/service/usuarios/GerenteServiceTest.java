@@ -1,12 +1,11 @@
 package application.service.usuarios;
 
-import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
-import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +34,7 @@ public class GerenteServiceTest {
 
     @Test
     void deveCadastrarGerenteValido() {
-        GerenteCreateRequest dto = new GerenteCreateRequest(
+        GerenteRequest dto = new GerenteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
@@ -56,34 +54,9 @@ public class GerenteServiceTest {
         verify(repository).save(any());
     }
 
-//    @Test
-//    void deveBuscarClientePorId() {
-//        ClienteCreateRequest dto = new ClienteCreateRequest(
-//                "Pedro",
-//                "pedro@gmail.com",
-//                "123456",
-//                java.sql.Date.valueOf("2000-09-12")
-//        );
-//
-//        Cliente entidade = ClienteMapper.toEntity(dto);
-//        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
-//        Cliente resultado = service.buscarPorId(1L);
-//        assertEquals("Pedro", resultado.getNome());
-//        verify(repository).findById(1L);
-//    }
-//
-//    @Test
-//    void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
-//        when(repository.findById(99L)).thenReturn(Optional.empty());
-//
-//        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
-//                () -> service.buscarPorId(99L));
-//        assertEquals("Gerente com ID 99 não encontrado.", ex.getMessage());
-//    }
-
     @Test
-    void deveAtualizarGerenteComSucesso() {
-        GerenteCreateRequest existente = new GerenteCreateRequest(
+    void deveBuscarClientePorId() {
+        GerenteRequest dto = new GerenteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
@@ -92,7 +65,34 @@ public class GerenteServiceTest {
                 1L
         );
 
-        GerenteCreateRequest dtoAtualizado = new GerenteCreateRequest(
+        Gerente entidade = GerenteMapper.toEntity(dto);
+        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
+        GerenteResponse resultado = service.buscarPorId(1L);
+        assertEquals("Pedro", resultado.nome());
+        verify(repository).findById(1L);
+    }
+
+    @Test
+    void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
+        when(repository.findById(99L)).thenReturn(Optional.empty());
+
+        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+                () -> service.buscarPorId(99L));
+        assertEquals("Gerente com ID 99 não encontrado.", ex.getMessage());
+    }
+
+    @Test
+    void deveAtualizarGerenteComSucesso() {
+        GerenteRequest existente = new GerenteRequest(
+                "Pedro",
+                "pedro@gmail.com",
+                "123456",
+                java.sql.Date.valueOf("2000-09-12"),
+                "12345678900",
+                1L
+        );
+
+        GerenteRequest dtoAtualizado = new GerenteRequest(
                 "Arthur",
                 "arthur@gmail.com",
                 "123456",
