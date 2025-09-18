@@ -33,10 +33,4 @@ public class Avaliacao {
     private LocalDateTime dataDeAvaliacao;
 
     private Boolean status;
-
-    public void validarTamanhoDoComentario() {
-        if (this.comentario.length() > 500) {
-            throw new ComentarioMuitoLongo("Comentario muito longo");
-        }
-    }
 }
