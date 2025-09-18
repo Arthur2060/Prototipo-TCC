@@ -1,6 +1,6 @@
 package application.service.usuarios;
 
-import com.senai.TCC.application.dto.create_requests.usuario.ClienteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.ClienteRequest;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.services.usuario.ClienteService;
@@ -29,7 +29,7 @@ public class ClienteServiceTest {
 
     @Test
     void deveCadastrarClienteValido() {
-        ClienteCreateRequest dto = new ClienteCreateRequest(
+        ClienteRequest dto = new ClienteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
@@ -47,41 +47,41 @@ public class ClienteServiceTest {
         verify(repository).save(any());
     }
 
-//    @Test
-//    void deveBuscarClientePorId() {
-//        ClienteCreateRequest dto = new ClienteCreateRequest(
-//                "Pedro",
-//                "pedro@gmail.com",
-//                "123456",
-//                java.sql.Date.valueOf("2000-09-12")
-//        );
-//
-//        Cliente entidade = ClienteMapper.toEntity(dto);
-//        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
-//        Cliente resultado = service.buscarPorId(1L);
-//        assertEquals("Pedro", resultado.getNome());
-//        verify(repository).findById(1L);
-//    }
-//
-//    @Test
-//    void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
-//        when(repository.findById(99L)).thenReturn(Optional.empty());
-//
-//        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
-//                () -> service.buscarPorId(99L));
-//        assertEquals("Cliente com ID 99 não encontrado.", ex.getMessage());
-//    }
-
     @Test
-    void deveAtualizarClienteComSucesso() {
-        ClienteCreateRequest existente = new ClienteCreateRequest(
+    void deveBuscarClientePorId() {
+        ClienteRequest dto = new ClienteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
                 java.sql.Date.valueOf("2000-09-12")
         );
 
-        ClienteCreateRequest dtoAtualizado = new ClienteCreateRequest(
+        Cliente entidade = ClienteMapper.toEntity(dto);
+        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
+        ClienteResponse resultado = service.buscarPorId(1L);
+        assertEquals("Pedro", resultado.nome());
+        verify(repository).findById(1L);
+    }
+
+    @Test
+    void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
+        when(repository.findById(99L)).thenReturn(Optional.empty());
+
+        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+                () -> service.buscarPorId(99L));
+        assertEquals("ID buscado não foi encontrado no sistema!", ex.getMessage());
+    }
+
+    @Test
+    void deveAtualizarClienteComSucesso() {
+        ClienteRequest existente = new ClienteRequest(
+                "Pedro",
+                "pedro@gmail.com",
+                "123456",
+                java.sql.Date.valueOf("2000-09-12")
+        );
+
+        ClienteRequest dtoAtualizado = new ClienteRequest(
                 "Arthur",
                 "arthur@gmail.com",
                 "123456",

@@ -1,6 +1,6 @@
 package application.service.usuarios;
 
-import com.senai.TCC.application.dto.create_requests.usuario.DonoCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.services.usuario.DonoService;
@@ -30,7 +30,7 @@ public class DonoServiceTest {
 
     @Test
     void deveCadastrarDonoValido() {
-        DonoCreateRequest dto = new DonoCreateRequest(
+        DonoRequest dto = new DonoRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
@@ -48,41 +48,41 @@ public class DonoServiceTest {
         verify(repository).save(any());
     }
 
-//    @Test
-//    void deveBuscarDonoPorId() {
-//        ClienteCreateRequest dto = new ClienteCreateRequest(
-//                "Pedro",
-//                "pedro@gmail.com",
-//                "123456",
-//                java.sql.Date.valueOf("2000-09-12")
-//        );
-//
-//        Cliente entidade = ClienteMapper.toEntity(dto);
-//        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
-//        Cliente resultado = service.buscarPorId(1L);
-//        assertEquals("Pedro", resultado.getNome());
-//        verify(repository).findById(1L);
-//    }
-//
-//    @Test
-//    void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
-//        when(repository.findById(99L)).thenReturn(Optional.empty());
-//
-//        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
-//                () -> service.buscarPorId(99L));
-//        assertEquals("Dono com ID 99 não encontrado.", ex.getMessage());
-//    }
-
     @Test
-    void deveAtualizarDonoComSucesso() {
-        DonoCreateRequest existente = new DonoCreateRequest(
+    void deveBuscarDonoPorId() {
+        DonoRequest dto = new DonoRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
                 java.sql.Date.valueOf("2000-09-12")
         );
 
-        DonoCreateRequest dtoAtualizado = new DonoCreateRequest(
+        DonoEstacionamento entidade = DonoMapper.toEntity(dto);
+        when(repository.findById(1L)).thenReturn(Optional.of(entidade));
+        DonoResponse resultado = service.buscarPorId(1L);
+        assertEquals("Pedro", resultado.nome());
+        verify(repository).findById(1L);
+    }
+
+    @Test
+    void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
+        when(repository.findById(99L)).thenReturn(Optional.empty());
+
+        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+                () -> service.buscarPorId(99L));
+        assertEquals("ID buscado não foi encontrado no sistema!", ex.getMessage());
+    }
+
+    @Test
+    void deveAtualizarDonoComSucesso() {
+        DonoRequest existente = new DonoRequest(
+                "Pedro",
+                "pedro@gmail.com",
+                "123456",
+                java.sql.Date.valueOf("2000-09-12")
+        );
+
+        DonoRequest dtoAtualizado = new DonoRequest(
                 "Arthur",
                 "arthur@gmail.com",
                 "123456",
@@ -122,6 +122,6 @@ public class DonoServiceTest {
         IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
                 () -> service.deletarDono(99L));
 
-        assertEquals("O Id não foi encontrado no sistema!", ex.getMessage());
+        assertEquals("Dono buscado não cadastrado no sistema", ex.getMessage());
     }
 }

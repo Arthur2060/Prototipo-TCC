@@ -67,11 +67,11 @@ public class DonoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdNaoCadastrado("O Id não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("Dono buscado não cadastrado no sistema");
         }
 
         DonoEstacionamento dono = optDono.get();
-        dono.setStatus(false);
-        donoRepository.save(dono);
+
+        donoRepository.delete(dono); // <- delete
     }
 }
