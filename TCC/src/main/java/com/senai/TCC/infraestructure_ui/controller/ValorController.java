@@ -29,7 +29,7 @@ public class ValorController {
             description = "Lista todos os valores cadastrados no sistema"
     )
     public ResponseEntity<List<ValorResponse>> listarValor() {
-        return ResponseEntity.ok(service.listarValor());
+        return ResponseEntity.status(200).body(service.listarValor());
     }
 
     @GetMapping("/{id}")
@@ -39,7 +39,7 @@ public class ValorController {
             tags = {"Valor Controller"}
     )
     public ResponseEntity<ValorResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -48,7 +48,7 @@ public class ValorController {
             description = "Cadastra um novo valor no sistema"
     )
     public ResponseEntity<ValorResponse> cadastrarValor(ValorRequest dto) {
-        return ResponseEntity.ok(service.cadastrarValor(dto));
+        return ResponseEntity.status(201).body(service.cadastrarValor(dto));
     }
 
     @PutMapping("/{id}")
@@ -57,7 +57,7 @@ public class ValorController {
             description = "Atualiza um valor cadastrado no sistema"
     )
     public ResponseEntity<ValorResponse> atualizarValor(@RequestBody ValorRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarValor(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarValor(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -65,7 +65,8 @@ public class ValorController {
             summary = "Deletar valor",
             description = "Deleta um valor cadastrado no sistema"
     )
-    public void deletarValor(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarValor(@PathVariable Long id) {
         service.deletarValor(id);
+        return ResponseEntity.status(204).build();
     }
 }
