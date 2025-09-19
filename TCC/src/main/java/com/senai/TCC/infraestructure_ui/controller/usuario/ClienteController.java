@@ -30,7 +30,7 @@ public class ClienteController {
             tags = {"Cliente controller"}
     )
     public ResponseEntity<List<ClienteResponse>> listarClientes() {
-        return ResponseEntity.ok(service.listarClientes());
+        return ResponseEntity.status(200).body(service.listarClientes());
     }
 
     @GetMapping("/{id}")
@@ -40,7 +40,7 @@ public class ClienteController {
             tags = {"Cliente Controller"}
     )
     public ResponseEntity<ClienteResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -60,7 +60,7 @@ public class ClienteController {
             }
     )
     public ResponseEntity<ClienteResponse> cadastrarCliente(@RequestBody ClienteRequest dto) {
-        return ResponseEntity.ok(service.cadastrarCliente(dto));
+        return ResponseEntity.status(201).body(service.cadastrarCliente(dto));
     }
 
     @PutMapping("/{id}")
@@ -80,7 +80,7 @@ public class ClienteController {
             }
     )
     public ResponseEntity<ClienteResponse> atualizarCliente(@RequestBody ClienteRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarCliente(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarCliente(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -99,7 +99,8 @@ public class ClienteController {
                     )
             }
     )
-    public void deletarCliente(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
         service.deletarCliente(id);
+        return ResponseEntity.status(204).build();
     }
 }
