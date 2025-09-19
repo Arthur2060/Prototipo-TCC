@@ -18,7 +18,7 @@ import java.util.List;
         description = "Realiza operações referentes à avaliações de estacionamento"
 )
 public class AvaliacaoController {
-    private AvaliacaoService service;
+    private final AvaliacaoService service;
 
     public AvaliacaoController(AvaliacaoService service) {
         this.service = service;
@@ -31,7 +31,7 @@ public class AvaliacaoController {
             description = "Retorna uma lista de todas as avaliações cadastradas no sistema."
     )
     public ResponseEntity<List<AvaliacaoResponse>> listarAvaliacoes() {
-        return ResponseEntity.ok(service.listarAvaliacoes());
+        return ResponseEntity.status(200).body(service.listarAvaliacoes());
     }
 
     @GetMapping("/{id}")
@@ -41,7 +41,7 @@ public class AvaliacaoController {
             tags = {"Avaliação Controller"}
     )
     public ResponseEntity<AvaliacaoResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -51,7 +51,7 @@ public class AvaliacaoController {
             description = "Adiciona uma nova avaliação ao sistema"
     )
     public ResponseEntity<AvaliacaoResponse> cadastrarAvaliacao(@RequestBody AvaliacaoRequest dto) {
-        return ResponseEntity.ok(service.cadastrarAvaliacao(dto));
+        return ResponseEntity.status(201).body(service.cadastrarAvaliacao(dto));
     }
 
     @PutMapping("/{id}")
@@ -61,7 +61,7 @@ public class AvaliacaoController {
             description = "Atualiza uma avaliação já cadastrada no sistema"
     )
     public ResponseEntity<AvaliacaoResponse> atualizarAvaliacao(@PathVariable Long id, AvaliacaoRequest dto) {
-        return ResponseEntity.ok(service.atualizarAvaliacao(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarAvaliacao(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -72,6 +72,6 @@ public class AvaliacaoController {
     )
     public ResponseEntity<Void> deletarAvaliacao(@PathVariable Long id) {
         service.deletarAvaliacao(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 }
