@@ -34,7 +34,7 @@ public class DonoController {
             tags = {"Dono de estacionamento controller"}
     )
     public ResponseEntity<List<DonoResponse>> listarDonos() {
-        return ResponseEntity.ok(service.listarDonos());
+        return ResponseEntity.status(200).body(service.listarDonos());
     }
 
 
@@ -45,7 +45,7 @@ public class DonoController {
             tags = {"Dono de estacionamento Controller"}
     )
     public ResponseEntity<DonoResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -57,7 +57,7 @@ public class DonoController {
             tags = {"Dono de estacionamento controller"}
     )
     public ResponseEntity<DonoResponse> cadastrarDono(@RequestBody DonoRequest dto) {
-        return ResponseEntity.ok(service.cadastrarDono(dto));
+        return ResponseEntity.status(201).body(service.cadastrarDono(dto));
     }
 
     @PutMapping("/{id}")
@@ -68,7 +68,7 @@ public class DonoController {
             tags = {"Dono de estacionamento controller"}
     )
     public ResponseEntity<DonoResponse> atualizarDono(@RequestBody DonoRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarDono(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarDono(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -78,7 +78,8 @@ public class DonoController {
             description = "Apaga um dono já cadastrado do sistema.",
             tags = {"Dono de estacionamento controller"}
     )
-    public void deletarDono(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarDono(@PathVariable Long id) {
         service.deletarDono(id);
+        return ResponseEntity.status(204).build();
     }
 }
