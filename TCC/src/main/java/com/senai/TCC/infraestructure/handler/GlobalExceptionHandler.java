@@ -1,9 +1,6 @@
 package com.senai.TCC.infraestructure.handler;
 
-import com.senai.TCC.model.exceptions.ComentarioMuitoLongo;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
-import com.senai.TCC.model.exceptions.MultiplasAvaliacoesIguais;
-import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalido;
+import com.senai.TCC.model.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,5 +48,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleAnyException(Exception ex) {
         return ResponseEntity.status(500).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(TempoLimiteDeAvaliacaoExpedido.class)
+    public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedido ex) {
+        return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 }
