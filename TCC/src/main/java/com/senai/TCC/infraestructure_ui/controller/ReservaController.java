@@ -31,7 +31,7 @@ public class ReservaController {
             description = "Cria uma lista de todas as reservas presentes no sistema"
     )
     public ResponseEntity<List<ReservaResponse>> listarReservas() {
-        return ResponseEntity.ok(service.listarReservas());
+        return ResponseEntity.status(200).body(service.listarReservas());
     }
 
     @GetMapping("/{id}")
@@ -41,7 +41,7 @@ public class ReservaController {
             tags = {"Reserva Controller"}
     )
     public ResponseEntity<ReservaResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -51,7 +51,7 @@ public class ReservaController {
             description = "Cadastra uma nova reserva no sistema"
     )
     public ResponseEntity<ReservaResponse> cadastrarReserva(@RequestBody ReservaRequest dto) {
-        return ResponseEntity.ok(service.cadastrarReserva(dto));
+        return ResponseEntity.status(201).body(service.cadastrarReserva(dto));
     }
 
     @PutMapping("/{id}")
@@ -61,7 +61,7 @@ public class ReservaController {
             description = "Altera as informações de uma reserva"
     )
     public ResponseEntity<ReservaResponse> atualizarReserva(@RequestBody ReservaRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarReserva(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarReserva(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -70,8 +70,9 @@ public class ReservaController {
             summary = "Deletar reserva",
             description = "Deleta uma reserva do sistema"
     )
-    public void deletarReserva(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarReserva(@PathVariable Long id) {
         service.deletarReserva(id);
+        return ResponseEntity.status(204).build();
     }
 
 }

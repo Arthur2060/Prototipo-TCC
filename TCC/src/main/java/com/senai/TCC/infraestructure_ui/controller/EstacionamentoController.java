@@ -35,7 +35,7 @@ public class EstacionamentoController {
             tags = {"Estacionamento controller"}
     )
     public ResponseEntity<List<EstacionamentoResponse>> listarEstacionamentos() {
-        return ResponseEntity.ok(service.listarTodosOsEstacionamentos());
+        return ResponseEntity.status(200).body(service.listarTodosOsEstacionamentos());
     }
 
     @GetMapping("/{id}")
@@ -45,7 +45,7 @@ public class EstacionamentoController {
             tags = {"Estacionamento Controller"}
     )
     public ResponseEntity<EstacionamentoResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping("/{id}")
@@ -89,7 +89,7 @@ public class EstacionamentoController {
             )
     )
     public ResponseEntity<EstacionamentoResponse> cadastrarEstacionamento(@RequestBody EstacionamentoRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.cadastrarEstacionamento(dto, id));
+        return ResponseEntity.status(201).body(service.cadastrarEstacionamento(dto, id));
     }
 
     @PutMapping("/{id}")
@@ -110,7 +110,7 @@ public class EstacionamentoController {
             }
     )
     public ResponseEntity<EstacionamentoResponse> atualizarEstacionamento(@RequestBody EstacionamentoRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarEstacionamento(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarEstacionamento(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -132,6 +132,6 @@ public class EstacionamentoController {
     )
     public ResponseEntity<Void> desativarEstacionamento(@PathVariable Long id) {
         service.desativarEstacionamento(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 }

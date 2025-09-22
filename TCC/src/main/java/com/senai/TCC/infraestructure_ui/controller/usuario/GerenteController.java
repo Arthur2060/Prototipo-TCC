@@ -30,7 +30,7 @@ public class GerenteController {
             description = "Retorna uma lista de todos os gerentes cadastrados no sistema."
     )
     public ResponseEntity<List<GerenteResponse>> listarGerentes() {
-        return ResponseEntity.ok(service.listarGerentes());
+        return ResponseEntity.status(200).body(service.listarGerentes());
     }
 
     @GetMapping("/{id}")
@@ -40,7 +40,7 @@ public class GerenteController {
             tags = {"Gerente Controller"}
     )
     public ResponseEntity<GerenteResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -60,7 +60,7 @@ public class GerenteController {
             }
     )
     public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteRequest dto) {
-        return ResponseEntity.ok(service.cadastrarGerente(dto));
+        return ResponseEntity.status(201).body(service.cadastrarGerente(dto));
     }
 
     @PutMapping("/{id}")
@@ -80,7 +80,7 @@ public class GerenteController {
             }
     )
     public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarGerente(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarGerente(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -99,7 +99,8 @@ public class GerenteController {
                     )
             }
     )
-    public void deletarGerente(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarGerente(@PathVariable Long id) {
         service.deletarGerente(id);
+        return ResponseEntity.status(204).build();
     }
 }

@@ -35,7 +35,7 @@ public class AcessoController {
             tags = {"Acesso controller"}
     )
     public ResponseEntity<List<AcessoResponse>> listarAcessos() {
-        return ResponseEntity.ok(service.listarAcessos());
+        return ResponseEntity.status(200).body(service.listarAcessos());
     }
 
     @GetMapping("/{id}")
@@ -45,7 +45,7 @@ public class AcessoController {
             tags = {"Acesso Controller"}
     )
     public ResponseEntity<AcessoResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -73,7 +73,7 @@ public class AcessoController {
             )
     )
     public ResponseEntity<AcessoResponse> cadastrarAcesso(@RequestBody AcessoRequest dto) {
-        return ResponseEntity.ok(service.cadastrarAcesso(dto));
+        return ResponseEntity.status(201).body(service.cadastrarAcesso(dto));
     }
 
     @PutMapping("/{id}")
@@ -84,7 +84,7 @@ public class AcessoController {
             tags = {"Acesso controller"}
     )
     public ResponseEntity<AcessoResponse> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoRequest dto) {
-        return ResponseEntity.ok(service.atualizarAcesso(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarAcesso(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -96,6 +96,6 @@ public class AcessoController {
     )
     public ResponseEntity<Void> deletarAcesso(@PathVariable Long id) {
         service.deletarAcesso(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 }
