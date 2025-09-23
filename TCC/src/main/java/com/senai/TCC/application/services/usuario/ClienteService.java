@@ -5,7 +5,7 @@ import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class ClienteService {
         Optional<Cliente> optionalCliente = clienteRepository.findById(id);
 
         if (optionalCliente.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
         }
 
         return ClienteMapper.fromEntity(optionalCliente.get());
@@ -48,7 +48,7 @@ public class ClienteService {
         Optional<Cliente> optCliente = clienteRepository.findById(id);
 
         if (optCliente.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente buscado não cadastrado no sistema");
+            throw new IdNaoCadastradoException("Cliente buscado não cadastrado no sistema");
         }
 
         Cliente cliente = optCliente.get();
@@ -64,7 +64,7 @@ public class ClienteService {
         Optional<Cliente> optCliente = clienteRepository.findById(id);
 
         if (optCliente.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente buscado não cadastrado no sistema");
+            throw new IdNaoCadastradoException("Cliente buscado não cadastrado no sistema");
         }
 
         Cliente cliente = optCliente.get();

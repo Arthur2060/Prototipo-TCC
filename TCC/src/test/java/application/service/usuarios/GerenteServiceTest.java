@@ -6,16 +6,14 @@ import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
-import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -131,7 +129,7 @@ public class GerenteServiceTest {
     void deveLancarIdDesconhecidoExceptionAoDeletarGerenteInexistente() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+        IdNaoCadastradoException ex = assertThrows(IdNaoCadastradoException.class,
                 () -> service.deletarGerente(99L));
 
         assertEquals("Id do gerente buscado não encontrado no sistema!", ex.getMessage());

@@ -6,7 +6,7 @@ import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.services.usuario.DonoService;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -68,7 +68,7 @@ public class DonoServiceTest {
     void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+        IdNaoCadastradoException ex = assertThrows(IdNaoCadastradoException.class,
                 () -> service.buscarPorId(99L));
         assertEquals("ID buscado não foi encontrado no sistema!", ex.getMessage());
     }
@@ -119,7 +119,7 @@ public class DonoServiceTest {
     void deveLancarIdDesconhecidoExceptionAoDeletarDonoInexistente() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+        IdNaoCadastradoException ex = assertThrows(IdNaoCadastradoException.class,
                 () -> service.deletarDono(99L));
 
         assertEquals("Dono buscado não cadastrado no sistema", ex.getMessage());

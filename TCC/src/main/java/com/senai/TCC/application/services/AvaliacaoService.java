@@ -9,17 +9,13 @@ import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import com.senai.TCC.model.service.ValidadorAvaliacao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AvaliacaoService {
@@ -52,7 +48,7 @@ public class AvaliacaoService {
         Optional<Avaliacao> optionalAvaliacao = avaliacaoRepository.findById(id);
 
         if (optionalAvaliacao.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
         }
 
         return AvaliacaoMapper.fromEntity(optionalAvaliacao.get());
@@ -64,11 +60,11 @@ public class AvaliacaoService {
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
-        validador.validarAvaliacaoUnica(avaliacao);
+        validador.validarAvaliacaoAposUso(avaliacao);
         validador.validarTamanhoDoComentario(avaliacao);
 
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
+            throw new IdNaoCadastradoException("Cliente ou estacionamento não encontrado no sistema");
         } else {
             Cliente cliente = optCliente.get();
             Estacionamento estacionamento = optEstacio.get();
@@ -92,15 +88,15 @@ public class AvaliacaoService {
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
         if (optAvaliacao.isEmpty()) {
-            throw new IdNaoCadastrado("A avaliação buscada não existe no sistema");
+            throw new IdNaoCadastradoException("A avaliação buscada não existe no sistema");
         } else if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-                throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
+                throw new IdNaoCadastradoException("Cliente ou estacionamento não encontrado no sistema");
             } else {
                 Estacionamento estacionamento = optEstacio.get();
                 Cliente cliente = optCliente.get();
                 Avaliacao avaliacao = optAvaliacao.get();
 
-                validador.validarAvaliacaoUnica(avaliacao);
+                validador.validarAvaliacaoAposUso(avaliacao);
                 validador.validarTamanhoDoComentario(avaliacao);
 
                 avaliacao.setNota(dto.nota());
@@ -120,17 +116,17 @@ public class AvaliacaoService {
         Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
 
         if (optAvaliacao.isEmpty()) {
-            throw new IdNaoCadastrado("Não foi possivel encontrar a avalição buscada");
+            throw new IdNaoCadastradoException("Não foi possivel encontrar a avalição buscada");
         }
         Avaliacao avaliacao = optAvaliacao.get();
 
-        validador.validarAvaliacaoUnica(avaliacao);
+        validador.validarAvaliacaoAposUso(avaliacao);
 
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(avaliacao.getEstacionamento().getId());
         Optional<Cliente> optCliente = clienteRepository.findById(avaliacao.getCliente().getId());
 
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
+            throw new IdNaoCadastradoException("Cliente ou estacionamento não encontrado no sistema");
         }
 
         Estacionamento estacionamento = optEstacio.get();

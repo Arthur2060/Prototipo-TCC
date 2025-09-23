@@ -6,12 +6,10 @@ import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
-import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Acesso;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Estacionamento;
-import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +43,7 @@ public class AcessoService {
         Optional<Acesso> optionalAcesso = acessoRepository.findById(id);
 
         if (optionalAcesso.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
         }
 
         return AcessoMapper.fromEntity(optionalAcesso.get());
@@ -59,7 +57,7 @@ public class AcessoService {
 
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
+            throw new IdNaoCadastradoException("Id do estacionamento não encontrado no sistema");
         }
 
         Optional<Carro> optCarro = carroRepository.findByPlaca(dto.placaDoCarro());
@@ -81,7 +79,7 @@ public class AcessoService {
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
         if (optAcesso.isEmpty() || optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("O Acesso ou estacionamento buscado não existe no sistema");
+            throw new IdNaoCadastradoException("O Acesso ou estacionamento buscado não existe no sistema");
         }
 
         Acesso acesso = optAcesso.get();
@@ -112,7 +110,7 @@ public class AcessoService {
         Optional<Acesso> optAcesso = acessoRepository.findById(id);
 
         if (optAcesso.isEmpty()) {
-            throw new IdNaoCadastrado("Acesso buscado não cadastrado no sistema");
+            throw new IdNaoCadastradoException("Acesso buscado não cadastrado no sistema");
         }
 
         Acesso acesso = optAcesso.get();

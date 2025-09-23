@@ -6,7 +6,7 @@ import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class EstacionamentoService {
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(id);
 
         if (optionalEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
         }
 
         return EstacionamentoMapper.fromEntity(optionalEstacionamento.get());
@@ -48,7 +48,7 @@ public class EstacionamentoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("O Id do dono fornecido não foi encontrado no sistema!");
         } else {
             novoEst.setDono(optDono.get());
             optDono.get().getEstacionamentos().add(novoEst);
@@ -64,7 +64,7 @@ public class EstacionamentoService {
         Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
 
         if (optEst.isEmpty()) {
-            throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("O Id do estacionamento fornecido não foi encontrado no sistema!");
         } else {
             optEst.get().setFoto(dto.foto());
             optEst.get().setHoraAbertura(dto.horaAbertura());
@@ -81,7 +81,7 @@ public class EstacionamentoService {
         Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
 
         if (optEst.isEmpty()) {
-            throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("O Id do estacionamento fornecido não foi encontrado no sistema!");
         }
 
         Estacionamento estacionamento = optEst.get();
