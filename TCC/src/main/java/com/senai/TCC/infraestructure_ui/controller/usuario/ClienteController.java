@@ -26,8 +26,7 @@ public class ClienteController {
     @GetMapping
     @Operation(
             summary = "Listar todos os clientes",
-            description = "Retorna uma lista de todos os clientes cadastrados no sistema.",
-            tags = {"Cliente controller"}
+            description = "Retorna uma lista de todos os clientes cadastrados no sistema."
     )
     public ResponseEntity<List<ClienteResponse>> listarClientes() {
         return ResponseEntity.status(200).body(service.listarClientes());
@@ -36,8 +35,7 @@ public class ClienteController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Cliente Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<ClienteResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.status(200).body(service.buscarPorId(id));
@@ -47,7 +45,6 @@ public class ClienteController {
     @Operation(
             summary = "Cadastrar um novo cliente",
             description = "Cadastra um novo cliente no sistema com base nos dados fornecidos.",
-            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -67,7 +64,6 @@ public class ClienteController {
     @Operation(
             summary = "Atualizar um cliente existente",
             description = "Atualiza os dados de um cliente existente com base no ID fornecido.",
-            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -87,7 +83,6 @@ public class ClienteController {
     @Operation(
             summary = "Deletar um cliente",
             description = "Deleta um cliente existente com base no ID fornecido.",
-            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",

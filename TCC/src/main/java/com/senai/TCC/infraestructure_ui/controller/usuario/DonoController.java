@@ -30,8 +30,7 @@ public class DonoController {
     @Operation(
             method = "GET",
             summary = "Listar donos",
-            description = "Gera uma lista de todos os dono cadastrados no sistema.",
-            tags = {"Dono de estacionamento controller"}
+            description = "Gera uma lista de todos os dono cadastrados no sistema."
     )
     public ResponseEntity<List<DonoResponse>> listarDonos() {
         return ResponseEntity.status(200).body(service.listarDonos());
@@ -41,8 +40,7 @@ public class DonoController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Dono de estacionamento Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<DonoResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.status(200).body(service.buscarPorId(id));
@@ -53,8 +51,7 @@ public class DonoController {
             method = "POST",
             summary = "Cadastrar dono",
             description = "Cadastra um novo dono no sistema, inicialmente" +
-                        " apenas com informações genéricas de usuario.",
-            tags = {"Dono de estacionamento controller"}
+                        " apenas com informações genéricas de usuario."
     )
     public ResponseEntity<DonoResponse> cadastrarDono(@RequestBody DonoRequest dto) {
         return ResponseEntity.status(201).body(service.cadastrarDono(dto));
@@ -64,8 +61,7 @@ public class DonoController {
     @Operation(
             method = "PUT",
             summary = "Atualizar dono",
-            description = "Atualiza as informações de um dono já cadastrado no sistema.",
-            tags = {"Dono de estacionamento controller"}
+            description = "Atualiza as informações de um dono já cadastrado no sistema."
     )
     public ResponseEntity<DonoResponse> atualizarDono(@RequestBody DonoRequest dto, @PathVariable Long id) {
         return ResponseEntity.status(200).body(service.atualizarDono(dto, id));
@@ -75,8 +71,7 @@ public class DonoController {
     @Operation(
             method = "DELETE",
             summary = "Deletar dono",
-            description = "Apaga um dono já cadastrado do sistema.",
-            tags = {"Dono de estacionamento controller"}
+            description = "Apaga um dono já cadastrado do sistema."
     )
     public ResponseEntity<Void> deletarDono(@PathVariable Long id) {
         service.deletarDono(id);

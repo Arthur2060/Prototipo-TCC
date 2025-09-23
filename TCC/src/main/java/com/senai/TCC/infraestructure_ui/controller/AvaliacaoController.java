@@ -37,8 +37,7 @@ public class AvaliacaoController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Avaliação Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<AvaliacaoResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.status(200).body(service.buscarPorId(id));
