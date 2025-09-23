@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities;
 
+import com.senai.TCC.model.entities.usuarios.Cliente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,10 @@ public class Acesso {
     @ManyToOne
     @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
     private String placaDoCarro;
     private Time horaDeEntrada;

@@ -36,8 +36,7 @@ public class GerenteController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Gerente Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<GerenteResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.status(200).body(service.buscarPorId(id));
@@ -47,7 +46,6 @@ public class GerenteController {
     @Operation(
             summary = "Cadastrar um novo gerente",
             description = "Cadastra um novo gerente no sistema com base nos dados fornecidos.",
-            tags = {"Gerente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -67,7 +65,6 @@ public class GerenteController {
     @Operation(
             summary = "Atualizar um gerente existente",
             description = "Atualiza os dados de um gerente existente com base no ID fornecido.",
-            tags = {"Gerente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -87,7 +84,6 @@ public class GerenteController {
     @Operation(
             summary = "Deletar um gerente",
             description = "Deleta um gerente existente com base no ID fornecido.",
-            tags = {"Gerente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",

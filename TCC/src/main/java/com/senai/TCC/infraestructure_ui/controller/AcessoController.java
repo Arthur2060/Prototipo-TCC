@@ -31,8 +31,7 @@ public class AcessoController {
     @Operation(
             method = "GET",
             summary = "Listar todos os acessos",
-            description = "Retorna uma lista de todos os acessos cadastrados no sistema.",
-            tags = {"Acesso controller"}
+            description = "Retorna uma lista de todos os acessos cadastrados no sistema."
     )
     public ResponseEntity<List<AcessoResponse>> listarAcessos() {
         return ResponseEntity.status(200).body(service.listarAcessos());
@@ -41,8 +40,7 @@ public class AcessoController {
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Acesso Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<AcessoResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.status(200).body(service.buscarPorId(id));
@@ -53,7 +51,6 @@ public class AcessoController {
             method = "POST",
             summary = "Cadastrar novo acesso",
             description = "Adiciona um novo acesso ao sistema",
-            tags = {"Acesso controller"},
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Dados do acesso a ser cadastrado",
                     required = true,
@@ -80,8 +77,7 @@ public class AcessoController {
     @Operation(
             method = "PUT",
             summary = "Atualizar um acesso",
-            description = "Atualiza um acesso já cadastrado no sistema",
-            tags = {"Acesso controller"}
+            description = "Atualiza um acesso já cadastrado no sistema"
     )
     public ResponseEntity<AcessoResponse> atualizarAcesso(@PathVariable Long id, @RequestBody AcessoRequest dto) {
         return ResponseEntity.status(200).body(service.atualizarAcesso(dto, id));
@@ -91,8 +87,7 @@ public class AcessoController {
     @Operation(
             method = "DELETE",
             summary = "Deletar um acesso",
-            description = "Deleta um acesso já cadastrado no sistema",
-            tags = {"Acesso controller"}
+            description = "Deleta um acesso já cadastrado no sistema"
     )
     public ResponseEntity<Void> deletarAcesso(@PathVariable Long id) {
         service.deletarAcesso(id);
