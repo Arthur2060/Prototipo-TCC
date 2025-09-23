@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -19,6 +21,9 @@ public class Carro {
 
     @ManyToOne
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Acesso> acessos;
 
     private String placa;
     private String modelo;
