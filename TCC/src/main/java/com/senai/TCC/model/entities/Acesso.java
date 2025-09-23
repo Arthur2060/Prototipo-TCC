@@ -25,8 +25,8 @@ public class Acesso {
     private Estacionamento estacionamento;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    @JoinColumn(name = "carro_id")
+    private Carro carro;
 
     private String placaDoCarro;
     private Time horaDeEntrada;

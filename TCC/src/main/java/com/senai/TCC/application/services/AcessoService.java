@@ -4,9 +4,11 @@ import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.mappers.AcessoMapper;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
+import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Acesso;
+import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
@@ -22,14 +24,14 @@ public class AcessoService {
 
     private final EstacionamentoRepository estacionamentoRepository;
 
-    private final ClienteRepository clienteRepository;
+    private final CarroRepository carroRepository;
 
     public AcessoService(AcessoRepository acessoRepository,
                          EstacionamentoRepository estacionamentoRepository,
-                         ClienteRepository clienteRepository) {
+                         CarroRepository carroRepository) {
         this.acessoRepository = acessoRepository;
         this.estacionamentoRepository = estacionamentoRepository;
-        this.clienteRepository = clienteRepository;
+        this.carroRepository = carroRepository;
     }
 
     public List<AcessoResponse> listarAcessos() {
@@ -60,20 +62,9 @@ public class AcessoService {
             throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
         }
 
-        Optional<Cliente> optCliente = clienteRepository.findByStatusTrue()
-                .stream()
-                .filter(
-                        cliente -> cliente.getCarros()
-                                .stream()
-                                .anyMatch(
-                                        carro -> carro
-                                                .getPlaca()
-                                                .equals(dto.placaDoCarro())
-                                )
-                )
-                .findFirst();
+        Optional<Carro> optCarro = carroRepository.findByPlaca(dto.placaDoCarro());
 
-        optCliente.ifPresent(acesso::setCliente);
+        optCarro.ifPresent(acesso::setCarro);
 
         Estacionamento estacionamento = optEstacionamento.get();
 

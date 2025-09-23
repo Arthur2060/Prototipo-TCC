@@ -30,7 +30,4 @@ public class Cliente extends Usuario{
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Avaliacao> avaliacoes;
-
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Acesso> acessos;
 }
