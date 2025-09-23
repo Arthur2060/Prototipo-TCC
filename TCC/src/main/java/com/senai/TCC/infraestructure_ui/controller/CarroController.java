@@ -29,17 +29,16 @@ public class CarroController {
             description = "Lista todos os carros cadastrados no sistema"
     )
     public ResponseEntity<List<CarroResponse>> listarCarros() {
-        return ResponseEntity.ok(service.listarCarros());
+        return ResponseEntity.status(200).body(service.listarCarros());
     }
 
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Carro Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<CarroResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
@@ -48,7 +47,7 @@ public class CarroController {
             description = "Cadastra um novo carro no sistema"
     )
     public ResponseEntity<CarroResponse> cadastrarCarro(@RequestBody CarroRequest dto) {
-        return ResponseEntity.ok(service.cadastrarCarro(dto));
+        return ResponseEntity.status(201).body(service.cadastrarCarro(dto));
     }
 
     @PutMapping("/{id}")
@@ -57,7 +56,7 @@ public class CarroController {
             description = "Atualiza os dados de um carro cadastrado no sistema"
     )
     public ResponseEntity<CarroResponse> atualizarCarro(@RequestBody CarroRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarCarro(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarCarro(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -65,7 +64,8 @@ public class CarroController {
             summary = "Deletar carro",
             description = "Deleta um carro cadastrado no sistema"
     )
-    public void deletarCarro(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarCarro(@PathVariable Long id) {
         service.deletarCarro(id);
+        return ResponseEntity.status(204).build();
     }
 }

@@ -26,28 +26,25 @@ public class ClienteController {
     @GetMapping
     @Operation(
             summary = "Listar todos os clientes",
-            description = "Retorna uma lista de todos os clientes cadastrados no sistema.",
-            tags = {"Cliente controller"}
+            description = "Retorna uma lista de todos os clientes cadastrados no sistema."
     )
     public ResponseEntity<List<ClienteResponse>> listarClientes() {
-        return ResponseEntity.ok(service.listarClientes());
+        return ResponseEntity.status(200).body(service.listarClientes());
     }
 
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Cliente Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<ClienteResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
     @Operation(
             summary = "Cadastrar um novo cliente",
             description = "Cadastra um novo cliente no sistema com base nos dados fornecidos.",
-            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -60,14 +57,13 @@ public class ClienteController {
             }
     )
     public ResponseEntity<ClienteResponse> cadastrarCliente(@RequestBody ClienteRequest dto) {
-        return ResponseEntity.ok(service.cadastrarCliente(dto));
+        return ResponseEntity.status(201).body(service.cadastrarCliente(dto));
     }
 
     @PutMapping("/{id}")
     @Operation(
             summary = "Atualizar um cliente existente",
             description = "Atualiza os dados de um cliente existente com base no ID fornecido.",
-            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -80,14 +76,13 @@ public class ClienteController {
             }
     )
     public ResponseEntity<ClienteResponse> atualizarCliente(@RequestBody ClienteRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarCliente(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarCliente(dto, id));
     }
 
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Deletar um cliente",
             description = "Deleta um cliente existente com base no ID fornecido.",
-            tags = {"Cliente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -99,7 +94,8 @@ public class ClienteController {
                     )
             }
     )
-    public void deletarCliente(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
         service.deletarCliente(id);
+        return ResponseEntity.status(204).build();
     }
 }

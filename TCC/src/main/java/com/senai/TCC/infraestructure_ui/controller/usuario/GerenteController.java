@@ -30,24 +30,22 @@ public class GerenteController {
             description = "Retorna uma lista de todos os gerentes cadastrados no sistema."
     )
     public ResponseEntity<List<GerenteResponse>> listarGerentes() {
-        return ResponseEntity.ok(service.listarGerentes());
+        return ResponseEntity.status(200).body(service.listarGerentes());
     }
 
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Gerente Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<GerenteResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping
     @Operation(
             summary = "Cadastrar um novo gerente",
             description = "Cadastra um novo gerente no sistema com base nos dados fornecidos.",
-            tags = {"Gerente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -60,14 +58,13 @@ public class GerenteController {
             }
     )
     public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteRequest dto) {
-        return ResponseEntity.ok(service.cadastrarGerente(dto));
+        return ResponseEntity.status(201).body(service.cadastrarGerente(dto));
     }
 
     @PutMapping("/{id}")
     @Operation(
             summary = "Atualizar um gerente existente",
             description = "Atualiza os dados de um gerente existente com base no ID fornecido.",
-            tags = {"Gerente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -80,14 +77,13 @@ public class GerenteController {
             }
     )
     public ResponseEntity<GerenteResponse> atualizarGerente(@RequestBody GerenteRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarGerente(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarGerente(dto, id));
     }
 
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Deletar um gerente",
             description = "Deleta um gerente existente com base no ID fornecido.",
-            tags = {"Gerente controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -99,7 +95,8 @@ public class GerenteController {
                     )
             }
     )
-    public void deletarGerente(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarGerente(@PathVariable Long id) {
         service.deletarGerente(id);
+        return ResponseEntity.status(204).build();
     }
 }

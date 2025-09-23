@@ -5,8 +5,10 @@ import com.senai.TCC.application.mappers.AcessoMapper;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
+import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Acesso;
 import com.senai.TCC.model.entities.Estacionamento;
+import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,14 @@ public class AcessoService {
 
     private final EstacionamentoRepository estacionamentoRepository;
 
-    public AcessoService(AcessoRepository acessoRepository, EstacionamentoRepository estacionamentoRepository) {
+    private final ClienteRepository clienteRepository;
+
+    public AcessoService(AcessoRepository acessoRepository,
+                         EstacionamentoRepository estacionamentoRepository,
+                         ClienteRepository clienteRepository) {
         this.acessoRepository = acessoRepository;
         this.estacionamentoRepository = estacionamentoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     public List<AcessoResponse> listarAcessos() {
@@ -52,6 +59,21 @@ public class AcessoService {
         if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
         }
+
+        Optional<Cliente> optCliente = clienteRepository.findByStatusTrue()
+                .stream()
+                .filter(
+                        cliente -> cliente.getCarros()
+                                .stream()
+                                .anyMatch(
+                                        carro -> carro
+                                                .getPlaca()
+                                                .equals(dto.placaDoCarro())
+                                )
+                )
+                .findFirst();
+
+        optCliente.ifPresent(acesso::setCliente);
 
         Estacionamento estacionamento = optEstacionamento.get();
 

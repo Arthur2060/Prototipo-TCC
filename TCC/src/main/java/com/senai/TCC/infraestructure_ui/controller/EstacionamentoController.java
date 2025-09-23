@@ -31,21 +31,19 @@ public class EstacionamentoController {
     @Operation(
             method = "GET",
             summary = "Listar todos os estacionamentos",
-            description = "Retorna uma lista de todos os estacionamentos cadastrados no sistema.",
-            tags = {"Estacionamento controller"}
+            description = "Retorna uma lista de todos os estacionamentos cadastrados no sistema."
     )
     public ResponseEntity<List<EstacionamentoResponse>> listarEstacionamentos() {
-        return ResponseEntity.ok(service.listarTodosOsEstacionamentos());
+        return ResponseEntity.status(200).body(service.listarTodosOsEstacionamentos());
     }
 
     @GetMapping("/{id}")
     @Operation(
             summary = "Buscar por ID",
-            description = "Busca uma entidade em especifico através de ID",
-            tags = {"Estacionamento Controller"}
+            description = "Busca uma entidade em especifico através de ID"
     )
     public ResponseEntity<EstacionamentoResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.buscarPorId(id));
+        return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
     @PostMapping("/{id}")
@@ -53,7 +51,6 @@ public class EstacionamentoController {
             method = "POST",
             summary = "Cadastrar um novo estacionamento",
             description = "Cadastra um novo estacionamento no sistema com base nos dados fornecidos.",
-            tags = {"Estacionamento controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -89,7 +86,7 @@ public class EstacionamentoController {
             )
     )
     public ResponseEntity<EstacionamentoResponse> cadastrarEstacionamento(@RequestBody EstacionamentoRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.cadastrarEstacionamento(dto, id));
+        return ResponseEntity.status(201).body(service.cadastrarEstacionamento(dto, id));
     }
 
     @PutMapping("/{id}")
@@ -97,7 +94,6 @@ public class EstacionamentoController {
             method = "PUT",
             summary = "Atualizar um estacionamento existente",
             description = "Atualiza os dados de um estacionamento existente com base no ID fornecido.",
-            tags = {"Estacionamento controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -110,7 +106,7 @@ public class EstacionamentoController {
             }
     )
     public ResponseEntity<EstacionamentoResponse> atualizarEstacionamento(@RequestBody EstacionamentoRequest dto, @PathVariable Long id) {
-        return ResponseEntity.ok(service.atualizarEstacionamento(dto, id));
+        return ResponseEntity.status(200).body(service.atualizarEstacionamento(dto, id));
     }
 
     @DeleteMapping("/{id}")
@@ -118,7 +114,6 @@ public class EstacionamentoController {
             method = "DELETE",
             summary = "Desativar um estacionamento",
             description = "Desativa um estacionamento existente com base no ID fornecido.",
-            tags = {"Estacionamento controller"},
             responses = {
                     @io.swagger.v3.oas.annotations.responses.ApiResponse(
                             responseCode = "200",
@@ -132,6 +127,6 @@ public class EstacionamentoController {
     )
     public ResponseEntity<Void> desativarEstacionamento(@PathVariable Long id) {
         service.desativarEstacionamento(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 }
