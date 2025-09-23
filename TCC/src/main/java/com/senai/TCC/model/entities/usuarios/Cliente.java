@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities.usuarios;
 
+import com.senai.TCC.model.entities.Acesso;
 import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Reserva;
@@ -23,8 +24,13 @@ import java.util.List;
 public class Cliente extends Usuario{
     @OneToMany
     private List<Carro> Carros;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reserva> reservas;
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Avaliacao> avaliacoes;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Acesso> acessos;
 }
