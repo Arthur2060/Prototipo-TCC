@@ -1,6 +1,6 @@
 package application.service.usuarios;
 
-import com.senai.TCC.application.dto.create_requests.usuario.GerenteCreateRequest;
+import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.application.services.usuario.GerenteService;
@@ -34,7 +34,7 @@ public class GerenteServiceTest {
 
     @Test
     void deveCadastrarGerenteValido() {
-        GerenteCreateRequest dto = new GerenteCreateRequest(
+        GerenteRequest dto = new GerenteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
@@ -81,7 +81,7 @@ public class GerenteServiceTest {
 
     @Test
     void deveAtualizarGerenteComSucesso() {
-        GerenteCreateRequest existente = new GerenteCreateRequest(
+        GerenteRequest existente = new GerenteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
@@ -90,7 +90,7 @@ public class GerenteServiceTest {
                 1L
         );
 
-        GerenteCreateRequest dtoAtualizado = new GerenteCreateRequest(
+        GerenteRequest dtoAtualizado = new GerenteRequest(
                 "Arthur",
                 "arthur@gmail.com",
                 "123456",
