@@ -4,6 +4,7 @@ import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.application.services.AcessoService;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
+import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.model.entities.Acesso;
 import com.senai.TCC.model.entities.Estacionamento;
@@ -31,6 +32,8 @@ public class AcessoServiceTest {
     private AcessoRepository acessoRepository;
     @Mock
     private EstacionamentoRepository estacionamentoRepository;
+    @Mock
+    private CarroRepository carroRepository;
     @InjectMocks
     private AcessoService acessoService;
 

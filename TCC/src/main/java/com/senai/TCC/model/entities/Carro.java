@@ -22,7 +22,7 @@ public class Carro {
     @ManyToOne
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acesso> acessos;
 
     private String placa;

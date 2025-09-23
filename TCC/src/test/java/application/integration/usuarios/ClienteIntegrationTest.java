@@ -1,4 +1,4 @@
-package application.integration;
+package application.integration.usuarios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senai.TCC.application.dto.requests.usuario.ClienteRequest;
