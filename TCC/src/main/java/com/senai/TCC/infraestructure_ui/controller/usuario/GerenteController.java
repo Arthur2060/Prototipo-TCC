@@ -6,6 +6,7 @@ import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.services.usuario.GerenteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +58,7 @@ public class GerenteController {
                     )
             }
     )
-    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody GerenteRequest dto) {
+    public ResponseEntity<GerenteResponse> cadastrarGerente(@RequestBody @Valid GerenteRequest dto) {
         return ResponseEntity.status(201).body(service.cadastrarGerente(dto));
     }
 
