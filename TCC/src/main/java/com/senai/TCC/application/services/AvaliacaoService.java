@@ -60,29 +60,30 @@ public class AvaliacaoService {
 
     @Transactional
     public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoRequest dto) {
-        Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
-        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
+        if (optCliente.isEmpty()) {
+            throw new IdNaoCadastrado("Cliente não encontrado no sistema");
+        }
+        Cliente cliente = optCliente.get();
 
+        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
+        if (optEstacio.isEmpty()) {
+            throw new IdNaoCadastrado("Estacionamento não encontrado no sistema");
+        }
+        Estacionamento estacionamento = optEstacio.get();
+
+        Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
         validador.validarAvaliacaoUnica(avaliacao);
         validador.validarTamanhoDoComentario(avaliacao);
 
-        if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
-        } else {
-            Cliente cliente = optCliente.get();
-            Estacionamento estacionamento = optEstacio.get();
+        avaliacao.setCliente(cliente);
+        avaliacao.setEstacionamento(estacionamento);
+        estacionamento.getAvaliacoes().add(avaliacao);
+        cliente.getAvaliacoes().add(avaliacao);
 
-            avaliacao.setCliente(cliente);
-            avaliacao.setEstacionamento(estacionamento);
-            estacionamento.getAvaliacoes().add(avaliacao);
-            cliente.getAvaliacoes().add(avaliacao);
-
-            estacionamento.calcularNotaMedia();
-
-            avaliacao.setStatus(true);
-            return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
-        }
+        estacionamento.calcularNotaMedia();
+        avaliacao.setStatus(true);
+        return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
     }
 
     @Transactional

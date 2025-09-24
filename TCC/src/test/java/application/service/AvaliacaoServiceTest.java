@@ -112,12 +112,21 @@ public class AvaliacaoServiceTest {
     }
 
     @Test
-    void deveLancarExcecaoAoCadastrarComClienteOuEstacionamentoInexistente() {
-        when(clienteRepository.findById(2L)).thenReturn(Optional.empty());
-        when(estacionamentoRepository.findById(1L)).thenReturn(Optional.of(estacionamento));
-        AvaliacaoRequest req = new AvaliacaoRequest(2L, 1L, (short) 4, "Muito bom", LocalDateTime.now());
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class, () -> avaliacaoService.cadastrarAvaliacao(req));
-        assertEquals("Cliente ou estacionamento não encontrado no sistema", ex.getMessage());
+    void deveLancarExcecaoQuandoClienteNaoExiste() {
+        when(clienteRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(IdNaoCadastrado.class, () ->
+                avaliacaoService.cadastrarAvaliacao(avaliacaoRequest)
+        );
+        verify(estacionamentoRepository, never()).findById(anyLong());
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoEstacionamentoNaoExiste() {
+        when(clienteRepository.findById(anyLong())).thenReturn(Optional.of(new Cliente()));
+        when(estacionamentoRepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(IdNaoCadastrado.class, () ->
+                avaliacaoService.cadastrarAvaliacao(avaliacaoRequest)
+        );
     }
 
     @Test
