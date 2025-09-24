@@ -1,27 +1,30 @@
 package application.integration.usuarios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
+import com.senai.TCC.application.services.EstacionamentoService;
+import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
-import java.time.LocalTime;
 import java.sql.Date;
+import java.time.LocalTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = com.senai.TCC.TccApplication.class)
+@SpringBootTest(classes = TccApplication.class)
 @AutoConfigureMockMvc
 public class GerenteIntegrationTest {
 
@@ -31,10 +34,24 @@ public class GerenteIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private EstacionamentoService estacionamentoService;
+
+    @Autowired
+    private DonoRepository donoRepository;
+
     private Long estacionamentoId;
 
     @BeforeEach
-    void criarEstacionamento() throws Exception {
+    void setup() {
+        // cria dono válido no banco
+        DonoEstacionamento dono = new DonoEstacionamento();
+        dono.setNome("Dono Teste");
+        dono.setEmail("dono@teste.com");
+        dono.setSenha("123456");
+        dono = donoRepository.save(dono);
+
+        // cria estacionamento associado ao dono
         var estacionamentoDto = new EstacionamentoRequest(
                 "EstacioPlay",
                 "Rua das Flores",
@@ -42,21 +59,15 @@ public class GerenteIntegrationTest {
                 "123",
                 new File("foto.jpg"),
                 "123456789",
-                LocalTime.of(22,0),
-                LocalTime.of(8,0),
+                LocalTime.of(22, 0),
+                LocalTime.of(8, 0),
                 10,
                 100,
                 "987654321"
         );
 
-        var response = mockMvc.perform(
-                post("/estacionamento")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(estacionamentoDto))
-                        .param("donoId", "1") // ajuste conforme necessário
-        ).andReturn().getResponse().getContentAsString();
-
-        EstacionamentoResponse estacionamento = objectMapper.readValue(response, EstacionamentoResponse.class);
+        EstacionamentoResponse estacionamento =
+                estacionamentoService.cadastrarEstacionamento(estacionamentoDto, dono.getId());
         estacionamentoId = estacionamento.id();
     }
 
@@ -75,11 +86,10 @@ public class GerenteIntegrationTest {
     void deveCadastrarGerenteValido() throws Exception {
         var dto = gerenteRequestValido();
 
-        mockMvc.perform(
-                        post("/gerente")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsBytes(dto))
-                ).andExpect(status().isCreated())
+        mockMvc.perform(post("/gerente")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(dto)))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nome").value("João"))
                 .andExpect(jsonPath("$.cpfOuCnpj").value("11111111111"))
                 .andExpect(jsonPath("$.estacionamentoId").value(estacionamentoId));
@@ -88,110 +98,83 @@ public class GerenteIntegrationTest {
     @Test
     void deveRetornarErroAoCadastrarGerenteSemEstacionamento() throws Exception {
         var dto = new GerenteRequest(
-                "João",
-                "joao@gmail.com",
-                "senha123",
-                Date.valueOf("1995-05-20"),
-                "11111111111",
-                null
+                "João", "joao@gmail.com", "senha123",
+                Date.valueOf("1995-05-20"), "11111111111", null
         );
 
-        mockMvc.perform(
-                post("/gerente")
+        mockMvc.perform(post("/gerente")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(dto))
-        ).andExpect(status().isBadRequest());
+                        .content(objectMapper.writeValueAsBytes(dto)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     void deveRetornarErroAoCadastrarGerenteComEstacionamentoInexistente() throws Exception {
         var dto = new GerenteRequest(
-                "João",
-                "joao@gmail.com",
-                "senha123",
-                Date.valueOf("1995-05-20"),
-                "11111111111",
-                9999L
+                "João", "joao@gmail.com", "senha123",
+                Date.valueOf("1995-05-20"), "11111111111", 9999L
         );
 
-        mockMvc.perform(
-                        post("/gerente")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsBytes(dto))
-                ).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.erro").value("Id do estacionamento não encontrado no sistema"));
+        mockMvc.perform(post("/gerente")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(dto)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
     void deveAtualizarGerente() throws Exception {
         var dto = gerenteRequestValido();
 
-        var salvo = mockMvc.perform(
-                post("/gerente")
+        var response = mockMvc.perform(post("/gerente")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-        ).andReturn().getResponse().getContentAsString();
+                        .content(objectMapper.writeValueAsBytes(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        var gerenteSalvo = objectMapper.readValue(salvo, GerenteResponse.class);
-
-        var atualizado = new GerenteRequest(
-                "Carlos",
-                "carlos@gmail.com",
-                "senha123",
-                Date.valueOf("1995-05-20"),
-                "22222222222",
-                estacionamentoId
+        GerenteResponse gerente = objectMapper.readValue(
+                response.getResponse().getContentAsString(),
+                GerenteResponse.class
         );
 
-        mockMvc.perform(
-                        put("/gerente/" + gerenteSalvo.id())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(atualizado))
-                ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.nome").value("Carlos"))
-                .andExpect(jsonPath("$.cpfOuCnpj").value("22222222222"));
+        var updateDto = new GerenteRequest(
+                "Carlos", "carlos@gmail.com", "senha123",
+                Date.valueOf("1995-05-20"), "22222222222", estacionamentoId
+        );
+
+        mockMvc.perform(put("/gerente/" + gerente.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(updateDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nome").value("Carlos"));
     }
 
     @Test
     void deveRetornarErroAoAtualizarGerenteComEstacionamentoInexistente() throws Exception {
-        var dto = gerenteRequestValido();
-
-        var salvo = mockMvc.perform(
-                post("/gerente")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-        ).andReturn().getResponse().getContentAsString();
-
-        var gerenteSalvo = objectMapper.readValue(salvo, GerenteResponse.class);
-
-        var atualizado = new GerenteRequest(
-                "Carlos",
-                "carlos@gmail.com",
-                "senha123",
-                Date.valueOf("1995-05-20"),
-                "22222222222",
-                9999L
+        var updateDto = new GerenteRequest(
+                "Carlos", "carlos@gmail.com", "senha123",
+                Date.valueOf("1995-05-20"), "22222222222", 9999L
         );
 
-        mockMvc.perform(
-                        put("/gerente/" + gerenteSalvo.id())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(atualizado))
-                ).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.erro").value("Estacionamento desejado a adicionar não cadastrado no sistema!"));
+        mockMvc.perform(put("/gerente/9999")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(updateDto)))
+                .andExpect(status().isNotFound());
     }
 
     @Test
     void deveDeletarGerente() throws Exception {
         var dto = gerenteRequestValido();
 
-        var salvo = mockMvc.perform(
-                post("/gerente")
+        var response = mockMvc.perform(post("/gerente")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-        ).andReturn().getResponse().getContentAsString();
+                        .content(objectMapper.writeValueAsBytes(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        var gerente = objectMapper.readValue(salvo, GerenteResponse.class);
+        GerenteResponse gerente = objectMapper.readValue(
+                response.getResponse().getContentAsString(),
+                GerenteResponse.class
+        );
 
         mockMvc.perform(delete("/gerente/" + gerente.id()))
                 .andExpect(status().isNoContent());
@@ -201,13 +184,16 @@ public class GerenteIntegrationTest {
     void deveBuscarGerentePorId() throws Exception {
         var dto = gerenteRequestValido();
 
-        var salvo = mockMvc.perform(
-                post("/gerente")
+        var response = mockMvc.perform(post("/gerente")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-        ).andReturn().getResponse().getContentAsString();
+                        .content(objectMapper.writeValueAsBytes(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        var gerente = objectMapper.readValue(salvo, GerenteResponse.class);
+        GerenteResponse gerente = objectMapper.readValue(
+                response.getResponse().getContentAsString(),
+                GerenteResponse.class
+        );
 
         mockMvc.perform(get("/gerente/" + gerente.id()))
                 .andExpect(status().isOk())

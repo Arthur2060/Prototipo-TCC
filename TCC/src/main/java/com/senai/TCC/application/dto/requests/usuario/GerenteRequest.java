@@ -1,6 +1,7 @@
 package com.senai.TCC.application.dto.requests.usuario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -46,6 +47,7 @@ public record GerenteRequest(
                 description = "ID do estacionamento que o gerente irá gerenciar",
                 examples = "1"
         )
+        @NotNull(message = "O estacionamentoId não pode ser nulo")
         Long estacionamentoId
 ) {
 }
