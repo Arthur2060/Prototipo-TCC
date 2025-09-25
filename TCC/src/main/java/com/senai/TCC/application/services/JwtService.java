@@ -43,7 +43,7 @@ public class JwtService {
         if (optUsuario.isPresent()) {
             Usuario usuario = optUsuario.get();
             if (usuario.getSenha().equals(dto.senha())) {
-                return Map.of("token", generateToken(usuario.getEmail()));
+                return Map.of("token", generateToken(usuario));
             } else {
                 throw new RuntimeException("Senha incorreta");
             }
@@ -58,7 +58,7 @@ public class JwtService {
         if (optUsuario.isPresent()) {
             Usuario usuario = optUsuario.get();
             if (usuario.getSenha().equals(dto.senha())) {
-                return Map.of("token", generateToken(usuario.getEmail()));
+                return Map.of("token", generateToken(usuario));
             } else {
                 throw new RuntimeException("Senha incorreta");
             }
@@ -73,7 +73,7 @@ public class JwtService {
         if (optUsuario.isPresent()) {
             Usuario usuario = optUsuario.get();
             if (usuario.getSenha().equals(dto.senha())) {
-                return Map.of("token", generateToken(usuario.getEmail()));
+                return Map.of("token", generateToken(usuario));
             } else {
                 throw new RuntimeException("Senha incorreta");
             }
@@ -82,12 +82,16 @@ public class JwtService {
         }
     }
 
-    public String generateToken(String email) {
+    public String generateToken(Usuario usuario) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(usuario.getEmail())
+                .claim("id", usuario.getId())
+                .claim("senha", usuario.getSenha())
+                .claim("nome", usuario.getNome())
+                .claim("tipo", usuario.getClass())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SECRET_KEY)
                 .compact();
     }
 

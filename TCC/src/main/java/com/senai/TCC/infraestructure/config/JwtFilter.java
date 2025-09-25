@@ -29,7 +29,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             try {
                 String email = jwtService.validateToken(token);
-                request.setAttribute("dono", email);
+                request.setAttribute("email", email);
             } catch (Exception e) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "token invalido ou expirado");
                 return;
