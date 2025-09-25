@@ -39,7 +39,7 @@ public record UsuarioRequest(
                 name = "tipoDeUsuario",
                 description = "Um dos quatro tipos de usuario possiveis:" +
                         "CLIENTE, GERENTE ou DONO.",
-                examples = "CLENTE"
+                examples = "CLIENTE"
         )
         TipoDeUsuario tipoDeUsuario
 ) {
