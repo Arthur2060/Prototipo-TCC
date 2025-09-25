@@ -7,7 +7,7 @@ import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class GerenteService {
         Optional<Gerente> optionalGerente = gerenteRepository.findById(id);
 
         if (optionalGerente.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
         }
 
         return GerenteMapper.fromEntity(optionalGerente.get());
@@ -46,7 +46,7 @@ public class GerenteService {
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
         if (optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
+            throw new IdNaoCadastradoException("Id do estacionamento não encontrado no sistema");
         }
 
         Estacionamento estacionamento = optEstacionamento.get();
@@ -62,7 +62,7 @@ public class GerenteService {
         var optGerente = gerenteRepository.findById(id);
 
         if (optGerente.isEmpty()) {
-            throw new IdNaoCadastrado("Id do gerente buscado não encontrado no sistema!");
+            throw new IdNaoCadastradoException("Id do gerente buscado não encontrado no sistema!");
         }
 
         Gerente gerente = optGerente.get();
@@ -75,7 +75,7 @@ public class GerenteService {
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(gerente.getEstacionamento().getId());
 
         if (optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("Estacionamento desejado a adicionar não cadastrado no sistema!");
+            throw new IdNaoCadastradoException("Estacionamento desejado a adicionar não cadastrado no sistema!");
         }
 
         Estacionamento estacionamento = optEstacionamento.get();
@@ -90,7 +90,7 @@ public class GerenteService {
         Optional<Gerente> optGerente = gerenteRepository.findById(id);
 
         if (optGerente.isEmpty()) {
-            throw new IdNaoCadastrado("Id do gerente buscado não encontrado no sistema!");
+            throw new IdNaoCadastradoException("Id do gerente buscado não encontrado no sistema!");
         }
 
         Gerente gerente = optGerente.get();

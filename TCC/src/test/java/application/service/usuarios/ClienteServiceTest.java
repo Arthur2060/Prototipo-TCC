@@ -6,7 +6,7 @@ import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.services.usuario.ClienteService;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -67,7 +67,7 @@ public class ClienteServiceTest {
     void deveLancarIdDesconhecidoExceptionAoBuscarIdInexistente() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+        IdNaoCadastradoException ex = assertThrows(IdNaoCadastradoException.class,
                 () -> service.buscarPorId(99L));
         assertEquals("ID buscado não foi encontrado no sistema!", ex.getMessage());
     }
@@ -117,7 +117,7 @@ public class ClienteServiceTest {
     void deveLancarIdDesconhecidoExceptionAoDeletarClienteInexistente() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class,
+        IdNaoCadastradoException ex = assertThrows(IdNaoCadastradoException.class,
                 () -> service.deletarCliente(99L));
 
         assertEquals("Cliente buscado não cadastrado no sistema", ex.getMessage());

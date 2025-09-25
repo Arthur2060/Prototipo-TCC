@@ -9,7 +9,7 @@ import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class ReservaService {
         Optional<Reserva> optionalReserva = reservaRepository.findById(id);
 
         if (optionalReserva.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
         }
 
         return ReservaMapper.fromEntity(optionalReserva.get());
@@ -52,7 +52,7 @@ public class ReservaService {
         Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
         if (optionalCliente.isEmpty() || optionalEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente ou estacionameno não encontrado no sistema!");
+            throw new IdNaoCadastradoException("Cliente ou estacionameno não encontrado no sistema!");
         }
 
         Cliente cliente = optionalCliente.get();
@@ -72,7 +72,7 @@ public class ReservaService {
         Optional<Reserva> optionalReserva = reservaRepository.findById(id);
 
         if (optionalReserva.isEmpty()) {
-            throw new IdNaoCadastrado("ID de reserva buscado não encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID de reserva buscado não encontrado no sistema!");
         }
 
         Reserva reserva = optionalReserva.get();
@@ -88,7 +88,7 @@ public class ReservaService {
         Optional<Reserva> optionalReserva = reservaRepository.findById(id);
 
         if (optionalReserva.isEmpty()) {
-            throw new IdNaoCadastrado("ID de reserva buscado não encontrado no sistema!");
+            throw new IdNaoCadastradoException("ID de reserva buscado não encontrado no sistema!");
         }
 
         Reserva reserva = optionalReserva.get();

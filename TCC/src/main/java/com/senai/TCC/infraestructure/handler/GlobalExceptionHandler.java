@@ -1,7 +1,6 @@
 package com.senai.TCC.infraestructure.handler;
 
 import com.senai.TCC.model.exceptions.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,8 +12,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IdNaoCadastrado.class)
-    public ResponseEntity<?> handleIdNaoEncontrado(IdNaoCadastrado ex) {
+    @ExceptionHandler(IdNaoCadastradoException.class)
+    public ResponseEntity<?> handleIdNaoEncontrado(IdNaoCadastradoException ex) {
         return ResponseEntity.status(404).body(Map.of("erro", ex.getMessage()));
     }
 
@@ -30,18 +29,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(erros);
     }
 
-    @ExceptionHandler(MultiplasAvaliacoesIguais.class)
-    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(MultiplasAvaliacoesIguais ex) {
+    @ExceptionHandler(AvaliacaoInvalidaException.class)
+    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(AvaliacaoInvalidaException ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(TipoDeUsuarioInvalido.class)
-    public ResponseEntity<?> handleTipoDeUsuarioInvalidoException(TipoDeUsuarioInvalido ex) {
+    @ExceptionHandler(TipoDeUsuarioInvalidoException.class)
+    public ResponseEntity<?> handleTipoDeUsuarioInvalidoException(TipoDeUsuarioInvalidoException ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(ComentarioMuitoLongo.class)
-    public ResponseEntity<?> handleComentarioMuitoLongoException(ComentarioMuitoLongo ex) {
+    @ExceptionHandler(ComentarioMuitoLongoException.class)
+    public ResponseEntity<?> handleComentarioMuitoLongoException(ComentarioMuitoLongoException ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
@@ -50,8 +49,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(500).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(TempoLimiteDeAvaliacaoExpedido.class)
-    public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedido ex) {
+    @ExceptionHandler(TempoLimiteDeAvaliacaoExpedidoException.class)
+    public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedidoException ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 }
