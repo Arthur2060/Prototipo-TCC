@@ -1,6 +1,6 @@
 package com.senai.TCC.model.entities.usuarios;
 
-import com.senai.TCC.model.entities.Carro;
+import com.senai.TCC.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
 
 @Getter
@@ -29,4 +28,5 @@ public abstract class Usuario {
     private Date dataNascimento;
 
     private Boolean status;
+    protected Role role;
 }

@@ -1,34 +1,26 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
-import com.senai.TCC.application.services.JwtService;
+import com.senai.TCC.application.dto.requests.login.UsuarioLoginResponse;
+import com.senai.TCC.application.services.AuthService;
+import com.senai.TCC.infraestructure.config.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
-    private final JwtService jwtService;
+    private final AuthService authService;
 
-    public AuthController(JwtService jwtService) {
-        this.jwtService = jwtService;
-    }
-
-    @PostMapping("/login/dono")
-    public ResponseEntity<?> loginDono(@RequestBody UsuarioLoginRequest dto) {
-        return ResponseEntity.status(200).body(jwtService.loginDono(dto));
-    }
-
-    @PostMapping("/login/cliente")
-    public ResponseEntity<?> loginCliente(@RequestBody UsuarioLoginRequest dto) {
-        return ResponseEntity.status(200).body(jwtService.loginCliente(dto));
-    }
-
-    @PostMapping("/login/gerente")
-    public ResponseEntity<?> loginGerente(@RequestBody UsuarioLoginRequest dto) {
-        return ResponseEntity.status(200).body(jwtService.loginGerente(dto));
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioLoginResponse> login (@RequestBody UsuarioLoginRequest dto) {
+        return ResponseEntity.ok(new UsuarioLoginResponse(authService.login(dto)));
     }
 }
