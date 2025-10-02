@@ -1,7 +1,7 @@
 package com.senai.TCC.application.services;
 
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
-import com.senai.TCC.infraestructure.config.JwtService;
+import com.senai.TCC.infraestructure.security.JwtService;
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import com.senai.TCC.model.entities.usuarios.Usuario;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.senai.TCC.infraestructure.config;
+package com.senai.TCC.infraestructure.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.senai.TCC.infraestructure.config;
+package com.senai.TCC.infraestructure.security;
 
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;

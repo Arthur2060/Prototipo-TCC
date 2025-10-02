@@ -1,4 +1,4 @@
-package com.senai.TCC.infraestructure.config;
+package com.senai.TCC.infraestructure.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

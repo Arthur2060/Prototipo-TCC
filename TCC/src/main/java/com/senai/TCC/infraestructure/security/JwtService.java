@@ -1,9 +1,6 @@
-package com.senai.TCC.infraestructure.config;
+package com.senai.TCC.infraestructure.security;
 
-import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
-import com.senai.TCC.model.entities.usuarios.Usuario;
-import com.senai.TCC.model.enums.Role;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +11,6 @@ import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Map;
 
 @Service
 public class JwtService {
