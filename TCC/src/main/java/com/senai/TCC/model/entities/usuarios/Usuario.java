@@ -1,6 +1,7 @@
 package com.senai.TCC.model.entities.usuarios;
 
 import com.senai.TCC.model.enums.Role;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public abstract class Usuario {
     private String senha;
     private Date dataNascimento;
 
+    private TipoDeUsuario tipoDeUsuario;
     private Boolean status;
     protected Role role;
 }

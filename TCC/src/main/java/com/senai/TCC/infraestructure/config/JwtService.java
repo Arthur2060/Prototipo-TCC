@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
@@ -27,11 +28,12 @@ public class JwtService {
     }
 
     public String generateToken(String email, String roles) {
+        Instant now = Instant.now();
         return Jwts.builder()
                 .setSubject(email)
-                .claim("roles", roles)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .claim("role", roles)
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(now.plusSeconds(System.currentTimeMillis() + EXPIRATION_TIME)))
                 .signWith(SECRET_KEY)
                 .compact();
     }
