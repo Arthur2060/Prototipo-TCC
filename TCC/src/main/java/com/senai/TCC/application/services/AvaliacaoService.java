@@ -60,14 +60,15 @@ public class AvaliacaoService {
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
-        validador.validarAvaliacaoAposUso(avaliacao);
-        validador.validarTamanhoDoComentario(avaliacao);
-
         if (optCliente.isEmpty() || optEstacio.isEmpty()) {
             throw new IdNaoCadastradoException("Cliente ou estacionamento não encontrado no sistema");
         } else {
             Cliente cliente = optCliente.get();
             Estacionamento estacionamento = optEstacio.get();
+
+            validador.validarNumeroDeAvaliacoes(avaliacao);
+            validador.validarAvaliacaoAposUso(avaliacao);
+            validador.validarTamanhoDoComentario(avaliacao);
 
             avaliacao.setCliente(cliente);
             avaliacao.setEstacionamento(estacionamento);
@@ -98,6 +99,7 @@ public class AvaliacaoService {
 
                 validador.validarAvaliacaoAposUso(avaliacao);
                 validador.validarTamanhoDoComentario(avaliacao);
+                validador.validarTempoDeAvaliacao(avaliacao);
 
                 avaliacao.setNota(dto.nota());
                 avaliacao.setComentario(dto.comentario());
