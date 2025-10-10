@@ -14,14 +14,9 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final UsuarioRepository usuarioRepository;
 
     private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Substitua por uma chave segura
-    private final Long EXPIRATION_TIME = 60 * 60 * 24000L;
-
-    public JwtService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+    private static final Long EXPIRATION_TIME = 60 * 60 * 24000L;
 
     public String generateToken(String email, String roles) {
         Instant now = Instant.now();
