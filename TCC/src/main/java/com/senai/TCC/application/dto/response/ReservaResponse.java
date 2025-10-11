@@ -1,5 +1,6 @@
 package com.senai.TCC.application.dto.response;
 
+import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.enums.StatusReserva;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,15 +11,15 @@ import java.util.Date;
 public record ReservaResponse(
         Long id,
         @Schema(
-                name = "clienteId",
+                name = "cliente",
                 description = "Cliente que solicitou a reserva"
         )
-        Long clienteId,
+        ClienteResponse cliente,
         @Schema(
-                name = "estacioId",
+                name = "estacionamento",
                 description = "Estabelecimento cadastrado em que a reserva foi solicitada"
         )
-        Long estacioId,
+        EstacionamentoResponse estacionamento,
         @Schema(
                 name = "dataDaReserva",
                 description = "Data em que a reserva foi feita, necessario ser futura",

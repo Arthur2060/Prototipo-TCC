@@ -6,9 +6,9 @@ import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.exceptions.ComentarioMuitoLongoException;
-import com.senai.TCC.model.exceptions.AvaliacaoInvalidaException;
-import com.senai.TCC.model.exceptions.TempoLimiteDeAvaliacaoExpedidoException;
+import com.senai.TCC.model.exceptions.ComentarioMuitoLongo;
+import com.senai.TCC.model.exceptions.AvaliacaoInvalida;
+import com.senai.TCC.model.exceptions.TempoLimiteDeAvaliacaoExpedido;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,7 +52,7 @@ public class ValidadorAvaliacao {
                     )
                     .toList()
                     .isEmpty()) {
-            throw new AvaliacaoInvalidaException("Cliente não possui reserva ou acessos registrados neste estacionamento nesse estacionamento");
+            throw new AvaliacaoInvalida("Cliente não possui reserva ou acessos registrados neste estacionamento nesse estacionamento");
         }
     }
 
@@ -61,14 +61,33 @@ public class ValidadorAvaliacao {
         LocalDateTime dataAtual = LocalDateTime.now();
 
         if (ChronoUnit.DAYS.between(dataInical, dataAtual) >= 7) {
-            throw new TempoLimiteDeAvaliacaoExpedidoException("Espedido tempo limite de 7 dias para alterar a avaliação requisitada");
+            throw new TempoLimiteDeAvaliacaoExpedido("Expedido tempo limite de 7 dias para alterar a avaliação requisitada");
         }
     }
 
 
     public void validarTamanhoDoComentario(Avaliacao avaliacao) {
         if (avaliacao.getComentario().length() > 500) {
-            throw new ComentarioMuitoLongoException("Comentario muito longo");
+            throw new ComentarioMuitoLongo("Comentario muito longo");
+        }
+    }
+
+    public void validarNumeroDeAvaliacoes(Avaliacao avaliacao) {
+        Estacionamento estacionamento = avaliacao.getEstacionamento();
+        Cliente cliente = avaliacao.getCliente();
+
+        Integer numeroDeAvaliacoes = estacionamento.getAvaliacoes()
+                .stream().filter(avaliacao1 -> avaliacao1.getCliente() == cliente)
+                .toList()
+                .size();
+
+        if (
+                estacionamento.getReservas()
+                        .stream().filter(reserva -> reserva.getCliente() == cliente)
+                        .toList()
+                        .size() <= numeroDeAvaliacoes
+        ) {
+            throw new AvaliacaoInvalida("Mais avalições do que o permitido!");
         }
     }
 }

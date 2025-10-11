@@ -2,6 +2,7 @@ package com.senai.TCC.application.mappers;
 
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
+import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.model.entities.Estacionamento;
 
 public class EstacionamentoMapper {
@@ -20,7 +21,19 @@ public class EstacionamentoMapper {
                 estacionamento.getVagaPreferenciais(),
                 estacionamento.getMaxVagas(),
                 estacionamento.getNumeroDeEscrituraImovel(),
-                estacionamento.getStatus()
+                estacionamento.getStatus(),
+                estacionamento.getAvaliacoes()
+                        .stream().map(AvaliacaoMapper::fromEntity)
+                        .toList(),
+                estacionamento.getAcessos()
+                        .stream().map(AcessoMapper::fromEntity)
+                        .toList(),
+                estacionamento.getReservas()
+                        .stream().map(ReservaMapper::fromEntity)
+                        .toList(),
+                estacionamento.getGerentes()
+                        .stream().map(GerenteMapper::fromEntity)
+                        .toList()
         );
     }
 

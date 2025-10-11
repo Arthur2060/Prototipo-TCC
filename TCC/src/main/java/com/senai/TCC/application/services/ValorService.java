@@ -7,7 +7,7 @@ import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.Valor;
-import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class ValorService {
         Optional<Valor> optionalValor = valorRepository.findById(id);
 
         if (optionalValor.isEmpty()) {
-            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
         }
 
         return ValorMapper.fromEntity(optionalValor.get());
@@ -47,7 +47,7 @@ public class ValorService {
         Valor novoValor = ValorMapper.toEntity(dto);
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
         if (optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastradoException("Id de estacionamento especificado não encontrado no sistema");
+            throw new IdNaoCadastrado("Id de estacionamento especificado não encontrado no sistema");
         }
         Estacionamento estacionamento = optEstacionamento.get();
 
@@ -64,7 +64,7 @@ public class ValorService {
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
 
         if (optEstacionamento.isEmpty() || optValor.isEmpty()) {
-            throw new IdNaoCadastradoException("ID de valor ou estacionamento buscados não encontrados");
+            throw new IdNaoCadastrado("ID de valor ou estacionamento buscados não encontrados");
         }
 
         Estacionamento estacionamento = optEstacionamento.get();
@@ -89,7 +89,7 @@ public class ValorService {
         Optional<Valor> optionalValor = valorRepository.findById(id);
 
         if (optionalValor.isEmpty()) {
-            throw new IdNaoCadastradoException("Id de valor especificado não encontrado no sistema");
+            throw new IdNaoCadastrado("Id de valor especificado não encontrado no sistema");
         }
 
         Valor valor = optionalValor.get();

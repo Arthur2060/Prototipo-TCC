@@ -7,7 +7,7 @@ import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.entities.usuarios.Usuario;
 import com.senai.TCC.model.enums.TipoDeUsuario;
-import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalidoException;
+import com.senai.TCC.model.exceptions.TipoDeUsuarioInvalido;
 
 public class UsuarioMapper {
 
@@ -32,7 +32,7 @@ public class UsuarioMapper {
             case Gerente gerente -> TipoDeUsuario.GERENTE;
             case DonoEstacionamento dono -> TipoDeUsuario.DONO;
             case Cliente cliente -> TipoDeUsuario.CLIENTE;
-            default -> throw new TipoDeUsuarioInvalidoException("O tipo de usuario da classe é invalido!");
+            default -> throw new TipoDeUsuarioInvalido("O tipo de usuario da classe é invalido!");
         };
 
         return new UsuarioResponse(

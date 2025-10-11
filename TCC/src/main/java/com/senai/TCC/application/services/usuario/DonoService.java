@@ -5,7 +5,7 @@ import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class DonoService {
         Optional<DonoEstacionamento> optionalDono = donoRepository.findById(id);
 
         if (optionalDono.isEmpty()) {
-            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
         }
 
         return DonoMapper.fromEntity(optionalDono.get());
@@ -49,7 +49,7 @@ public class DonoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdNaoCadastradoException("O Id não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("O Id não foi encontrado no sistema!");
         }
 
         DonoEstacionamento dono = optDono.get();
@@ -67,7 +67,7 @@ public class DonoService {
         Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
 
         if (optDono.isEmpty()) {
-            throw new IdNaoCadastradoException("Dono buscado não cadastrado no sistema");
+            throw new IdNaoCadastrado("Dono buscado não cadastrado no sistema");
         }
 
         DonoEstacionamento dono = optDono.get();
