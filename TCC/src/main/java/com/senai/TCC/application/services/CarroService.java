@@ -7,7 +7,7 @@ import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.exceptions.IdNaoCadastradoException;
+import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class CarroService {
         Optional<Carro> optionalCarro = carroRepository.findById(id);
 
         if (optionalCarro.isEmpty()) {
-            throw new IdNaoCadastradoException("ID buscado não foi encontrado no sistema!");
+            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
         }
 
         return CarroMapper.fromEntity(optionalCarro.get());
@@ -48,7 +48,7 @@ public class CarroService {
         Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
 
         if (optCliente.isEmpty()) {
-            throw new IdNaoCadastradoException("Cliente não encontrado com no sistema.");
+            throw new IdNaoCadastrado("Cliente não encontrado com no sistema.");
         }
 
         Cliente cliente = optCliente.get();
@@ -65,7 +65,7 @@ public class CarroService {
         Optional<Cliente> novoCliente = clienteRepository.findById(dto.clienteId());
 
         if (carroOriginal.isEmpty() || novoCliente.isEmpty()) {
-            throw new IdNaoCadastradoException("Carro ou Cliente não encontrado no sistema.");
+            throw new IdNaoCadastrado("Carro ou Cliente não encontrado no sistema.");
         }
 
         Carro carro = carroOriginal.get();
@@ -91,7 +91,7 @@ public class CarroService {
         Optional<Carro> optCarro = carroRepository.findById(id);
 
         if (optCarro.isEmpty()) {
-            throw new IdNaoCadastradoException("Carro não encontrado no sistema.");
+            throw new IdNaoCadastrado("Carro não encontrado no sistema.");
         }
 
         Carro carro = optCarro.get();

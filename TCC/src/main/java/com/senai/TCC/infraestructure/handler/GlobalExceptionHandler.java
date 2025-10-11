@@ -12,8 +12,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IdNaoCadastradoException.class)
-    public ResponseEntity<?> handleIdNaoEncontrado(IdNaoCadastradoException ex) {
+    @ExceptionHandler(IdNaoCadastrado.class)
+    public ResponseEntity<?> handleIdNaoEncontrado(IdNaoCadastrado ex) {
         return ResponseEntity.status(404).body(Map.of("erro", ex.getMessage()));
     }
 
@@ -29,18 +29,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(erros);
     }
 
-    @ExceptionHandler(AvaliacaoInvalidaException.class)
-    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(AvaliacaoInvalidaException ex) {
+    @ExceptionHandler(AvaliacaoInvalida.class)
+    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(AvaliacaoInvalida ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(TipoDeUsuarioInvalidoException.class)
-    public ResponseEntity<?> handleTipoDeUsuarioInvalidoException(TipoDeUsuarioInvalidoException ex) {
+    @ExceptionHandler(TipoDeUsuarioInvalido.class)
+    public ResponseEntity<?> handleTipoDeUsuarioInvalidoException(TipoDeUsuarioInvalido ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(ComentarioMuitoLongoException.class)
-    public ResponseEntity<?> handleComentarioMuitoLongoException(ComentarioMuitoLongoException ex) {
+    @ExceptionHandler(ComentarioMuitoLongo.class)
+    public ResponseEntity<?> handleComentarioMuitoLongoException(ComentarioMuitoLongo ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
@@ -49,8 +49,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(500).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(TempoLimiteDeAvaliacaoExpedidoException.class)
-    public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedidoException ex) {
+    @ExceptionHandler(TempoLimiteDeAvaliacaoExpedido.class)
+    public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedido ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 }
