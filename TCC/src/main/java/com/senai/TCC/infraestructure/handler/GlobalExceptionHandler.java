@@ -1,7 +1,10 @@
 package com.senai.TCC.infraestructure.handler;
 
 import com.senai.TCC.model.exceptions.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -52,5 +55,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TempoLimiteDeAvaliacaoExpedido.class)
     public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedido ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    public ResponseEntity<?> handleCredencialInvalidasException(CredenciaisInvalidasException ex) {
+        return ResponseEntity.status(401).body(Map.of("erro",ex.getMessage()));
     }
 }

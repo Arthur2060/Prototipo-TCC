@@ -1,3 +1,3 @@
 package com.senai.TCC.model.enums;
 
-public enum Role { DONO, GERENTE, CLIENTE }
+public enum Role { DONO, GERENTE, CLIENTE, ADMIN}

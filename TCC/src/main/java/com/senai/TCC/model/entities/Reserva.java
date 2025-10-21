@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.senai.TCC.model.entities.usuarios.Cliente;
+import lombok.experimental.SuperBuilder;
 
 import java.sql.Time;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

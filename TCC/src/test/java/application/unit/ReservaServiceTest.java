@@ -1,4 +1,4 @@
-package application.service;
+package application.unit;
 
 import com.senai.TCC.application.dto.requests.ReservaRequest;
 import com.senai.TCC.application.dto.response.ReservaResponse;

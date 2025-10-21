@@ -1,6 +1,5 @@
 package com.senai.TCC.infraestructure.security;
 
-import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +14,14 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Substitua por uma chave segura
-    private static final Long EXPIRATION_TIME = 60 * 60 * 24000L;
+    private final SecretKey SECRET_KEY; // Substitua por uma chave segura
+    private final Long EXPIRATION_TIME;
+
+    public JwtService() {
+        this.SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.EXPIRATION_TIME = 60 * 60 * 24000L;
+    }
+
 
     public String generateToken(String email, String roles) {
         Instant now = Instant.now();

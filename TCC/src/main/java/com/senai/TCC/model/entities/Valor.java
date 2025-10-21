@@ -8,12 +8,14 @@ import lombok.Setter;
 import com.senai.TCC.model.enums.Cobranca;
 import com.senai.TCC.model.enums.Metodo;
 import com.senai.TCC.model.enums.Periodo;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public class Valor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

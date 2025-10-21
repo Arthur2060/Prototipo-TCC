@@ -1,4 +1,4 @@
-package application.service.usuarios;
+package application.unit.usuarios;
 
 import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;

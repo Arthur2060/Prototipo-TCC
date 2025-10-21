@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.sql.Time;
 import java.time.LocalTime;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Setter
 @Getter
+@SuperBuilder
 public class Acesso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

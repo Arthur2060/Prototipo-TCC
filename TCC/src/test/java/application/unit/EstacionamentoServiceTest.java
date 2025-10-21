@@ -1,4 +1,4 @@
-package application.service;
+package application.unit;
 
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
