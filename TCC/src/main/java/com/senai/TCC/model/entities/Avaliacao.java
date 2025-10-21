@@ -1,6 +1,5 @@
 package com.senai.TCC.model.entities;
 
-import com.senai.TCC.model.exceptions.ComentarioMuitoLongo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

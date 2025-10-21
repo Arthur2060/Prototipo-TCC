@@ -7,7 +7,7 @@ import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.ComentarioMuitoLongo;
-import com.senai.TCC.model.exceptions.MultiplasAvaliacoesIguais;
+import com.senai.TCC.model.exceptions.AvaliacaoInvalida;
 import com.senai.TCC.model.exceptions.TempoLimiteDeAvaliacaoExpedido;
 import org.springframework.stereotype.Service;
 
@@ -31,17 +31,29 @@ public class ValidadorAvaliacao {
         this.estacionamentoRepository = estacionamentoRepository;
     }
 
-    public void validarAvaliacaoUnica(Avaliacao avaliacao) {
+    public void validarAvaliacaoAposUso(Avaliacao avaliacao) {
         Cliente cliente = avaliacao.getCliente();
         Estacionamento estacionamento = avaliacao.getEstacionamento();
 
-        avaliacaoRepository.findAll()
-                .forEach(a -> {
-                    if (a.getCliente() == cliente && a.getEstacionamento() == estacionamento) {
-                        throw new MultiplasAvaliacoesIguais("O cliente já tem uma avaliação registrada para este" +
-                                "estabelecimento");
-                    }
-                });
+        if (cliente.getReservas()
+                .stream()
+                .filter( reserva -> reserva.getEstacionamento().equals(estacionamento))
+                .toList()
+                .isEmpty()
+            ||
+            cliente.getCarros()
+                    .stream()
+                    .filter(
+                            carro -> carro.getAcessos()
+                                    .stream()
+                                    .anyMatch(
+                                            acesso -> acesso.getEstacionamento().equals(estacionamento)
+                                    )
+                    )
+                    .toList()
+                    .isEmpty()) {
+            throw new AvaliacaoInvalida("Cliente não possui reserva ou acessos registrados neste estacionamento nesse estacionamento");
+        }
     }
 
     public void validarTempoDeAvaliacao(Avaliacao avaliacao) {
@@ -49,7 +61,7 @@ public class ValidadorAvaliacao {
         LocalDateTime dataAtual = LocalDateTime.now();
 
         if (ChronoUnit.DAYS.between(dataInical, dataAtual) >= 7) {
-            throw new TempoLimiteDeAvaliacaoExpedido("Espedido tempo limite de 7 dias para alterar a avaliação requisitada");
+            throw new TempoLimiteDeAvaliacaoExpedido("Expedido tempo limite de 7 dias para alterar a avaliação requisitada");
         }
     }
 
@@ -57,6 +69,25 @@ public class ValidadorAvaliacao {
     public void validarTamanhoDoComentario(Avaliacao avaliacao) {
         if (avaliacao.getComentario().length() > 500) {
             throw new ComentarioMuitoLongo("Comentario muito longo");
+        }
+    }
+
+    public void validarNumeroDeAvaliacoes(Avaliacao avaliacao) {
+        Estacionamento estacionamento = avaliacao.getEstacionamento();
+        Cliente cliente = avaliacao.getCliente();
+
+        Integer numeroDeAvaliacoes = estacionamento.getAvaliacoes()
+                .stream().filter(avaliacao1 -> avaliacao1.getCliente() == cliente)
+                .toList()
+                .size();
+
+        if (
+                estacionamento.getReservas()
+                        .stream().filter(reserva -> reserva.getCliente() == cliente)
+                        .toList()
+                        .size() <= numeroDeAvaliacoes
+        ) {
+            throw new AvaliacaoInvalida("Mais avalições do que o permitido!");
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.senai.TCC.infraestructure.handler;
 
 import com.senai.TCC.model.exceptions.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,8 +29,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(erros);
     }
 
-    @ExceptionHandler(MultiplasAvaliacoesIguais.class)
-    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(MultiplasAvaliacoesIguais ex) {
+    @ExceptionHandler(AvaliacaoInvalida.class)
+    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(AvaliacaoInvalida ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 

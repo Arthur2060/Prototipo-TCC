@@ -14,12 +14,8 @@ import com.senai.TCC.model.service.ValidadorAvaliacao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AvaliacaoService {
@@ -60,30 +56,30 @@ public class AvaliacaoService {
 
     @Transactional
     public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoRequest dto) {
-        Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
-        if (optCliente.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente não encontrado no sistema");
-        }
-        Cliente cliente = optCliente.get();
-
-        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
-        if (optEstacio.isEmpty()) {
-            throw new IdNaoCadastrado("Estacionamento não encontrado no sistema");
-        }
-        Estacionamento estacionamento = optEstacio.get();
-
         Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
-        validador.validarAvaliacaoUnica(avaliacao);
-        validador.validarTamanhoDoComentario(avaliacao);
+        Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
+        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
 
-        avaliacao.setCliente(cliente);
-        avaliacao.setEstacionamento(estacionamento);
-        estacionamento.getAvaliacoes().add(avaliacao);
-        cliente.getAvaliacoes().add(avaliacao);
+        if (optCliente.isEmpty() || optEstacio.isEmpty()) {
+            throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
+        } else {
+            Cliente cliente = optCliente.get();
+            Estacionamento estacionamento = optEstacio.get();
 
-        estacionamento.calcularNotaMedia();
-        avaliacao.setStatus(true);
-        return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
+            validador.validarNumeroDeAvaliacoes(avaliacao);
+            validador.validarAvaliacaoAposUso(avaliacao);
+            validador.validarTamanhoDoComentario(avaliacao);
+
+            avaliacao.setCliente(cliente);
+            avaliacao.setEstacionamento(estacionamento);
+            estacionamento.getAvaliacoes().add(avaliacao);
+            cliente.getAvaliacoes().add(avaliacao);
+
+            estacionamento.calcularNotaMedia();
+
+            avaliacao.setStatus(true);
+            return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
+        }
     }
 
     @Transactional
@@ -101,8 +97,9 @@ public class AvaliacaoService {
                 Cliente cliente = optCliente.get();
                 Avaliacao avaliacao = optAvaliacao.get();
 
-                validador.validarAvaliacaoUnica(avaliacao);
+                validador.validarAvaliacaoAposUso(avaliacao);
                 validador.validarTamanhoDoComentario(avaliacao);
+                validador.validarTempoDeAvaliacao(avaliacao);
 
                 avaliacao.setNota(dto.nota());
                 avaliacao.setComentario(dto.comentario());
@@ -125,7 +122,7 @@ public class AvaliacaoService {
         }
         Avaliacao avaliacao = optAvaliacao.get();
 
-        validador.validarAvaliacaoUnica(avaliacao);
+        validador.validarAvaliacaoAposUso(avaliacao);
 
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(avaliacao.getEstacionamento().getId());
         Optional<Cliente> optCliente = clienteRepository.findById(avaliacao.getCliente().getId());

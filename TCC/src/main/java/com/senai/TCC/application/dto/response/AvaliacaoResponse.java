@@ -1,5 +1,6 @@
 package com.senai.TCC.application.dto.response;
 
+import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.Avaliacao;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -9,11 +10,11 @@ public record AvaliacaoResponse(
         Long id,
         @Schema
                 (
-                        name = "clienteId",
-                        description = "ID do cliente que fez a avaliação",
-                        examples = "1"
+                        name = "cliente",
+                        description = "Cliente que fez a avaliação",
+                        examples = ""
                 )
-        Long clienteId,
+        ClienteResponse cliente,
         @Schema(
                 name = "estacioId",
                 description = "ID do estacionamento que foi avaliado",

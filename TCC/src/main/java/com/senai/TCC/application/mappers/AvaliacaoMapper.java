@@ -2,6 +2,7 @@ package com.senai.TCC.application.mappers;
 
 import com.senai.TCC.application.dto.requests.AvaliacaoRequest;
 import com.senai.TCC.application.dto.response.AvaliacaoResponse;
+import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.model.entities.Avaliacao;
 
 public class AvaliacaoMapper {
@@ -20,7 +21,7 @@ public class AvaliacaoMapper {
     public static AvaliacaoResponse fromEntity(Avaliacao avaliacao) {
         return new AvaliacaoResponse(
                 avaliacao.getId(),
-                avaliacao.getCliente().getId(),
+                ClienteMapper.fromEntity(avaliacao.getCliente()),
                 avaliacao.getEstacionamento().getId(),
                 avaliacao.getNota(),
                 avaliacao.getComentario(),
