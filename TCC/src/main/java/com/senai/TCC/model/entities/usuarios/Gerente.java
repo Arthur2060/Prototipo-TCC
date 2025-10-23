@@ -14,6 +14,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Gerente extends Usuario{
+
+    @Column(name = "cpf_ou_cnpj", nullable = false, unique = true)
     private String cpfOuCnpj;
 
     @ManyToOne

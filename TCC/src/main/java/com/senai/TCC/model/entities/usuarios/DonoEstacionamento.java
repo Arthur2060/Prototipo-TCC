@@ -18,6 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DonoEstacionamento extends Usuario {
-    @OneToMany
+    @OneToMany(mappedBy = "donoEstacionamento")
     private List<Estacionamento> estacionamentos;
 }

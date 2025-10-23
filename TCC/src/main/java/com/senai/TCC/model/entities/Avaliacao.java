@@ -24,7 +24,7 @@ public class Avaliacao {
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "estacio_id")
+    @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
 
     private Short nota;

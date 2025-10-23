@@ -28,10 +28,16 @@ public class Acesso {
     @JoinColumn(name = "carro_id")
     private Carro carro;
 
+    @Column(nullable = false)
     private String placaDoCarro;
+
+    @Column
     private Time horaDeEntrada;
+    @Column
     private Time horaDeSaida;
+    @Column
     private Integer totalHoras;
+    @Column
     private Double valorAPagar;
 
     private Boolean status;

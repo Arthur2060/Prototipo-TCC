@@ -50,7 +50,7 @@ public class EstacionamentoService {
         if (optDono.isEmpty()) {
             throw new IdNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!");
         } else {
-            novoEst.setDono(optDono.get());
+            novoEst.setDonoEstacionamento(optDono.get());
             optDono.get().getEstacionamentos().add(novoEst);
             novoEst.setFuncionamento(true);
         }
@@ -85,7 +85,7 @@ public class EstacionamentoService {
         }
 
         Estacionamento estacionamento = optEst.get();
-        estacionamento.getDono().getEstacionamentos().remove(estacionamento);
+        estacionamento.getDonoEstacionamento().getEstacionamentos().remove(estacionamento);
 
         estacionamento.setStatus(false);
         estacionamentoRepository.save(estacionamento);

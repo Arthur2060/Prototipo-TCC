@@ -24,18 +24,28 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private String endereco;
+
+    @Column(nullable = false, length = 8)
     private String CEP;
+
+    @Column(nullable = false)
     private String numero;
 
+    //@Lob todo: descobrir como usar lob
     private File foto;
 
+    @Column(nullable = false)
     private String numeroAlvaraDeFuncionamento;
+
     private Boolean funcionamento;
 
     @ManyToOne
-    private DonoEstacionamento dono;
+    private DonoEstacionamento donoEstacionamento;
 
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gerente> gerentes;
@@ -68,7 +78,8 @@ public class Estacionamento {
     private Metodo metodoDePagamento;
 
     private Boolean status;
-    @OneToMany
+
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acesso> acessos;
 
     public void calcularNotaMedia() {
