@@ -1,5 +1,6 @@
 package com.senai.TCC.infraestructure.security;
 
+import com.senai.TCC.model.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +27,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/cliente", "/gerente", "/dono").permitAll()
-                        .requestMatchers("/cliente", "/gerente", "/dono").authenticated()
-                        // TODO Adicionar rotas limitadas
+                        // Permições de requisições GET
 
+                        .requestMatchers(HttpMethod.GET, "/estacionamento").hasAnyRole()
+
+                        // Permições de requisições POST
+
+                        .requestMatchers(HttpMethod.POST, "/cliente", "/dono").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente").hasRole("DONO")
+
+                        // Permições de requisições PUT
+
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento").hasRole("DONO")
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento").hasRole("GERENTE")
+
+                        .requestMatchers("/cliente", "/gerente", "/dono").authenticated()
+
+                        .anyRequest().hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
