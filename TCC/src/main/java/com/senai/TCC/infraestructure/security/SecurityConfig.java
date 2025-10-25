@@ -29,7 +29,7 @@ public class SecurityConfig {
 
                         // Permições de requisições GET
 
-                        .requestMatchers(HttpMethod.GET, "/estacionamento").hasAnyRole()
+                        .requestMatchers(HttpMethod.GET, "/estacionamento").permitAll()
 
                         // Permições de requisições POST
 
@@ -38,16 +38,11 @@ public class SecurityConfig {
 
                         // Permições de requisições PUT
 
-                        .requestMatchers(HttpMethod.PUT, "/estacionamento").hasRole("DONO")
-                        .requestMatchers(HttpMethod.PUT, "/estacionamento").hasRole("GERENTE")
-
-                        .requestMatchers("/cliente", "/gerente", "/dono").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento").hasAnyRole("DONO", "GERENTE")
 
                         .anyRequest().hasRole("ADMIN")
-                        .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .userDetailsService(usuarioDetailService);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
