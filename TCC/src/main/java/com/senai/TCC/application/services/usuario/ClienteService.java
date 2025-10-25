@@ -6,18 +6,18 @@ import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
     private final ClienteRepository clienteRepository;
-
-    public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public List<ClienteResponse> listarClientes() {
         return clienteRepository.findByStatusTrue()
@@ -38,10 +38,11 @@ public class ClienteService {
 
     public ClienteResponse cadastrarCliente(ClienteRequest dto) {
         Cliente cliente = ClienteMapper.toEntity(dto);
+        cliente.setSenha(passwordEncoder.encode(dto.senha()));
         cliente.setStatus(true);
+        clienteRepository.save(cliente);
 
-        return ClienteMapper.fromEntity(
-                clienteRepository.save(cliente));
+        return ClienteMapper.fromEntity(ClienteMapper.toEntity(dto));
     }
 
     public ClienteResponse atualizarCliente(ClienteRequest dto, Long id) {
@@ -57,7 +58,7 @@ public class ClienteService {
         cliente.setSenha(dto.senha());
         cliente.setDataNascimento(dto.dataNascimento());
 
-        return ClienteMapper.fromEntity(clienteRepository.save(cliente));
+        return ClienteMapper.fromEntity(cliente);
     }
 
     public void deletarCliente(Long id) {
@@ -69,7 +70,7 @@ public class ClienteService {
 
         Cliente cliente = optCliente.get();
 
-        clienteRepository.delete(cliente); // <- chama delete, não save
+        clienteRepository.delete(cliente);
     }
 
 }

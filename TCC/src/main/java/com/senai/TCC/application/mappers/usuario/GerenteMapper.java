@@ -3,6 +3,7 @@ package com.senai.TCC.application.mappers.usuario;
 import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.model.entities.usuarios.Gerente;
+import com.senai.TCC.model.enums.Role;
 
 public class GerenteMapper {
 
@@ -14,6 +15,7 @@ public class GerenteMapper {
         gerente.setEmail(dto.email());
         gerente.setSenha(dto.senha());
         gerente.setDataNascimento(dto.dataNascimento());
+        gerente.setRole(Role.GERENTE);
 
         return gerente;
     }

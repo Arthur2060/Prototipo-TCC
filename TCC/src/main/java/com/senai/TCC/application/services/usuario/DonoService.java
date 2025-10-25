@@ -7,18 +7,18 @@ import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DonoService {
     private final DonoRepository donoRepository;
-
-    public DonoService(DonoRepository donoRepository) {
-        this.donoRepository = donoRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public List<DonoResponse> listarDonos() {
         return donoRepository.findByStatusTrue()
@@ -40,8 +40,10 @@ public class DonoService {
     @Transactional
     public DonoResponse cadastrarDono(DonoRequest dto) {
         DonoEstacionamento dono = DonoMapper.toEntity(dto);
+        dono.setSenha(passwordEncoder.encode(dto.senha()));
         dono.setStatus(true);
-        return DonoMapper.fromEntity(donoRepository.save(dono));
+        donoRepository.save(dono);
+        return DonoMapper.fromEntity(DonoMapper.toEntity(dto));
     }
 
     @Transactional

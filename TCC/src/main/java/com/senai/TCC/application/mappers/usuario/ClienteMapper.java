@@ -3,6 +3,7 @@ package com.senai.TCC.application.mappers.usuario;
 import com.senai.TCC.application.dto.requests.usuario.ClienteRequest;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
+import com.senai.TCC.model.enums.Role;
 
 public class ClienteMapper {
 
@@ -13,6 +14,7 @@ public class ClienteMapper {
         cliente.setEmail(dto.email());
         cliente.setDataNascimento(dto.dataNascimento());
         cliente.setSenha(dto.senha());
+        cliente.setRole(Role.CLIENTE);
 
         return cliente;
     }

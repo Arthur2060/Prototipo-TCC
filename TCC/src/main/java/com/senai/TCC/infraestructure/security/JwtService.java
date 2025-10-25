@@ -15,7 +15,8 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Substitua por uma chave segura
+    private final String SECRET = "sua_chave_segura_de_no_minimo_32_caracteres";
+    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET.getBytes()); // Substitua por uma chave segura
     private static final Long EXPIRATION_TIME = 60 * 60 * 24000L;
 
     public String generateToken(String email, String roles) {
@@ -24,18 +25,22 @@ public class JwtService {
                 .setSubject(email)
                 .claim("role", roles)
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(System.currentTimeMillis() + EXPIRATION_TIME)))
+                .setExpiration(Date.from(now.plusSeconds(EXPIRATION_TIME)))
                 .signWith(SECRET_KEY)
                 .compact();
     }
 
     public String extractEmail(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String extractRole(String token) {
