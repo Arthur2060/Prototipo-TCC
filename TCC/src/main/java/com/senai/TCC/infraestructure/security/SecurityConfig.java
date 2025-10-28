@@ -29,16 +29,21 @@ public class SecurityConfig {
 
                         // Permições de requisições GET
 
-                        .requestMatchers(HttpMethod.GET, "/estacionamento").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/carro").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/cliente").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/gerente", "/valor").hasRole("DONO")
 
                         // Permições de requisições POST
 
+                        .requestMatchers(HttpMethod.POST, "/carro").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST, "/cliente", "/dono").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente").hasRole("DONO")
+                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente", "/valor").hasRole("DONO")
 
                         // Permições de requisições PUT
 
-                        .requestMatchers(HttpMethod.PUT, "/estacionamento").hasAnyRole("DONO", "GERENTE")
+                        .requestMatchers(HttpMethod.PUT, "/carro").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.PUT, "/valor").hasRole("DONO")
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento", "/reservas").hasAnyRole("DONO", "GERENTE")
 
                         .anyRequest().hasRole("ADMIN")
                 )
