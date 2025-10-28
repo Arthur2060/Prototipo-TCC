@@ -3,17 +3,26 @@ package application.integration.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
+import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import com.senai.TCC.infraestructure.security.JwtService;
 import com.senai.TCC.infraestructure.security.UsuarioDetailService;
+import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import com.senai.TCC.model.enums.Role;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,9 +39,27 @@ class JwtAuthenticationFilterIntegrationTest {
     private JwtService jwtService;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private UsuarioRepository usuarios;
+    @Autowired
+    private PasswordEncoder encoder;
 
-    @MockBean
+    @Mock
     private UsuarioDetailService usuarioDetailService;
+
+    @BeforeEach
+    void setup() {
+        usuarios.deleteAll();
+        LocalDate localDate = LocalDate.of(1990, 1, 1);
+        Date dataNascimento = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        usuarios.save(DonoEstacionamento.builder()
+                .nome("Rafael")
+                .dataNascimento(dataNascimento)
+                .email("rafael@senai.com")
+                .senha(encoder.encode("123456"))
+                .role(Role.ADMIN)
+                .build());
+    }
 
     @Test
     void deveRetornar405QuandoMetodoHttpNaoSuportado() throws Exception {

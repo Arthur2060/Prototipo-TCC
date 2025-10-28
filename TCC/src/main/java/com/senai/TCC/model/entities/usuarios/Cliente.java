@@ -1,6 +1,5 @@
 package com.senai.TCC.model.entities.usuarios;
 
-import com.senai.TCC.model.entities.Acesso;
 import com.senai.TCC.model.entities.Avaliacao;
 import com.senai.TCC.model.entities.Carro;
 import com.senai.TCC.model.entities.Reserva;
