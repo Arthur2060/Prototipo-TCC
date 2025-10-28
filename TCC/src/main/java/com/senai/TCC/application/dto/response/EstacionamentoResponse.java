@@ -103,7 +103,7 @@ public record EstacionamentoResponse(
                 description = "Armazena todas as reservas feitas neste estacionamento",
                 examples = ""
         )
-        List<ReservaResponse> reservas,
+        List<ReservaResponseResumo> reservas,
         @Schema(
                 name = "gerentes",
                 description = "Armazena todos os gerentes responsaveis por este estacionamento",

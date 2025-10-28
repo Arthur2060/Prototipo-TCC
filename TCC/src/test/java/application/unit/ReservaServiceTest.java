@@ -54,6 +54,9 @@ public class ReservaServiceTest {
         estacionamento = new Estacionamento();
         estacionamento.setId(1L);
         estacionamento.setReservas(new ArrayList<>());
+        estacionamento.setAvaliacoes(new ArrayList<>());
+        estacionamento.setAcessos(new ArrayList<>());
+        estacionamento.setGerentes(new ArrayList<>());
 
         reserva = new Reserva();
         reserva.setId(1L);

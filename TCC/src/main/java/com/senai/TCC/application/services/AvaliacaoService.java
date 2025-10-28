@@ -57,29 +57,26 @@ public class AvaliacaoService {
     @Transactional
     public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoRequest dto) {
         Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
-        Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
-        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
+        Cliente cliente = clienteRepository.findById(dto.clienteId())
+                .orElseThrow(() -> new IdNaoCadastrado("Cliente não encontrado no sistema"));
 
-        if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
-        } else {
-            Cliente cliente = optCliente.get();
-            Estacionamento estacionamento = optEstacio.get();
+        Estacionamento estacionamento = estacionamentoRepository.findById(dto.estacioId())
+                .orElseThrow(() -> new IdNaoCadastrado("Estacionamento não encontrado no sistema"));
 
-            validador.validarNumeroDeAvaliacoes(avaliacao);
-            validador.validarAvaliacaoAposUso(avaliacao);
-            validador.validarTamanhoDoComentario(avaliacao);
+        validador.validarNumeroDeAvaliacoes(avaliacao);
+        validador.validarAvaliacaoAposUso(avaliacao);
+        validador.validarTamanhoDoComentario(avaliacao);
 
-            avaliacao.setCliente(cliente);
-            avaliacao.setEstacionamento(estacionamento);
-            estacionamento.getAvaliacoes().add(avaliacao);
-            cliente.getAvaliacoes().add(avaliacao);
+        avaliacao.setCliente(cliente);
+        avaliacao.setEstacionamento(estacionamento);
+        estacionamento.getAvaliacoes().add(avaliacao);
+        cliente.getAvaliacoes().add(avaliacao);
 
-            estacionamento.calcularNotaMedia();
+        estacionamento.calcularNotaMedia();
 
-            avaliacao.setStatus(true);
-            return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
-        }
+        avaliacao.setStatus(true);
+        return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
+
     }
 
     @Transactional

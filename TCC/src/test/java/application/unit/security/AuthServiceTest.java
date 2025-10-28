@@ -7,6 +7,7 @@ import com.senai.TCC.infraestructure.security.JwtService;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.entities.usuarios.Usuario;
 import com.senai.TCC.model.enums.Role;
+import com.senai.TCC.model.exceptions.CredenciaisInvalidasException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -66,6 +67,6 @@ public class AuthServiceTest {
         when(usuarios.findByEmail("rafael@senai.com")).thenReturn(Optional.of(user));
         when(encoder.matches("123", "encoded")).thenReturn(false);
 
-        assertThrows(BadCredentialsException.class, () -> service.login(req));
+        assertThrows(CredenciaisInvalidasException.class, () -> service.login(req));
     }
 }
