@@ -29,21 +29,21 @@ public class SecurityConfig {
 
                         // Permições de requisições GET
 
-                        .requestMatchers(HttpMethod.GET, "/carro").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/carro").hasAnyRole("CLIENTE", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/estacionamento", "/cliente").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/gerente", "/valor").hasRole("DONO")
+                        .requestMatchers(HttpMethod.GET, "/gerente", "/valor").hasAnyRole("DONO", "ADMIN")
 
                         // Permições de requisições POST
 
-                        .requestMatchers(HttpMethod.POST, "/carro").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.POST, "/carro").hasAnyRole("CLIENTE", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/cliente", "/dono").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente", "/valor").hasRole("DONO")
+                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente", "/valor").hasAnyRole("DONO", "ADMIN")
 
                         // Permições de requisições PUT
 
-                        .requestMatchers(HttpMethod.PUT, "/carro").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.PUT, "/valor").hasRole("DONO")
-                        .requestMatchers(HttpMethod.PUT, "/estacionamento", "/reservas").hasAnyRole("DONO", "GERENTE")
+                        .requestMatchers(HttpMethod.PUT, "/carro").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/valor").hasAnyRole("DONO", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento", "/reservas").hasAnyRole("DONO", "GERENTE", "ADMIN")
 
                         .anyRequest().hasRole("ADMIN")
                 )
