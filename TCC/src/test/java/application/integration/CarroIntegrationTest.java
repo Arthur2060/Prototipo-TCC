@@ -1,22 +1,34 @@
 package application.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.CarroRequest;
 import com.senai.TCC.application.dto.requests.usuario.ClienteRequest;
 import com.senai.TCC.application.dto.response.CarroResponse;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
+import com.senai.TCC.infraestructure.repositories.CarroRepository;
+import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
+import com.senai.TCC.infraestructure.security.JwtService;
+import com.senai.TCC.model.entities.usuarios.Cliente;
+import com.senai.TCC.model.enums.Role;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = com.senai.TCC.TccApplication.class)
+@SpringBootTest(classes = TccApplication.class)
 @AutoConfigureMockMvc
 public class CarroIntegrationTest {
 
@@ -26,37 +38,63 @@ public class CarroIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
+    private CarroRepository carroRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
+
+    private String token;
     private Long clienteId;
 
     @BeforeEach
     void setUp() throws Exception {
-        // Criar cliente antes de cada teste
-        var clienteRequest = new ClienteRequest(
-                "Cliente Teste",
-                "cliente@teste.com",
-                "senha456",
-                java.sql.Date.valueOf("1995-05-05")
-        );
+        // Clear database
+        carroRepository.deleteAll();
+        clienteRepository.deleteAll();
 
-        var clienteResponseJson = mockMvc.perform(post("/cliente")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(clienteRequest)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+        // Create test cliente
+        Date birthDate = Date.from(LocalDate.of(1995, 5, 5)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        ClienteResponse clienteResponse = objectMapper.readValue(clienteResponseJson, ClienteResponse.class);
-        clienteId = clienteResponse.id();
+        String uniqueEmail = "cliente" + System.currentTimeMillis() + "@teste.com";
+        Cliente cliente = Cliente.builder()
+                .nome("Cliente Teste")
+                .email(uniqueEmail)
+                .senha(passwordEncoder.encode("senha456"))
+                .dataNascimento(birthDate)
+                .role(Role.ADMIN)
+                .tipoDeUsuario(TipoDeUsuario.CLIENTE)
+                .status(true)
+                .build();
+
+        clienteRepository.save(cliente);
+        clienteId = cliente.getId();
+
+        // Generate JWT token
+        token = jwtService.generateToken(cliente.getEmail(), cliente.getRole().name());
+    }
+
+    private org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder withAuth(
+            org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder builder) {
+        return builder.header("Authorization", "Bearer " + token);
+    }
+
+    private CarroRequest carroRequestPadrao() {
+        return new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
     }
 
     @Test
     void deveCadastrarCarroValido() throws Exception {
-        var dto = new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
-
-        mockMvc.perform(post("/carro")
+        mockMvc.perform(withAuth(post("/carro")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsBytes(carroRequestPadrao()))))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.placa").value("EUD-8679"))
                 .andExpect(jsonPath("$.modelo").value("Corsa"))
@@ -65,24 +103,19 @@ public class CarroIntegrationTest {
 
     @Test
     void deveAtualizarCarro() throws Exception {
-        // Criar carro primeiro
-        var dto = new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
-        var salvoJson = mockMvc.perform(post("/carro")
+        var response = mockMvc.perform(withAuth(post("/carro")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsBytes(carroRequestPadrao()))))
                 .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andReturn();
 
-        CarroResponse carroSalvo = objectMapper.readValue(salvoJson, CarroResponse.class);
+        CarroResponse carroSalvo = objectMapper.readValue(response.getResponse().getContentAsString(), CarroResponse.class);
 
-        // Atualizar carro
         var atualizado = new CarroRequest(clienteId, "ABC-1234", "Onix", "Preto");
 
-        mockMvc.perform(put("/carro/" + carroSalvo.id())
+        mockMvc.perform(withAuth(put("/carro/" + carroSalvo.id())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(atualizado)))
+                        .content(objectMapper.writeValueAsBytes(atualizado))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.placa").value("ABC-1234"))
                 .andExpect(jsonPath("$.modelo").value("Onix"))
@@ -91,35 +124,29 @@ public class CarroIntegrationTest {
 
     @Test
     void deveDeletarCarro() throws Exception {
-        var dto = new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
-        var salvoJson = mockMvc.perform(post("/carro")
+        var response = mockMvc.perform(withAuth(post("/carro")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsBytes(carroRequestPadrao()))))
                 .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andReturn();
 
-        CarroResponse carroSalvo = objectMapper.readValue(salvoJson, CarroResponse.class);
+        CarroResponse carroSalvo = objectMapper.readValue(response.getResponse().getContentAsString(), CarroResponse.class);
 
-        mockMvc.perform(delete("/carro/" + carroSalvo.id()))
+        mockMvc.perform(withAuth(delete("/carro/" + carroSalvo.id())))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void deveBuscarCarroPorId() throws Exception {
-        var dto = new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
-        var salvoJson = mockMvc.perform(post("/carro")
+        var response = mockMvc.perform(withAuth(post("/carro")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsBytes(carroRequestPadrao()))))
                 .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .andReturn();
 
-        CarroResponse carroSalvo = objectMapper.readValue(salvoJson, CarroResponse.class);
+        CarroResponse carroSalvo = objectMapper.readValue(response.getResponse().getContentAsString(), CarroResponse.class);
 
-        mockMvc.perform(get("/carro/" + carroSalvo.id()))
+        mockMvc.perform(withAuth(get("/carro/" + carroSalvo.id())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.placa").value("EUD-8679"))
                 .andExpect(jsonPath("$.modelo").value("Corsa"))
@@ -128,14 +155,13 @@ public class CarroIntegrationTest {
 
     @Test
     void deveListarCarros() throws Exception {
-        var dto = new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
-        mockMvc.perform(post("/carro")
+        mockMvc.perform(withAuth(post("/carro")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsBytes(carroRequestPadrao()))))
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/carro"))
+        mockMvc.perform(withAuth(get("/carro")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].placa").value("ABC-1234"));
+                .andExpect(jsonPath("$[0].placa").value("EUD-8679"));
     }
 }

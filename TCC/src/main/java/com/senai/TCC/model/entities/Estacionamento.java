@@ -37,6 +37,7 @@ public class Estacionamento {
     private Boolean funcionamento;
 
     @ManyToOne
+    @JoinColumn(name = "dono_id")
     private DonoEstacionamento dono;
 
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -70,18 +71,22 @@ public class Estacionamento {
     private Metodo metodoDePagamento;
 
     private Boolean status;
-    @OneToMany
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acesso> acessos;
 
     public void calcularNotaMedia() {
+        if (avaliacoes == null || avaliacoes.isEmpty()) {
+            this.quantidadeDeAvaliacoes = 0;
+            this.notaMedia = 0.0;
+            return;
+        }
+
         this.quantidadeDeAvaliacoes = avaliacoes.size();
-
         double soma = 0.0;
-
         for (Avaliacao avaliacao : avaliacoes) {
             soma += avaliacao.getNota().doubleValue();
         }
-
         notaMedia = soma / this.quantidadeDeAvaliacoes;
     }
+
 }

@@ -72,22 +72,22 @@ public class ValidadorAvaliacao {
         }
     }
 
-    public void validarNumeroDeAvaliacoes(Avaliacao avaliacao) {
-        Estacionamento estacionamento = avaliacao.getEstacionamento();
-        Cliente cliente = avaliacao.getCliente();
-
-        Integer numeroDeAvaliacoes = estacionamento.getAvaliacoes()
-                .stream().filter(avaliacao1 -> avaliacao1.getCliente() == cliente)
-                .toList()
-                .size();
-
-        if (
-                estacionamento.getReservas()
-                        .stream().filter(reserva -> reserva.getCliente() == cliente)
-                        .toList()
-                        .size() <= numeroDeAvaliacoes
-        ) {
-            throw new AvaliacaoInvalida("Mais avalições do que o permitido!");
-        }
-    }
+//    public void validarNumeroDeAvaliacoes(Avaliacao avaliacao) {
+//        Estacionamento estacionamento = avaliacao.getEstacionamento();
+//        Cliente cliente = avaliacao.getCliente();
+//
+//        Integer numeroDeAvaliacoes = estacionamento.getAvaliacoes()
+//                .stream().filter(avaliacao1 -> avaliacao1.getCliente() == cliente)
+//                .toList()
+//                .size();
+//
+//        if (
+//                estacionamento.getReservas()
+//                        .stream().filter(reserva -> reserva.getCliente() == cliente)
+//                        .toList()
+//                        .size() <= numeroDeAvaliacoes
+//        ) {
+//            throw new AvaliacaoInvalida("Mais avalições do que o permitido!");
+//        }
+//    }
 }

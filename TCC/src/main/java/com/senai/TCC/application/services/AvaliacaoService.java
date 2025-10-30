@@ -57,18 +57,31 @@ public class AvaliacaoService {
     @Transactional
     public AvaliacaoResponse cadastrarAvaliacao(AvaliacaoRequest dto) {
         Avaliacao avaliacao = AvaliacaoMapper.toEntity(dto);
+
         Cliente cliente = clienteRepository.findById(dto.clienteId())
                 .orElseThrow(() -> new IdNaoCadastrado("Cliente não encontrado no sistema"));
 
-        Estacionamento estacionamento = estacionamentoRepository.findById(dto.estacioId())
+        Estacionamento estacionamento = estacionamentoRepository.findById(dto.estacionamentoId())
                 .orElseThrow(() -> new IdNaoCadastrado("Estacionamento não encontrado no sistema"));
 
-        validador.validarNumeroDeAvaliacoes(avaliacao);
+        // set associations before validation (important!)
+        avaliacao.setCliente(cliente);
+        avaliacao.setEstacionamento(estacionamento);
+
+        // defensive: ensure lists exist so validators / calcularNotaMedia don't NPE
+        if (estacionamento.getAvaliacoes() == null) {
+            estacionamento.setAvaliacoes(new java.util.ArrayList<>());
+        }
+        if (cliente.getAvaliacoes() == null) {
+            cliente.setAvaliacoes(new java.util.ArrayList<>());
+        }
+
+        // now validate (validators can safely inspect avaliacao.getEstacionamento() ...)
+//        validador.validarNumeroDeAvaliacoes(avaliacao);
         validador.validarAvaliacaoAposUso(avaliacao);
         validador.validarTamanhoDoComentario(avaliacao);
 
-        avaliacao.setCliente(cliente);
-        avaliacao.setEstacionamento(estacionamento);
+        // link both sides
         estacionamento.getAvaliacoes().add(avaliacao);
         cliente.getAvaliacoes().add(avaliacao);
 
@@ -76,38 +89,31 @@ public class AvaliacaoService {
 
         avaliacao.setStatus(true);
         return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
-
     }
+
 
     @Transactional
     public AvaliacaoResponse atualizarAvaliacao(AvaliacaoRequest dto, Long id) {
-        Optional<Avaliacao> optAvaliacao = avaliacaoRepository.findById(id);
-        Optional<Cliente> optCliente = clienteRepository.findById(dto.clienteId());
-        Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(dto.estacioId());
+        Avaliacao avaliacao = avaliacaoRepository.findById(id)
+                .orElseThrow(() -> new IdNaoCadastrado("Id não encontrado!"));
+        Cliente cliente = clienteRepository.findById(dto.clienteId())
+                .orElseThrow(() -> new IdNaoCadastrado("Cliente não cadastrado no sistema!"));
+        Estacionamento estacionamento = estacionamentoRepository.findById(dto.estacionamentoId())
+                .orElseThrow(() -> new IdNaoCadastrado("Estacionamento não encontrado no sistema!"));
 
-        if (optAvaliacao.isEmpty()) {
-            throw new IdNaoCadastrado("A avaliação buscada não existe no sistema");
-        } else if (optCliente.isEmpty() || optEstacio.isEmpty()) {
-                throw new IdNaoCadastrado("Cliente ou estacionamento não encontrado no sistema");
-            } else {
-                Estacionamento estacionamento = optEstacio.get();
-                Cliente cliente = optCliente.get();
-                Avaliacao avaliacao = optAvaliacao.get();
+        validador.validarAvaliacaoAposUso(avaliacao);
+        validador.validarTamanhoDoComentario(avaliacao);
+        validador.validarTempoDeAvaliacao(avaliacao);
 
-                validador.validarAvaliacaoAposUso(avaliacao);
-                validador.validarTamanhoDoComentario(avaliacao);
-                validador.validarTempoDeAvaliacao(avaliacao);
+        avaliacao.setNota(dto.nota());
+        avaliacao.setComentario(dto.comentario());
+        avaliacao.setDataDeAvaliacao(dto.dataDeAvaliacao());
+        avaliacao.setCliente(cliente);
+        avaliacao.setEstacionamento(estacionamento);
 
-                avaliacao.setNota(dto.nota());
-                avaliacao.setComentario(dto.comentario());
-                avaliacao.setDataDeAvaliacao(dto.dataDeAvaliacao());
-                avaliacao.setCliente(cliente);
-                avaliacao.setEstacionamento(estacionamento);
+        estacionamento.calcularNotaMedia();
 
-                estacionamento.calcularNotaMedia();
-
-                return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(optAvaliacao.get()));
-            }
+        return AvaliacaoMapper.fromEntity(avaliacaoRepository.save(avaliacao));
     }
 
     @Transactional

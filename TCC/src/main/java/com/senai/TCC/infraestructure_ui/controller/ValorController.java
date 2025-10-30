@@ -46,7 +46,7 @@ public class ValorController {
             summary = "Cadastrar valor",
             description = "Cadastra um novo valor no sistema"
     )
-    public ResponseEntity<ValorResponse> cadastrarValor(ValorRequest dto) {
+    public ResponseEntity<ValorResponse> cadastrarValor(@RequestBody ValorRequest dto) {
         return ResponseEntity.status(201).body(service.cadastrarValor(dto));
     }
 

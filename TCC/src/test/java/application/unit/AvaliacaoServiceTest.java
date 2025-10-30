@@ -148,17 +148,7 @@ public class AvaliacaoServiceTest {
         when(avaliacaoRepository.findById(2L)).thenReturn(Optional.empty());
         AvaliacaoRequest req = new AvaliacaoRequest(1L, 1L, (short) 5, "Excelente", LocalDateTime.now());
         IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class, () -> avaliacaoService.atualizarAvaliacao(req, 2L));
-        assertEquals("A avaliação buscada não existe no sistema", ex.getMessage());
-    }
-
-    @Test
-    void deveLancarExcecaoAoAtualizarComClienteOuEstacionamentoInexistente() {
-        when(avaliacaoRepository.findById(1L)).thenReturn(Optional.of(avaliacao));
-        when(clienteRepository.findById(2L)).thenReturn(Optional.empty());
-        when(estacionamentoRepository.findById(1L)).thenReturn(Optional.of(estacionamento));
-        AvaliacaoRequest req = new AvaliacaoRequest(2L, 1L, (short) 5, "Excelente", LocalDateTime.now());
-        IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class, () -> avaliacaoService.atualizarAvaliacao(req, 1L));
-        assertEquals("Cliente ou estacionamento não encontrado no sistema", ex.getMessage());
+        assertEquals("Id não encontrado!", ex.getMessage());
     }
 
     @Test

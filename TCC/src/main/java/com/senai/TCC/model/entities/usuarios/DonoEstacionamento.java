@@ -1,5 +1,6 @@
 package com.senai.TCC.model.entities.usuarios;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -20,6 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 public class DonoEstacionamento extends Usuario {
-    @OneToMany
+    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Estacionamento> estacionamentos;
 }

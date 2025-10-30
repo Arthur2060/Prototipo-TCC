@@ -36,6 +36,6 @@ public record ValorRequest(
                 description = "ID do estacionamento associado a esse valor",
                 examples = "1"
         )
-        Long estacioId
+        Long estacionamentoId
 ) {
 }

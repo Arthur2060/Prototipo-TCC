@@ -45,7 +45,7 @@ public class ValorService {
     @Transactional
     public ValorResponse cadastrarValor(ValorRequest dto) {
         Valor novoValor = ValorMapper.toEntity(dto);
-        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
+        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
         if (optEstacionamento.isEmpty()) {
             throw new IdNaoCadastrado("Id de estacionamento especificado não encontrado no sistema");
         }
@@ -61,7 +61,7 @@ public class ValorService {
     @Transactional
     public ValorResponse atualizarValor(ValorRequest dto, Long id) {
         Optional<Valor> optValor = valorRepository.findById(id);
-        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacioId());
+        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
 
         if (optEstacionamento.isEmpty() || optValor.isEmpty()) {
             throw new IdNaoCadastrado("ID de valor ou estacionamento buscados não encontrados");

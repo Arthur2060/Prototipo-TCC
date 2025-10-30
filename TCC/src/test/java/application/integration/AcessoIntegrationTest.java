@@ -1,30 +1,39 @@
 package application.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
-import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
-import com.senai.TCC.application.dto.response.usuario.DonoResponse;
-import com.senai.TCC.application.services.EstacionamentoService;
-import com.senai.TCC.application.services.usuario.DonoService;
+import com.senai.TCC.infraestructure.repositories.AcessoRepository;
+import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
+import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
+import com.senai.TCC.infraestructure.security.JwtService;
+import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import com.senai.TCC.model.enums.Role;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.File;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = com.senai.TCC.TccApplication.class)
+@SpringBootTest(classes = TccApplication.class)
 @AutoConfigureMockMvc
 public class AcessoIntegrationTest {
 
@@ -35,27 +44,51 @@ public class AcessoIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private EstacionamentoService estacionamentoService;
+    private AcessoRepository acessoRepository;
 
     @Autowired
-    private DonoService donoService;
+    private EstacionamentoRepository estacionamentoRepository;
 
+    @Autowired
+    private DonoRepository donoRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
+
+    private String token;
     private Long estacionamentoId;
 
     @BeforeEach
-    void setUp() {
-        // Cria dono válido no banco
-        var donoDto = new DonoRequest(
-                "Pedro",
-                "pedro@gmail.com",
-                "123456",
-                java.sql.Date.valueOf("2000-09-12")
-        );
+    void setup() throws Exception {
+        acessoRepository.deleteAll();
+        estacionamentoRepository.deleteAll();
+        donoRepository.deleteAll();
 
-        DonoResponse dono = donoService.cadastrarDono(donoDto);
+        // Criação do Dono
+        Date birthDate = Date.from(LocalDate.of(1990, 1, 1)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        // Cria estacionamento atrelado ao dono recém-criado
-        var estacionamentoDto = new EstacionamentoRequest(
+        String uniqueEmail = "dono" + System.currentTimeMillis() + "@gmail.com";
+        DonoEstacionamento dono = DonoEstacionamento.builder()
+                .nome("Pedro Dono")
+                .email(uniqueEmail)
+                .senha(passwordEncoder.encode("123456"))
+                .dataNascimento(birthDate)
+                .role(Role.ADMIN)
+                .tipoDeUsuario(TipoDeUsuario.CLIENTE)
+                .status(true)
+                .build();
+
+        donoRepository.save(dono);
+
+        // Gerar token JWT
+        token = jwtService.generateToken(dono.getEmail(), dono.getRole().name());
+
+        // Criar estacionamento via endpoint (para simular comportamento real)
+        var estacionamentoRequest = new EstacionamentoRequest(
                 "Estacionamento Central",
                 "Rua A, 123",
                 "11111111",
@@ -69,8 +102,16 @@ public class AcessoIntegrationTest {
                 "123456"
         );
 
-        EstacionamentoResponse estacionamento = estacionamentoService.cadastrarEstacionamento(estacionamentoDto, dono.id());
-        estacionamentoId = estacionamento.id();
+        var response = mockMvc.perform(withAuth(post("/estacionamento/" + dono.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(estacionamentoRequest))))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        EstacionamentoResponse estacionamentoResponse = objectMapper.readValue(response, EstacionamentoResponse.class);
+        estacionamentoId = estacionamentoResponse.id();
     }
 
     private AcessoRequest acessoRequestValido() {
@@ -84,26 +125,28 @@ public class AcessoIntegrationTest {
         );
     }
 
+    private org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder withAuth(
+            org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder builder) {
+        return builder.header("Authorization", "Bearer " + token);
+    }
+
     @Test
     void deveCadastrarAcessoValido() throws Exception {
-        var dto = acessoRequestValido();
-
-        mockMvc.perform(
-                        post("/Acesso")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsBytes(dto))
-                ).andExpect(status().isCreated())
+        mockMvc.perform(withAuth(post("/acesso")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.placaDoCarro").value("ABC1234"))
                 .andExpect(jsonPath("$.valorAPagar").value(20.0));
     }
 
     @Test
     void deveAtualizarAcesso() throws Exception {
-        var response = mockMvc.perform(
-                post("/Acesso")
+        var response = mockMvc.perform(withAuth(post("/acesso")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))
-        ).andExpect(status().isCreated()).andReturn();
+                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))))
+                .andExpect(status().isCreated())
+                .andReturn();
 
         AcessoResponse acesso = objectMapper.readValue(response.getResponse().getContentAsString(), AcessoResponse.class);
 
@@ -116,40 +159,39 @@ public class AcessoIntegrationTest {
                 estacionamentoId
         );
 
-        mockMvc.perform(
-                        put("/Acesso/" + acesso.id())
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsBytes(atualizado))
-                ).andExpect(status().isOk())
+        mockMvc.perform(withAuth(put("/acesso/" + acesso.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(atualizado))))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.placaDoCarro").value("XYZ9876"))
                 .andExpect(jsonPath("$.valorAPagar").value(25.0));
     }
 
     @Test
     void deveDeletarAcesso() throws Exception {
-        var response = mockMvc.perform(
-                post("/Acesso")
+        var response = mockMvc.perform(withAuth(post("/acesso")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))
-        ).andExpect(status().isCreated()).andReturn();
+                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))))
+                .andExpect(status().isCreated())
+                .andReturn();
 
         AcessoResponse acesso = objectMapper.readValue(response.getResponse().getContentAsString(), AcessoResponse.class);
 
-        mockMvc.perform(delete("/Acesso/" + acesso.id()))
+        mockMvc.perform(withAuth(delete("/acesso/" + acesso.id())))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     void deveBuscarAcessoPorId() throws Exception {
-        var response = mockMvc.perform(
-                post("/Acesso")
+        var response = mockMvc.perform(withAuth(post("/acesso")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))
-        ).andExpect(status().isCreated()).andReturn();
+                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))))
+                .andExpect(status().isCreated())
+                .andReturn();
 
         AcessoResponse acesso = objectMapper.readValue(response.getResponse().getContentAsString(), AcessoResponse.class);
 
-        mockMvc.perform(get("/Acesso/" + acesso.id()))
+        mockMvc.perform(withAuth(get("/acesso/" + acesso.id())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.placaDoCarro").value("ABC1234"))
                 .andExpect(jsonPath("$.valorAPagar").value(20.0));
@@ -157,27 +199,26 @@ public class AcessoIntegrationTest {
 
     @Test
     void deveListarAcessos() throws Exception {
-        mockMvc.perform(
-                post("/Acesso")
+        mockMvc.perform(withAuth(post("/acesso")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))
-        ).andExpect(status().isCreated());
+                        .content(objectMapper.writeValueAsBytes(acessoRequestValido()))))
+                .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/Acesso"))
+        mockMvc.perform(withAuth(get("/acesso")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].placaDoCarro").value("ABC1234"));
     }
 
     @Test
     void deveRetornarErroAoBuscarAcessoInexistente() throws Exception {
-        mockMvc.perform(get("/Acesso/9999"))
+        mockMvc.perform(withAuth(get("/acesso/9999")))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.erro").value("ID buscado não foi encontrado no sistema!"));
     }
 
     @Test
     void deveRetornarErroAoDeletarAcessoInexistente() throws Exception {
-        mockMvc.perform(delete("/Acesso/9999"))
+        mockMvc.perform(withAuth(delete("/acesso/9999")))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.erro").value("Acesso buscado não cadastrado no sistema"));
     }

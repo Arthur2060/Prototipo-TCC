@@ -1,56 +1,82 @@
 package application.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
-import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
-import com.senai.TCC.application.dto.response.usuario.DonoResponse;
+import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
+import com.senai.TCC.infraestructure.security.JwtService;
+import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import com.senai.TCC.model.enums.Role;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = com.senai.TCC.TccApplication.class)
+@SpringBootTest(classes = TccApplication.class)
 @AutoConfigureMockMvc
 public class EstacionamentoIntegrationTest {
-    /*TODO*/
-    //Refazer tudo
+
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private DonoRepository donoRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
+
+    private String token;
     private Long donoId;
 
     @BeforeEach
-    void setUp() throws Exception {
-        // Cria um Dono antes de cada teste
-        var donoRequest = new DonoRequest(
-                "Dono Teste",
-                "dono@teste.com",
-                "senha123",
-                java.sql.Date.valueOf("1990-01-01")
-        );
+    void setup() {
+        donoRepository.deleteAll();
 
-        var donoJson = mockMvc.perform(post("/dono")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(donoRequest)))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+        Date birthDate = Date.from(LocalDate.of(1990, 1, 1)
+                .atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        DonoResponse donoResponse = objectMapper.readValue(donoJson, DonoResponse.class);
-        donoId = donoResponse.id();
+        String uniqueEmail = "dono" + System.currentTimeMillis() + "@gmail.com";
+        DonoEstacionamento dono = DonoEstacionamento.builder()
+                .nome("Dono Teste")
+                .email(uniqueEmail)
+                .senha(passwordEncoder.encode("senha123"))
+                .dataNascimento(birthDate)
+                .role(Role.ADMIN)
+                .tipoDeUsuario(TipoDeUsuario.DONO)
+                .status(true)
+                .build();
+
+        donoRepository.save(dono);
+        donoId = dono.getId();
+
+        token = jwtService.generateToken(dono.getEmail(), dono.getRole().name());
+    }
+
+    // Helper para adicionar Authorization Header
+    private org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder withAuth(
+            org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder builder) {
+        return builder.header("Authorization", "Bearer " + token);
     }
 
     private EstacionamentoRequest estacionamentoRequest(String nome) {
@@ -59,10 +85,10 @@ public class EstacionamentoIntegrationTest {
                 "Rua das Flores",
                 "12345-678",
                 "123",
-                null, // Evita erro com arquivo inexistente
+                null, // sem arquivo para evitar erro
                 "123456789",
-                LocalTime.of(22, 0),
                 LocalTime.of(8, 0),
+                LocalTime.of(22, 0),
                 10,
                 100,
                 "987654321"
@@ -73,35 +99,34 @@ public class EstacionamentoIntegrationTest {
     void deveCadastrarEstacionamentoValido() throws Exception {
         var dto = estacionamentoRequest("EstacioPlay");
 
-        mockMvc.perform(post("/estacionamento")
+        mockMvc.perform(withAuth(post("/estacionamento/" + donoId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-                        .param("donoId", donoId.toString()))
+                        .content(objectMapper.writeValueAsString(dto))))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.nome").value("EstacioPlay"));
+
     }
 
     @Test
     void deveAtualizarEstacionamento() throws Exception {
-        // Cria estacionamento antes de atualizar
+        // cria estacionamento
         var dto = estacionamentoRequest("EstacioPlay");
-        var salvoJson = mockMvc.perform(post("/estacionamento")
+        var salvoJson = mockMvc.perform(withAuth(post("/estacionamento/" + donoId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-                        .param("donoId", donoId.toString()))
+                        .content(objectMapper.writeValueAsString(dto))))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        EstacionamentoResponse estacionamentoSalvo = objectMapper.readValue(salvoJson, EstacionamentoResponse.class);
+        EstacionamentoResponse salvo = objectMapper.readValue(salvoJson, EstacionamentoResponse.class);
 
-        // Novo objeto para atualizar
+        // atualiza
         var atualizado = estacionamentoRequest("NovoNome");
 
-        mockMvc.perform(put("/estacionamento/" + estacionamentoSalvo.id())
+        mockMvc.perform(withAuth(put("/estacionamento/" + salvo.id())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(atualizado)))
+                        .content(objectMapper.writeValueAsString(atualizado))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("NovoNome"));
     }
@@ -109,36 +134,41 @@ public class EstacionamentoIntegrationTest {
     @Test
     void deveDeletarEstacionamento() throws Exception {
         var dto = estacionamentoRequest("EstacioPlay");
-        var salvoJson = mockMvc.perform(post("/estacionamento")
+        var salvoJson = mockMvc.perform(withAuth(post("/estacionamento/" + donoId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-                        .param("donoId", donoId.toString()))
+                        .content(objectMapper.writeValueAsString(dto))))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        EstacionamentoResponse estacionamentoSalvo = objectMapper.readValue(salvoJson, EstacionamentoResponse.class);
+        EstacionamentoResponse salvo = objectMapper.readValue(salvoJson, EstacionamentoResponse.class);
 
-        mockMvc.perform(delete("/estacionamento/" + estacionamentoSalvo.id()))
+        mockMvc.perform(withAuth(delete("/estacionamento/" + salvo.id())))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void deveRetornarErroAoDeletarEstacionamentoInexistente() throws Exception {
+        mockMvc.perform(withAuth(delete("/estacionamento/9999")))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.erro").value("O Id do estacionamento fornecido não foi encontrado no sistema!"));
     }
 
     @Test
     void deveBuscarEstacionamentoPorId() throws Exception {
         var dto = estacionamentoRequest("EstacioPlay");
-        var salvoJson = mockMvc.perform(post("/estacionamento")
+        var salvoJson = mockMvc.perform(withAuth(post("/estacionamento/" + donoId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-                        .param("donoId", donoId.toString()))
+                        .content(objectMapper.writeValueAsString(dto))))
                 .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        EstacionamentoResponse estacionamentoSalvo = objectMapper.readValue(salvoJson, EstacionamentoResponse.class);
+        EstacionamentoResponse salvo = objectMapper.readValue(salvoJson, EstacionamentoResponse.class);
 
-        mockMvc.perform(get("/estacionamento/" + estacionamentoSalvo.id()))
+        mockMvc.perform(withAuth(get("/estacionamento/" + salvo.id())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("EstacioPlay"));
     }
@@ -146,13 +176,12 @@ public class EstacionamentoIntegrationTest {
     @Test
     void deveListarEstacionamentos() throws Exception {
         var dto = estacionamentoRequest("EstacioPlay");
-        mockMvc.perform(post("/estacionamento")
+        mockMvc.perform(withAuth(post("/estacionamento/" + donoId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto))
-                        .param("donoId", donoId.toString()))
+                        .content(objectMapper.writeValueAsString(dto))))
                 .andExpect(status().isCreated());
 
-        mockMvc.perform(get("/estacionamento"))
+        mockMvc.perform(withAuth(get("/estacionamento")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nome").value("EstacioPlay"));
     }
