@@ -29,18 +29,22 @@ public class JwtService {
                 .setSubject(email)
                 .claim("role", roles)
                 .setIssuedAt(Date.from(now))
-                .setExpiration(Date.from(now.plusSeconds(System.currentTimeMillis() + EXPIRATION_TIME)))
+                .setExpiration(Date.from(now.plusSeconds(EXPIRATION_TIME)))
                 .signWith(SECRET_KEY)
                 .compact();
     }
 
     public String extractEmail(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public String extractRole(String token) {

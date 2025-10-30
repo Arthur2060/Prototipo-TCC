@@ -1,8 +1,10 @@
 package com.senai.TCC.infraestructure.security;
 
+import com.senai.TCC.model.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,12 +27,27 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                        // TODO Adicionar rotas limitadas
+                        // Permições de requisições GET
 
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET, "/carro").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/cliente").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/gerente", "/valor").hasAnyRole("DONO", "ADMIN")
+
+                        // Permições de requisições POST
+
+                        .requestMatchers(HttpMethod.POST, "/carro").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/cliente", "/dono").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente", "/valor").hasAnyRole("DONO", "ADMIN")
+
+                        // Permições de requisições PUT
+
+                        .requestMatchers(HttpMethod.PUT, "/carro").hasAnyRole("CLIENTE", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/valor").hasAnyRole("DONO", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento", "/reservas").hasAnyRole("DONO", "GERENTE", "ADMIN")
+
+                        .anyRequest().hasRole("ADMIN")
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .userDetailsService(usuarioDetailService);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

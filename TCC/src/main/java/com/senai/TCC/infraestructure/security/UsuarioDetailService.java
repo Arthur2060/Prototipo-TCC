@@ -1,5 +1,6 @@
 package com.senai.TCC.infraestructure.security;
 
+import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -79,7 +79,7 @@ class JwtAuthenticationFilterIntegrationTest {
 
     @Test
     void deveNegarAcessoAEndpointProtegidoSemToken() throws Exception {
-        mockMvc.perform(get("/estacionamento"))
+        mockMvc.perform(get("/gerente"))
                 .andExpect(status().isForbidden());
     }
 

@@ -1,5 +1,6 @@
 package application.unit.usuarios;
 
+import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.requests.usuario.GerenteRequest;
 import com.senai.TCC.application.dto.response.usuario.GerenteResponse;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
@@ -7,6 +8,7 @@ import com.senai.TCC.application.services.usuario.GerenteService;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
+import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +17,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.File;
 import java.sql.Date;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -31,42 +37,89 @@ public class GerenteServiceTest {
     private GerenteRepository repository;
     @Mock
     private EstacionamentoRepository estacionamentoRepository;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @InjectMocks
     private GerenteService service;
 
     private GerenteRequest dto;
     private Estacionamento estacionamento;
+    private EstacionamentoRequest estacionamentoRequest;
+    private DonoEstacionamento dono;
 
     @BeforeEach
     void setUp() {
+        estacionamento = new Estacionamento();
+        estacionamento.setId(1L);
+        estacionamento.setNome("EstacioPlay");
+        estacionamento.setEndereco("Rua das Flores");
+        estacionamento.setCEP("12345-678");
+        estacionamento.setNumero("123");
+        estacionamento.setFoto(new File("foto.jpg"));
+        estacionamento.setNumeroAlvaraDeFuncionamento("123456789");
+        estacionamento.setHoraFechamento(LocalTime.of(22,0));
+        estacionamento.setHoraAbertura(LocalTime.of(8,0));
+        estacionamento.setVagaPreferenciais(10);
+        estacionamento.setMaxVagas(100);
+        estacionamento.setNumeroDeEscrituraImovel("987654321");
+        estacionamento.setStatus(true);
+
+        estacionamento.setAvaliacoes(new ArrayList<>());
+        estacionamento.setAcessos(new ArrayList<>());
+        estacionamento.setReservas(new ArrayList<>());
+        estacionamento.setGerentes(new ArrayList<>());
+
+        estacionamentoRequest = new EstacionamentoRequest(
+                "EstacioPlay",
+                "Rua das Flores",
+                "12345-678",
+                "123",
+                new File("foto.jpg"),
+                "123456789",
+                LocalTime.of(22,0),
+                LocalTime.of(8,0),
+                10,
+                100,
+                "987654321"
+        );
+
+        dono = new DonoEstacionamento();
+        dono.setId(1L);
+        dono.setEstacionamentos(new ArrayList<>());
+        dono.getEstacionamentos().add(estacionamento);
+        estacionamento.setDono(dono);
+        estacionamentoRepository.save(estacionamento);
         dto = new GerenteRequest(
                 "Pedro",
                 "pedro@gmail.com",
                 "123456",
                 Date.valueOf("2000-09-12"),
                 "12345678900",
-                1L
+                estacionamento.getId()
         );
-        estacionamento = new Estacionamento();
-        estacionamento.setId(1L);
-        estacionamento.setGerentes(new ArrayList<>());
     }
 
     @Test
     void deveCadastrarGerenteValido() {
-        Gerente entidade = GerenteMapper.toEntity(dto);
-        entidade.setId(1L);
-        entidade.setEstacionamento(estacionamento);
-
+        // Mock the estacionamentoRepository to return the estacionamento
         when(estacionamentoRepository.findById(1L)).thenReturn(Optional.of(estacionamento));
-        when(repository.save(any())).thenReturn(entidade);
+
+        // Mock save to return the Gerente with ID set
+        when(repository.save(any())).thenAnswer(invocation -> {
+            Gerente g = invocation.getArgument(0);
+            g.setId(1L);
+            g.setEstacionamento(estacionamento); // ensure estacionamento is set
+            return g;
+        });
 
         GerenteResponse salvo = service.cadastrarGerente(dto);
 
         assertNotNull(salvo);
         assertEquals("Pedro", salvo.nome());
+        assertEquals(1L, salvo.estacionamentoId()); // pega o ID do estacionamento do Gerente salvo
         verify(repository).save(any());
     }
+
 
     @Test
     void deveLancarExcecaoAoCadastrarComEstacionamentoInexistente() {

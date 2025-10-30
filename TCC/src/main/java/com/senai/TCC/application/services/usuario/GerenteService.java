@@ -8,21 +8,19 @@ import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class GerenteService {
     private final GerenteRepository gerenteRepository;
-
+    private final PasswordEncoder passwordEncoder;
     private final EstacionamentoRepository estacionamentoRepository;
-
-    public GerenteService(GerenteRepository gerenteRepository, EstacionamentoRepository estacionamentoRepository) {
-        this.gerenteRepository = gerenteRepository;
-        this.estacionamentoRepository = estacionamentoRepository;
-    }
 
     public List<GerenteResponse> listarGerentes() {
         return gerenteRepository.findByStatusTrue()
@@ -43,19 +41,16 @@ public class GerenteService {
 
     public GerenteResponse cadastrarGerente(GerenteRequest dto) {
         Gerente gerente = GerenteMapper.toEntity(dto);
-        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
-
-        if (optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
-        }
-
-        Estacionamento estacionamento = optEstacionamento.get();
+        gerente.setSenha(passwordEncoder.encode(dto.senha()));
+        Estacionamento estacionamento = estacionamentoRepository.findById(dto.estacionamentoId())
+                .orElseThrow(() -> new IdNaoCadastrado("Id do estacionamento não encontrado no sistema"));
 
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
         gerente.setStatus(true);
+        Gerente salvo = gerenteRepository.save(gerente);
 
-        return GerenteMapper.fromEntity(gerenteRepository.save(gerente));
+        return GerenteMapper.fromEntity(salvo);
     }
 
     public GerenteResponse atualizarGerente(GerenteRequest dto, Long id) {
