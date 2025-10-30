@@ -1,11 +1,16 @@
 package com.senai.TCC.infraestructure.handler;
 
 import com.senai.TCC.model.exceptions.*;
+import io.jsonwebtoken.io.SerialException;
+import jakarta.servlet.ServletException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,5 +57,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TempoLimiteDeAvaliacaoExpedido.class)
     public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedido ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException ex) {
+        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(ServletException.class)
+    public ResponseEntity<?> handleServletException(ServletException ex) {
+        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<?> handleIOException(IOException ex) {
+        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
     }
 }
