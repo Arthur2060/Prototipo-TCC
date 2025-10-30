@@ -3,14 +3,16 @@ package com.senai.TCC.application.services;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.mappers.EstacionamentoMapper;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
+import com.senai.TCC.model.entities.*;
+import com.senai.TCC.model.entities.usuarios.Gerente;
 import jakarta.transaction.Transactional;
-import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +54,11 @@ public class EstacionamentoService {
         } else {
             novoEst.setDono(optDono.get());
             optDono.get().getEstacionamentos().add(novoEst);
+            novoEst.setAvaliacoes(new ArrayList<Avaliacao>());
+            novoEst.setAcessos(new ArrayList<Acesso>());
+            novoEst.setReservas(new ArrayList<Reserva>());
+            novoEst.setGerentes(new ArrayList<Gerente>());
+            novoEst.setValores(new ArrayList<Valor>());
             novoEst.setFuncionamento(true);
         }
 
