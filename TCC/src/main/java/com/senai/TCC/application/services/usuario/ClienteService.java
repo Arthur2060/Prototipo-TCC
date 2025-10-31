@@ -42,7 +42,8 @@ public class ClienteService {
         cliente.setStatus(true);
         clienteRepository.save(cliente);
 
-        return ClienteMapper.fromEntity(ClienteMapper.toEntity(dto));
+        Cliente salvo = clienteRepository.save(cliente);
+        return ClienteMapper.fromEntity(salvo);
     }
 
     public ClienteResponse atualizarCliente(ClienteRequest dto, Long id) {
