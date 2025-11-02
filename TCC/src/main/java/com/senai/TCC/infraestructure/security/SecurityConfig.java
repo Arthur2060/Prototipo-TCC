@@ -21,11 +21,11 @@ public class SecurityConfig {
     private final UsuarioDetailService usuarioDetailService;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(
                 AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/auth/**","/auth/refresh","/swagger-ui/**","/v3/api-docs/**").permitAll()
 
                         // Permições de requisições GET
 
@@ -43,28 +43,29 @@ public class SecurityConfig {
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/cliente", "/dono").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/estacionamento", "/gerente", "/valor").hasAnyRole(
+                        .requestMatchers(HttpMethod.POST, "/estacionamento/**", "/gerente", "/valor").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
                         // Permições de requisições PUT
 
-                        .requestMatchers(HttpMethod.PUT, "/carro").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/carro/**").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
 
-                        .requestMatchers(HttpMethod.PUT, "/valor").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/valor/**").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
-                        .requestMatchers(HttpMethod.PUT, "/estacionamento", "/reservas").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento/**", "/reservas/**").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.GERENTE.name(),
                                 Role.ADMIN.name())
 
-                        .anyRequest().hasRole("ADMIN")
+                        .anyRequest().hasRole(Role.ADMIN.name())
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .userDetailsService(usuarioDetailService);
         return http.build();
     }
 
