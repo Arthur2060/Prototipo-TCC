@@ -25,7 +25,7 @@ public class UsuarioDetailService implements UserDetailsService{
         return new User(
                 usuario.getEmail(),
                 usuario.getSenha(),
-                List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRole()))
+                List.of(new SimpleGrantedAuthority("ROLE_" + usuario.getRole().name()))
         );
     }
 }
