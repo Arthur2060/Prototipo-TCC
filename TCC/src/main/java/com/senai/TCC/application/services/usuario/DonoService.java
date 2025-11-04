@@ -42,8 +42,9 @@ public class DonoService {
         DonoEstacionamento dono = DonoMapper.toEntity(dto);
         dono.setSenha(passwordEncoder.encode(dto.senha()));
         dono.setStatus(true);
-        donoRepository.save(dono);
-        return DonoMapper.fromEntity(DonoMapper.toEntity(dto));
+        DonoEstacionamento salvo = donoRepository.save(dono);
+
+        return DonoMapper.fromEntity(salvo);
     }
 
     @Transactional

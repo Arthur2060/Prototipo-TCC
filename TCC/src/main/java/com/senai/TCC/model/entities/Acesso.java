@@ -1,6 +1,5 @@
 package com.senai.TCC.model.entities;
 
-import com.senai.TCC.model.entities.usuarios.Cliente;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Time;
-import java.time.LocalTime;
 
 @Entity
 @AllArgsConstructor

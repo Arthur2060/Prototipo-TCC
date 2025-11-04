@@ -37,9 +37,6 @@ class SecurityAuthorizationIntegrationTest {
     @Mock
     private UsuarioDetailService usuarioDetailsService;
 
-//    @Mock
-//    private ProfessorService professorService;
-
     private void mockUsuario(String email, String role) {
         UserDetails user = User.withUsername(email)
                 .password("encoded")
