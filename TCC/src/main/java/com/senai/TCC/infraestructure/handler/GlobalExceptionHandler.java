@@ -1,16 +1,13 @@
 package com.senai.TCC.infraestructure.handler;
 
 import com.senai.TCC.model.exceptions.*;
-import io.jsonwebtoken.io.SerialException;
-import jakarta.servlet.ServletException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,23 +56,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException ex) {
-        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    public ResponseEntity<?> handleCredencialInvalidasException(CredenciaisInvalidasException ex) {
+        return ResponseEntity.status(401).body(Map.of("erro",ex.getMessage()));
     }
 
-    @ExceptionHandler(ServletException.class)
-    public ResponseEntity<?> handleServletException(ServletException ex) {
-        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
-    }
-
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<?> handleIOException(IOException ex) {
-        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
-    }
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<?> handleUsernameNotFoundException(UsernameNotFoundException ex) {
-        return ResponseEntity.status(403).body(Map.of("erro", ex.getMessage()));
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<?> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(Map.of("erro", "Request method '" + ex.getMethod() + "' is not supported"));
     }
 }

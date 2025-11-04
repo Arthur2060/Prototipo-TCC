@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
+import lombok.experimental.SuperBuilder;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 public class Estacionamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,7 @@ public class Estacionamento {
     private Boolean funcionamento;
 
     @ManyToOne
+    @JoinColumn(name = "dono_id")
     private DonoEstacionamento dono;
 
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -68,18 +71,22 @@ public class Estacionamento {
     private Metodo metodoDePagamento;
 
     private Boolean status;
-    @OneToMany
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acesso> acessos;
 
     public void calcularNotaMedia() {
+        if (avaliacoes == null || avaliacoes.isEmpty()) {
+            this.quantidadeDeAvaliacoes = 0;
+            this.notaMedia = 0.0;
+            return;
+        }
+
         this.quantidadeDeAvaliacoes = avaliacoes.size();
-
         double soma = 0.0;
-
         for (Avaliacao avaliacao : avaliacoes) {
             soma += avaliacao.getNota().doubleValue();
         }
-
         notaMedia = soma / this.quantidadeDeAvaliacoes;
     }
+
 }

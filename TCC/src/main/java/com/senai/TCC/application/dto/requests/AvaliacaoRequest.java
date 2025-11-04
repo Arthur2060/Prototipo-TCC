@@ -17,7 +17,7 @@ public record AvaliacaoRequest(
                 description = "ID do estacionamento que foi avaliado",
                 examples = "1"
         )
-        Long estacioId,
+        Long estacionamentoId,
         @Schema(
                 name = "nota",
                 description = "Nota dada pelo cliente ao estacionamento, de 0 a 5",

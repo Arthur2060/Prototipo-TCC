@@ -1,4 +1,4 @@
-package application.service;
+package application.unit;
 
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
@@ -56,6 +56,11 @@ public class EstacionamentoServiceTest {
         estacionamento.setNumeroDeEscrituraImovel("987654321");
         estacionamento.setStatus(true);
 
+        estacionamento.setAvaliacoes(new ArrayList<>());
+        estacionamento.setAcessos(new ArrayList<>());
+        estacionamento.setReservas(new ArrayList<>());
+        estacionamento.setGerentes(new ArrayList<>());
+
         estacionamentoRequest = new EstacionamentoRequest(
                 "EstacioPlay",
                 "Rua das Flores",
@@ -72,10 +77,12 @@ public class EstacionamentoServiceTest {
 
         dono = new DonoEstacionamento();
         dono.setId(1L);
-        dono.setEstacionamentos(new ArrayList<>()); // Adicione esta linha
+        dono.setEstacionamentos(new ArrayList<>());
         dono.getEstacionamentos().add(estacionamento);
         estacionamento.setDono(dono);
     }
+
+
 
     @Test
     void deveListarTodosOsEstacionamentos() {

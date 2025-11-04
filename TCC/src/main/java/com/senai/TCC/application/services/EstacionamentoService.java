@@ -3,9 +3,8 @@ package com.senai.TCC.application.services;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.mappers.EstacionamentoMapper;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
-import com.senai.TCC.model.entities.*;
-import com.senai.TCC.model.entities.usuarios.Gerente;
 import jakarta.transaction.Transactional;
+import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
@@ -19,7 +18,6 @@ import java.util.Optional;
 @Service
 public class EstacionamentoService {
     private final EstacionamentoRepository estacionamentoRepository;
-
     private final DonoRepository donoRepository;
 
     public EstacionamentoService(EstacionamentoRepository estacionamentoRepository, DonoRepository donoRepository) {
@@ -35,65 +33,56 @@ public class EstacionamentoService {
     }
 
     public EstacionamentoResponse buscarPorId(Long id) {
-        Optional<Estacionamento> optionalEstacionamento = estacionamentoRepository.findById(id);
+        Estacionamento estacionamento = estacionamentoRepository.findById(id)
+                .orElseThrow(() -> new IdNaoCadastrado("ID buscado não foi encontrado no sistema!"));
 
-        if (optionalEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("ID buscado não foi encontrado no sistema!");
-        }
-
-        return EstacionamentoMapper.fromEntity(optionalEstacionamento.get());
+        return EstacionamentoMapper.fromEntity(estacionamento);
     }
 
     @Transactional
     public EstacionamentoResponse cadastrarEstacionamento(EstacionamentoRequest dto, Long id) {
-        Estacionamento novoEst = EstacionamentoMapper.toEntity(dto);
-        Optional<DonoEstacionamento> optDono = donoRepository.findById(id);
+        DonoEstacionamento dono = donoRepository.findById(id)
+                .orElseThrow(() -> new IdNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!"));
 
-        if (optDono.isEmpty()) {
-            throw new IdNaoCadastrado("O Id do dono fornecido não foi encontrado no sistema!");
-        } else {
-            novoEst.setDono(optDono.get());
-            optDono.get().getEstacionamentos().add(novoEst);
-            novoEst.setAvaliacoes(new ArrayList<Avaliacao>());
-            novoEst.setAcessos(new ArrayList<Acesso>());
-            novoEst.setReservas(new ArrayList<Reserva>());
-            novoEst.setGerentes(new ArrayList<Gerente>());
-            novoEst.setValores(new ArrayList<Valor>());
-            novoEst.setFuncionamento(true);
+        Estacionamento novoEst = EstacionamentoMapper.toEntity(dto);
+
+        if (dono.getEstacionamentos() == null) {
+            dono.setEstacionamentos(new ArrayList<>());
         }
 
+        novoEst.setDono(dono);
+        dono.getEstacionamentos().add(novoEst);
+        novoEst.setFuncionamento(true);
         novoEst.setStatus(true);
+
         return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(novoEst));
     }
 
     @Transactional
     public EstacionamentoResponse atualizarEstacionamento(EstacionamentoRequest dto, Long id) {
-        Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
+        Estacionamento estacionamento = estacionamentoRepository.findById(id)
+                .orElseThrow(() -> new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!"));
 
-        if (optEst.isEmpty()) {
-            throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
-        } else {
-            optEst.get().setFoto(dto.foto());
-            optEst.get().setHoraAbertura(dto.horaAbertura());
-            optEst.get().setMaxVagas(dto.maximoDeVagas());
-            optEst.get().setHoraFechamento(dto.horaFechamento());
-            optEst.get().setNome(dto.nome());
-        }
+        estacionamento.setFoto(dto.foto());
+        estacionamento.setHoraAbertura(dto.horaAbertura());
+        estacionamento.setMaxVagas(dto.maximoDeVagas());
+        estacionamento.setHoraFechamento(dto.horaFechamento());
+        estacionamento.setNome(dto.nome());
 
-        return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(optEst.get()));
+        return EstacionamentoMapper.fromEntity(estacionamentoRepository.save(estacionamento));
     }
 
     @Transactional
     public void desativarEstacionamento(Long id) {
-        Optional<Estacionamento> optEst = estacionamentoRepository.findById(id);
+        Estacionamento estacionamento = estacionamentoRepository.findById(id)
+                .orElseThrow(() -> new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!"));
 
-        if (optEst.isEmpty()) {
-            throw new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!");
+        // **CORREÇÃO: Verifica se a lista de estacionamentos do dono é nula e a inicializa**
+        if (estacionamento.getDono().getEstacionamentos() == null) {
+            estacionamento.getDono().setEstacionamentos(new ArrayList<>());
         }
 
-        Estacionamento estacionamento = optEst.get();
         estacionamento.getDono().getEstacionamentos().remove(estacionamento);
-
         estacionamento.setStatus(false);
         estacionamentoRepository.save(estacionamento);
     }

@@ -5,6 +5,8 @@ import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.application.mappers.usuario.GerenteMapper;
 import com.senai.TCC.model.entities.Estacionamento;
 
+import java.util.List;
+
 public class EstacionamentoMapper {
 
     public static  EstacionamentoResponse fromEntity(Estacionamento estacionamento) {
@@ -22,18 +24,22 @@ public class EstacionamentoMapper {
                 estacionamento.getMaxVagas(),
                 estacionamento.getNumeroDeEscrituraImovel(),
                 estacionamento.getStatus(),
-                estacionamento.getAvaliacoes()
-                        .stream().map(AvaliacaoMapper::fromEntity)
-                        .toList(),
-                estacionamento.getAcessos()
-                        .stream().map(AcessoMapper::fromEntity)
-                        .toList(),
-                estacionamento.getReservas()
-                        .stream().map(ReservaMapper::fromEntity)
-                        .toList(),
-                estacionamento.getGerentes()
-                        .stream().map(GerenteMapper::fromEntity)
-                        .toList()
+                estacionamento.getAvaliacoes() != null ?
+                        estacionamento.getAvaliacoes().stream()
+                                .map(AvaliacaoMapper::fromEntity)
+                                .toList() : List.of(),
+                estacionamento.getAcessos() != null ?
+                        estacionamento.getAcessos().stream()
+                                .map(AcessoMapper::fromEntity)
+                                .toList() : List.of(),
+                estacionamento.getReservas() != null ?
+                        estacionamento.getReservas().stream()
+                                .map(ReservaMapper::resumo)
+                                .toList() : List.of(),
+                estacionamento.getGerentes() != null ?
+                        estacionamento.getGerentes().stream()
+                                .map(GerenteMapper::fromEntity)
+                                .toList() : List.of()
         );
     }
 

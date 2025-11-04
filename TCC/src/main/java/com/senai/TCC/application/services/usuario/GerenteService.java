@@ -42,20 +42,15 @@ public class GerenteService {
     public GerenteResponse cadastrarGerente(GerenteRequest dto) {
         Gerente gerente = GerenteMapper.toEntity(dto);
         gerente.setSenha(passwordEncoder.encode(dto.senha()));
-        Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(dto.estacionamentoId());
-
-        if (optEstacionamento.isEmpty()) {
-            throw new IdNaoCadastrado("Id do estacionamento não encontrado no sistema");
-        }
-
-        Estacionamento estacionamento = optEstacionamento.get();
+        Estacionamento estacionamento = estacionamentoRepository.findById(dto.estacionamentoId())
+                .orElseThrow(() -> new IdNaoCadastrado("Id do estacionamento não encontrado no sistema"));
 
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
         gerente.setStatus(true);
-        gerenteRepository.save(gerente);
+        Gerente salvo = gerenteRepository.save(gerente);
 
-        return GerenteMapper.fromEntity(GerenteMapper.toEntity(dto));
+        return GerenteMapper.fromEntity(salvo);
     }
 
     public GerenteResponse atualizarGerente(GerenteRequest dto, Long id) {

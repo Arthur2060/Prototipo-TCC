@@ -40,25 +40,22 @@ public class ClienteService {
         Cliente cliente = ClienteMapper.toEntity(dto);
         cliente.setSenha(passwordEncoder.encode(dto.senha()));
         cliente.setStatus(true);
-        clienteRepository.save(cliente);
 
-        return ClienteMapper.fromEntity(ClienteMapper.toEntity(dto));
+        Cliente salvo = clienteRepository.save(cliente);
+        return ClienteMapper.fromEntity(salvo);
     }
 
     public ClienteResponse atualizarCliente(ClienteRequest dto, Long id) {
-        Optional<Cliente> optCliente = clienteRepository.findById(id);
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new IdNaoCadastrado("Id buscado não foi encontrado"));
 
-        if (optCliente.isEmpty()) {
-            throw new IdNaoCadastrado("Cliente buscado não cadastrado no sistema");
-        }
-
-        Cliente cliente = optCliente.get();
         cliente.setNome(dto.nome());
         cliente.setEmail(dto.email());
         cliente.setSenha(dto.senha());
         cliente.setDataNascimento(dto.dataNascimento());
 
-        return ClienteMapper.fromEntity(cliente);
+        Cliente salvo = clienteRepository.save(cliente);
+        return ClienteMapper.fromEntity(salvo);
     }
 
     public void deletarCliente(Long id) {

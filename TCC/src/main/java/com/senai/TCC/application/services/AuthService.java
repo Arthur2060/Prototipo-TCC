@@ -4,6 +4,7 @@ import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
 import com.senai.TCC.infraestructure.security.JwtService;
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import com.senai.TCC.model.entities.usuarios.Usuario;
+import com.senai.TCC.model.exceptions.CredenciaisInvalidasException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,10 +20,10 @@ public class AuthService {
 
     public String login(UsuarioLoginRequest req) {
         Usuario usuario = usuarios.findByEmail(req.email())
-                .orElseThrow(() ->  new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() ->  new CredenciaisInvalidasException("Usuário não encontrado"));
 
         if (!encoder.matches(req.senha(), usuario.getSenha())) {
-            throw new BadCredentialsException("Credenciais inválidas");
+            throw new CredenciaisInvalidasException("Credenciais inválidas");
         }
 
         return jwt.generateToken(usuario.getEmail(), usuario.getRole().name());

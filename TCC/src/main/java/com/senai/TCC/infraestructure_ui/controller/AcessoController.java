@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Acesso")
+@RequestMapping("/acesso")
 @Tag(
         name = "Acesso controller",
         description = "Realiza operações referente ao acesso dos carros aos estacionamentos"

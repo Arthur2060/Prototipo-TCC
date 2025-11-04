@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Avaliacao")
+@RequestMapping("/avaliacao")
 @Tag(
         name = "Avaliação controller",
         description = "Realiza operações referentes à avaliações de estacionamento"
@@ -59,7 +59,7 @@ public class AvaliacaoController {
             summary = "Atualizar uma avaliação",
             description = "Atualiza uma avaliação já cadastrada no sistema"
     )
-    public ResponseEntity<AvaliacaoResponse> atualizarAvaliacao(@PathVariable Long id, AvaliacaoRequest dto) {
+    public ResponseEntity<AvaliacaoResponse> atualizarAvaliacao(@PathVariable Long id, @RequestBody AvaliacaoRequest dto) {
         return ResponseEntity.status(200).body(service.atualizarAvaliacao(dto, id));
     }
 

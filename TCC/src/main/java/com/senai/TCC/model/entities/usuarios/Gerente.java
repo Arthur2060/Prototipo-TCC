@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @DiscriminatorValue("GERENTE")
@@ -13,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
+@SuperBuilder
 public class Gerente extends Usuario{
     private String cpfOuCnpj;
 
