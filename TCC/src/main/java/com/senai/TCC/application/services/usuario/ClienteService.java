@@ -40,7 +40,6 @@ public class ClienteService {
         Cliente cliente = ClienteMapper.toEntity(dto);
         cliente.setSenha(passwordEncoder.encode(dto.senha()));
         cliente.setStatus(true);
-        clienteRepository.save(cliente);
 
         Cliente salvo = clienteRepository.save(cliente);
         return ClienteMapper.fromEntity(salvo);
