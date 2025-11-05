@@ -29,11 +29,11 @@ public class SecurityConfig {
 
                         // Permições de requisições GET
 
-                        .requestMatchers(HttpMethod.GET, "/carro").hasAnyRole(
+                        .requestMatchers(HttpMethod.GET, "/carro", "/carro/**").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/cliente", "/avaliacao").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/gerente", "/valor").hasAnyRole(
+                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/estacionamento/**", "/cliente", "/avaliacao").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/gerente", "/gerente/**", "/valor", "/valor/**").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
