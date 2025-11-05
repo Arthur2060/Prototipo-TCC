@@ -20,7 +20,7 @@ public class EstacionamentoMapper {
                 estacionamento.getNumeroDeEscrituraImovel(),
                 estacionamento.getHoraFechamento(),
                 estacionamento.getHoraAbertura(),
-                estacionamento.getVagaPreferenciais(),
+                estacionamento.getVagasPreferenciais(),
                 estacionamento.getMaxVagas(),
                 estacionamento.getNumeroDeEscrituraImovel(),
                 estacionamento.getStatus(),
@@ -54,7 +54,7 @@ public class EstacionamentoMapper {
         estacionamento.setNumeroAlvaraDeFuncionamento(dto.numeroAlvaraDeFuncionamento());
         estacionamento.setHoraFechamento(dto.horaFechamento());
         estacionamento.setHoraAbertura(dto.horaAbertura());
-        estacionamento.setVagaPreferenciais(dto.vagasPreferenciais());
+        estacionamento.setVagasPreferenciais(dto.vagasPreferenciais());
         estacionamento.setMaxVagas(dto.maximoDeVagas());
         estacionamento.setNumeroDeEscrituraImovel(dto.numeroDeEscrituraImovel());
 

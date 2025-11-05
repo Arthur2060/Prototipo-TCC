@@ -28,11 +28,15 @@ public class Reserva {
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "estacio_id")
+    @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
 
+    @Column(name = "data_reserva")
     private Date dataDaReserva;
+
+    @Column(name = "hora_reserva")
     private Time horaDaReserva;
+
     private StatusReserva statusReserva;
 
     private Boolean status;

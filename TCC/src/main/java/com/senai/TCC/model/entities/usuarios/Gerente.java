@@ -9,13 +9,15 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@DiscriminatorValue("GERENTE")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @SuperBuilder
+@PrimaryKeyJoinColumn(name = "id")
 public class Gerente extends Usuario{
+
+    @Column(name = "cpf_ou_cnpj", nullable = false, unique = true)
     private String cpfOuCnpj;
 
     @ManyToOne
