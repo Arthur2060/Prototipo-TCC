@@ -32,14 +32,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/carro").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/cliente").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/cliente", "/avaliacao").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gerente", "/valor").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
                         // Permições de requisições POST
 
-                        .requestMatchers(HttpMethod.POST, "/carro").hasAnyRole(
+                        .requestMatchers(HttpMethod.POST, "/carro", "/avaliacao").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
 
@@ -55,7 +55,7 @@ public class SecurityConfig {
 
                         // Permições de requisições PUT
 
-                        .requestMatchers(HttpMethod.PUT, "/carro/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/carro/**", "/avaliacao/**").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
 
