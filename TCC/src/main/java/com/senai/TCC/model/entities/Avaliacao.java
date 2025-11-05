@@ -29,6 +29,8 @@ public class Avaliacao {
 
     private Short nota;
     private String comentario;
+
+    @Column(name = "data_avaliacao")
     private LocalDateTime dataDeAvaliacao;
 
     private Boolean status;

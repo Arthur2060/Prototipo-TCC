@@ -16,7 +16,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Usuario {
     @Id
@@ -32,10 +31,13 @@ public abstract class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @Column(nullable = false)
+    @Column(name = "data_nascimento", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
+    @Column(name = "tipo_usuario")
     private TipoDeUsuario tipoDeUsuario;
+
     private Boolean status;
     protected Role role;
 }

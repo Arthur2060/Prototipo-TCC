@@ -36,15 +36,15 @@ public class Estacionamento {
     @Column(nullable = false)
     private String numero;
 
-    //@Lob todo: descobrir como usar lob
     private File foto;
 
-    @Column(nullable = false)
+    @Column(name = "numero_alvara_funcionamento", nullable = false)
     private String numeroAlvaraDeFuncionamento;
 
     private Boolean funcionamento;
 
     @ManyToOne
+    @JoinColumn(name = "dono_id", nullable = false)
     private DonoEstacionamento donoEstacionamento;
 
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -70,10 +70,17 @@ public class Estacionamento {
     private Double latitude;
     private Double longitude;
 
+    @Column(name = "max_vagas", nullable = false)
     private Integer maxVagas;
+
+    @Column(name = "vagas_disponiveis", nullable = false)
     private Integer vagasDisponiveis;
-    private Integer vagaPreferenciais;
+
+    @Column(name = "vagas_preferenciais")
+    private Integer vagasPreferenciais;
     private LocalDate diaAtual;
+
+    @Column(name = "numero_escritura_imovel")
     private String numeroDeEscrituraImovel;
     private Metodo metodoDePagamento;
 

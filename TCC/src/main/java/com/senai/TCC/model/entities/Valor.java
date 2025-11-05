@@ -19,9 +19,14 @@ public class Valor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "tipo_cobranca")
     private Cobranca tipoDeCobranca;
+
+    @Column(name = "tipo_pagamento")
     private Metodo tipoDePagamento;
     private Double preco;
+
+    @Column(name = "periodo")
     private Periodo periodo;
 
     private Boolean status;

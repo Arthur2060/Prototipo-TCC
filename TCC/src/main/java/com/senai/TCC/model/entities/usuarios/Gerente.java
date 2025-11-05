@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorValue("GERENTE")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
+@PrimaryKeyJoinColumn(name = "id")
 public class Gerente extends Usuario{
 
     @Column(name = "cpf_ou_cnpj", nullable = false, unique = true)
