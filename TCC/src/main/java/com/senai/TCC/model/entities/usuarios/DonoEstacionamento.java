@@ -18,6 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id")
 public class DonoEstacionamento extends Usuario {
-    @OneToMany(mappedBy = "donoEstacionamento")
+    @OneToMany(mappedBy = "dono")
     private List<Estacionamento> estacionamentos;
 }
