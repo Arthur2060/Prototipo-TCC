@@ -57,13 +57,7 @@ public class AcessoController {
                     content = @Content(
                             schema = @Schema(implementation = AcessoRequest.class),
                             examples = @ExampleObject(value = """
-                                    {
-                                       "placaDoCarro": "string",
-                                       "horaDeEntrada": "09:38:51",
-                                       "horaDeSaida": "19:38:51",
-                                       "valorAPagar": 0,
-                                       "estacioId": 1
-                                     }
+                                    { "placaDoCarro": "string","horaDeEntrada": "09:38:51","horaDeSaida": "19:38:51","valorAPagar": 0,"estacioId": 1 }
                                     """
                             )
                     )
