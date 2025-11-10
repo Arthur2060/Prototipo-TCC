@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface EstacionamentoRepository extends JpaRepository<Estacionamento, Long> {
     List<Estacionamento> findByStatusTrue();
-    List<Estacionamento> findByDonoId(Long donoId);
+    List<Estacionamento> findByDono_Id(Long donoId);
 }

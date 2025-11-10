@@ -22,13 +22,19 @@ public class Carro {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
     @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acesso> acessos;
 
+    @Column(nullable = false, unique = true, length = 7)
     private String placa;
+
+    @Column(nullable = false)
     private String modelo;
+
+    @Column(nullable = false)
     private String cor;
 
     private Boolean status;
