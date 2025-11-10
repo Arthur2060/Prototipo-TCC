@@ -1,0 +1,120 @@
+CREATE DATABASE IF NOT EXISTS prototipo_estacionamento;
+USE prototipo_estacionamento;
+
+CREATE TABLE usuario (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    tipo_usuario VARCHAR(50),
+    status BOOLEAN DEFAULT TRUE,
+    role VARCHAR(50)
+);
+
+CREATE TABLE cliente (
+    id BIGINT PRIMARY KEY
+);
+
+CREATE TABLE dono_estacionamento (
+    id BIGINT PRIMARY KEY
+);
+
+CREATE TABLE gerente (
+    id BIGINT PRIMARY KEY,
+    cpf_ou_cnpj VARCHAR(14) UNIQUE NOT NULL,
+    estacionamento_id BIGINT
+);
+
+CREATE TABLE estacionamento (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    endereco VARCHAR(255) NOT NULL,
+    cep VARCHAR(20),
+    numero VARCHAR(20),
+    foto VARCHAR(255),
+    numero_alvara_funcionamento VARCHAR(255) NOT NULL,
+    funcionamento BOOLEAN DEFAULT TRUE,
+    dono_id BIGINT NOT NULL,
+    latitude DOUBLE,
+    longitude DOUBLE,
+    max_vagas INT NOT NULL,
+    vagas_disponiveis INT NOT NULL,
+    vagas_preferenciais INT,
+    hora_abertura TIME NOT NULL,
+    hora_fechamento TIME NOT NULL,
+    numero_conta_dono VARCHAR(255),
+    dia_atual DATE,
+    numero_escritura_imovel VARCHAR(255),
+    valor_arrecadado_dia DOUBLE DEFAULT 0,
+    nota_media DOUBLE DEFAULT 0,
+    quantidade_avaliacoes INT DEFAULT 0,
+    status BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE valor (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    preco DOUBLE NOT NULL,
+    tipo_cobranca VARCHAR(50) NOT NULL,
+    tipo_pagamento VARCHAR(50) NOT NULL,
+    periodo VARCHAR(50) NOT NULL,
+    status BOOLEAN DEFAULT TRUE,
+    estacionamento_id BIGINT NOT NULL
+);
+
+CREATE TABLE carro (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id BIGINT NOT NULL,
+    placa VARCHAR(7) UNIQUE NOT NULL,
+    modelo VARCHAR(255) NOT NULL,
+    cor VARCHAR(255) NOT NULL,
+    status BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE acesso (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    estacionamento_id BIGINT NOT NULL,
+    carro_id BIGINT NOT NULL,
+    placa_do_carro VARCHAR(7),
+    hora_entrada TIME,
+    hora_saida TIME,
+    total_horas INT,
+    valor_a_pagar DOUBLE,
+    status BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE reserva (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id BIGINT NOT NULL,
+    estacionamento_id BIGINT NOT NULL,
+    data_reserva DATE,
+    hora_reserva TIME,
+    status_reserva VARCHAR(50),
+    status BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE avaliacao (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id BIGINT NOT NULL,
+    estacionamento_id BIGINT NOT NULL,
+    nota DOUBLE NOT NULL,
+    comentario VARCHAR(255),
+    data_avaliacao DATETIME NOT NULL,
+    status BOOLEAN DEFAULT TRUE
+);
+
+ALTER TABLE cliente ADD CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id);
+ALTER TABLE dono_estacionamento ADD CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id);
+ALTER TABLE gerente ADD CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id);
+ALTER TABLE gerente ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+ALTER TABLE estacionamento ADD CONSTRAINT FOREIGN KEY (dono_id) REFERENCES dono_estacionamento(id);
+ALTER TABLE valor ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+ALTER TABLE carro ADD CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id);
+ALTER TABLE acesso ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+ALTER TABLE acesso ADD CONSTRAINT FOREIGN KEY (carro_id) REFERENCES carro(id);
+ALTER TABLE reserva ADD CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id);
+ALTER TABLE reserva ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+ALTER TABLE avaliacao ADD CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id);
+ALTER TABLE avaliacao ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+
+

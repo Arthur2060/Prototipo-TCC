@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -56,6 +59,8 @@ public class AuthController {
     @PostMapping("/criar-admin")
     public String criarAdminTeste() {
         Cliente u = new Cliente();
+        u.setNome("ADMIN");
+        u.setDataNascimento(new Date());
         u.setEmail("admin@teste.com");
         u.setSenha(passwordEncoder.encode("123456"));
         u.setRole(Role.ADMIN);
