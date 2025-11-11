@@ -103,6 +103,45 @@ CREATE TABLE avaliacao (
     status BOOLEAN DEFAULT TRUE
 );
 
+CREATE TABLE metodos_pagamento_estacionamento(
+	estacionamento_id BIGINT NOT NULL,
+	tipo_pagamento_id TINYINT NOT NULL,
+	PRIMARY KEY (estacionamento_id, tipo_pagamento_id)
+);
+
+CREATE TABLE tipo_cobranca (
+    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+    tipo_cobranca VARCHAR(255) NOT NULL UNIQUE
+);
+
+INSERT INTO tipo_cobranca (tipo_cobranca) VALUES
+('POR_VAGA'), ('POR_HORA');
+
+CREATE TABLE tipo_pagamento (
+    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+    tipo_pagamento VARCHAR(255) NOT NULL UNIQUE
+);
+
+INSERT INTO tipo_pagamento (tipo_pagamento) VALUES
+('PIX'), ('CARTAO');
+
+CREATE TABLE periodo (
+    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+    periodo VARCHAR(255) NOT NULL UNIQUE
+);
+
+INSERT INTO periodo (periodo) VALUES
+('UTIL'), ('FIM_DE_SEMANA');
+
+CREATE TABLE status_reserva (
+    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+    status_reserva VARCHAR(255) NOT NULL UNIQUE
+);
+
+INSERT INTO status_reserva (status_reserva) VALUES
+('ACEITA'), ('RECUSADA'), ('PENDENTE'), ('ENCERRADA');
+
+
 ALTER TABLE cliente ADD CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id);
 ALTER TABLE dono_estacionamento ADD CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id);
 ALTER TABLE gerente ADD CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id);
@@ -116,5 +155,3 @@ ALTER TABLE reserva ADD CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(i
 ALTER TABLE reserva ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
 ALTER TABLE avaliacao ADD CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id);
 ALTER TABLE avaliacao ADD CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
-
-
