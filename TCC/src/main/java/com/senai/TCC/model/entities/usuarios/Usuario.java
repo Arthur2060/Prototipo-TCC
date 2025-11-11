@@ -17,7 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
 @Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
 public abstract class Usuario {
@@ -25,12 +24,22 @@ public abstract class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String senha;
+
+    @Column(name = "data_nascimento", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
+    @Column(name = "tipo_usuario")
     private TipoDeUsuario tipoDeUsuario;
+
     private Boolean status;
     protected Role role;
 }
