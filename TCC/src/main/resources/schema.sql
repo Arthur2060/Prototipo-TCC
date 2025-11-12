@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS prototipo_estacionamento;
-USE prototipo_estacionamento;
+CREATE DATABASE IF NOT EXISTS inpark_bd;
+USE inpark_bd;
 
 CREATE TABLE IF NOT EXISTS usuario (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
