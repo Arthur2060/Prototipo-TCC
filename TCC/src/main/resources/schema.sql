@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS inpark_bd;
-USE inpark_bd;
+CREATE DATABASE IF NOT EXISTS inpark_db;
+USE inpark_db;
 
 CREATE TABLE IF NOT EXISTS usuario (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -13,13 +13,13 @@ CREATE TABLE IF NOT EXISTS usuario (
 );
 
 CREATE TABLE IF NOT EXISTS cliente (
-    id BIGINT PRIMARY KEY,
-    CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id)
+    usuario_id BIGINT PRIMARY KEY,
+    CONSTRAINT FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
 CREATE TABLE IF NOT EXISTS dono_estacionamento (
-    id BIGINT PRIMARY KEY,
-    CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id)
+    usuario_id BIGINT PRIMARY KEY,
+    CONSTRAINT FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
 CREATE TABLE IF NOT EXISTS estacionamento (
@@ -47,14 +47,14 @@ CREATE TABLE IF NOT EXISTS estacionamento (
     nota_media DECIMAL(3,2) DEFAULT 0,
     quantidade_avaliacoes INT DEFAULT 0,
     status BOOLEAN DEFAULT TRUE,
-    CONSTRAINT FOREIGN KEY (dono_id) REFERENCES dono_estacionamento(id)
+    CONSTRAINT FOREIGN KEY (dono_id) REFERENCES dono_estacionamento(usuario_id)
 );
 
 CREATE TABLE IF NOT EXISTS gerente (
-    id BIGINT PRIMARY KEY,
+    usuario_id BIGINT PRIMARY KEY,
     cpf_ou_cnpj VARCHAR(18) UNIQUE NOT NULL,
     estacionamento_id BIGINT,
-    CONSTRAINT FOREIGN KEY (id) REFERENCES usuario(id),
+    CONSTRAINT FOREIGN KEY (usuario_id) REFERENCES usuario(id),
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id)
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS carro (
     modelo VARCHAR(255) NOT NULL,
     cor VARCHAR(255) NOT NULL,
     status BOOLEAN DEFAULT TRUE,
-    CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+    CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(usuario_id)
 );
 
 CREATE TABLE IF NOT EXISTS acesso (
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS reserva (
     hora_reserva TIME,
     status_reserva_id ENUM('ACEITA', 'RECUSADA', 'PENDENTE', 'ENCERRADA') NOT NULL,
     status BOOLEAN DEFAULT TRUE,
-    CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+    CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(usuario_id),
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id)
 );
 
@@ -112,6 +112,6 @@ CREATE TABLE IF NOT EXISTS avaliacao (
     comentario VARCHAR(255),
     data_avaliacao DATETIME NOT NULL,
     status BOOLEAN DEFAULT TRUE,
-    CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+    CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(usuario_id),
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id)
 );
