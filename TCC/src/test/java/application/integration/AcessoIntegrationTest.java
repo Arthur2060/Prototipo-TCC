@@ -116,7 +116,6 @@ public class AcessoIntegrationTest {
 
     private AcessoRequest acessoRequestValido() {
         return new AcessoRequest(
-                null,
                 "ABC1234",
                 Time.valueOf("08:00:00"),
                 Time.valueOf("10:00:00"),
@@ -151,7 +150,6 @@ public class AcessoIntegrationTest {
         AcessoResponse acesso = objectMapper.readValue(response.getResponse().getContentAsString(), AcessoResponse.class);
 
         var atualizado = new AcessoRequest(
-                null,
                 "XYZ9876",
                 Time.valueOf("09:00:00"),
                 Time.valueOf("11:00:00"),
