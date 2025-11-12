@@ -52,6 +52,7 @@ CREATE TABLE estacionamento (
     vagas_preferenciais INT,
     hora_abertura TIME NOT NULL,
     hora_fechamento TIME NOT NULL,
+    metodo_pagamento ENUM('PIX', 'DEBITO', 'DINHEIRO') NOT NULL,
     numero_conta_dono VARCHAR(100),
     dia_atual DATE,
     numero_escritura_imovel VARCHAR(100),
@@ -64,37 +65,37 @@ CREATE TABLE estacionamento (
 -- =============================
 -- TABELAS AUXILIARES (ENUMS)
 -- =============================
-CREATE TABLE tipo_cobranca (
-    id TINYINT PRIMARY KEY AUTO_INCREMENT,
-    tipo_cobranca VARCHAR(255) NOT NULL UNIQUE
-);
-
-INSERT INTO tipo_cobranca (tipo_cobranca) VALUES
-('POR_VAGA'), ('POR_HORA');
-
-CREATE TABLE tipo_pagamento (
-    id TINYINT PRIMARY KEY AUTO_INCREMENT,
-    tipo_pagamento VARCHAR(255) NOT NULL UNIQUE
-);
-
-INSERT INTO tipo_pagamento (tipo_pagamento) VALUES
-('PIX'), ('CARTAO');
-
-CREATE TABLE periodo (
-    id TINYINT PRIMARY KEY AUTO_INCREMENT,
-    periodo VARCHAR(255) NOT NULL UNIQUE
-);
-
-INSERT INTO periodo (periodo) VALUES
-('UTIL'), ('FIM_DE_SEMANA');
-
-CREATE TABLE status_reserva (
-    id TINYINT PRIMARY KEY AUTO_INCREMENT,
-    status_reserva VARCHAR(255) NOT NULL UNIQUE
-);
-
-INSERT INTO status_reserva (status_reserva) VALUES
-('ACEITA'), ('RECUSADA'), ('PENDENTE'), ('ENCERRADA');
+--CREATE TABLE tipo_cobranca (
+--    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+--    tipo_cobranca VARCHAR(255) NOT NULL UNIQUE
+--);
+--
+--INSERT INTO tipo_cobranca (tipo_cobranca) VALUES
+--('POR_VAGA'), ('POR_HORA');
+--
+--CREATE TABLE tipo_pagamento (
+--    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+--    tipo_pagamento VARCHAR(255) NOT NULL UNIQUE
+--);
+--
+--INSERT INTO tipo_pagamento (tipo_pagamento) VALUES
+--('PIX'), ('DEBITO'), ('DINHEIRO');
+--
+--CREATE TABLE periodo (
+--    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+--    periodo VARCHAR(255) NOT NULL UNIQUE
+--);
+--
+--INSERT INTO periodo (periodo) VALUES
+--('UTIL'), ('FIM_DE_SEMANA');
+--
+--CREATE TABLE status_reserva (
+--    id TINYINT PRIMARY KEY AUTO_INCREMENT,
+--    status_reserva VARCHAR(255) NOT NULL UNIQUE
+--);
+--
+--INSERT INTO status_reserva (status_reserva) VALUES
+--('ACEITA'), ('RECUSADA'), ('PENDENTE'), ('ENCERRADA');
 
 -- =============================
 -- TABELAS RELACIONADAS
@@ -102,9 +103,9 @@ INSERT INTO status_reserva (status_reserva) VALUES
 CREATE TABLE valor (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     preco DECIMAL(10,2) NOT NULL,
-    tipo_cobranca_id TINYINT NOT NULL,
-    tipo_pagamento_id TINYINT NOT NULL,
-    periodo_id TINYINT NOT NULL,
+    tipo_cobranca ENUM('POR_VAGA', 'POR_HORA') NOT NULL,
+    tipo_pagamento ENUM('PIX', 'DEBITO', 'DINHEIRO') NOT NULL,
+    periodo ENUM('UTIL', 'FIM_DE_SEMANA') NOT NULL,
     status BOOLEAN DEFAULT TRUE,
     estacionamento_id BIGINT NOT NULL
 );
@@ -135,7 +136,7 @@ CREATE TABLE reserva (
     estacionamento_id BIGINT NOT NULL,
     data_reserva DATE,
     hora_reserva TIME,
-    status_reserva_id TINYINT,
+    status_reserva_id ENUM('ACEITA', 'RECUSADA', 'PENDENTE', 'ENCERRADA') NOT NULL,
     status BOOLEAN DEFAULT TRUE
 );
 
@@ -149,11 +150,11 @@ CREATE TABLE avaliacao (
     status BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE metodos_pagamento_estacionamento (
-    estacionamento_id BIGINT NOT NULL,
-    tipo_pagamento_id TINYINT NOT NULL,
-    PRIMARY KEY (estacionamento_id, tipo_pagamento_id)
-);
+--CREATE TABLE metodos_pagamento_estacionamento (
+--    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--    estacionamento_id BIGINT NOT NULL,
+--    tipo_pagamento ENUM('PIX', 'DEBITO', 'DINHEIRO') NOT NULL
+--);
 
 -- =============================
 -- FOREIGN KEYS
@@ -174,12 +175,12 @@ ALTER TABLE estacionamento
     ADD CONSTRAINT fk_estacionamento_dono FOREIGN KEY (dono_id) REFERENCES dono_estacionamento(id);
 
 ALTER TABLE valor 
-    ADD CONSTRAINT fk_valor_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id),
-    ADD CONSTRAINT fk_valor_tipo_cobranca FOREIGN KEY (tipo_cobranca_id) REFERENCES tipo_cobranca(id),
-    ADD CONSTRAINT fk_valor_tipo_pagamento FOREIGN KEY (tipo_pagamento_id) REFERENCES tipo_pagamento(id),
-    ADD CONSTRAINT fk_valor_periodo FOREIGN KEY (periodo_id) REFERENCES periodo(id);
+    ADD CONSTRAINT fk_valor_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+    --ADD CONSTRAINT fk_valor_tipo_cobranca FOREIGN KEY (tipo_cobranca_id) REFERENCES tipo_cobranca(id),
+    --ADD CONSTRAINT fk_valor_tipo_pagamento FOREIGN KEY (tipo_pagamento_id) REFERENCES tipo_pagamento(id),
+    --ADD CONSTRAINT fk_valor_periodo FOREIGN KEY (periodo_id) REFERENCES periodo(id);
 
-ALTER TABLE carro 
+ALTER TABLE carro
     ADD CONSTRAINT fk_carro_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id);
 
 ALTER TABLE acesso 
@@ -188,13 +189,13 @@ ALTER TABLE acesso
 
 ALTER TABLE reserva 
     ADD CONSTRAINT fk_reserva_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),
-    ADD CONSTRAINT fk_reserva_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id),
-    ADD CONSTRAINT fk_reserva_status FOREIGN KEY (status_reserva_id) REFERENCES status_reserva(id);
+    ADD CONSTRAINT fk_reserva_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+    --ADD CONSTRAINT fk_reserva_status FOREIGN KEY (status_reserva_id) REFERENCES status_reserva(id);
 
 ALTER TABLE avaliacao 
     ADD CONSTRAINT fk_avaliacao_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),
     ADD CONSTRAINT fk_avaliacao_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
 
-ALTER TABLE metodos_pagamento_estacionamento 
-    ADD CONSTRAINT fk_metodo_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id),
-    ADD CONSTRAINT fk_metodo_pagamento FOREIGN KEY (tipo_pagamento_id) REFERENCES tipo_pagamento(id);
+--ALTER TABLE metodos_pagamento_estacionamento
+    --ADD CONSTRAINT fk_metodo_estacionamento FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id);
+    --ADD CONSTRAINT fk_metodo_pagamento FOREIGN KEY (tipo_pagamento_id) REFERENCES tipo_pagamento(id);
