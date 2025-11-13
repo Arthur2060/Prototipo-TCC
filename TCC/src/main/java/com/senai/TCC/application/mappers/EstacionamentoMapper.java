@@ -16,7 +16,7 @@ public class EstacionamentoMapper {
                 estacionamento.getEndereco(),
                 estacionamento.getCEP(),
                 estacionamento.getNumero(),
-                estacionamento.getFoto(),
+                estacionamento.getFotoUrl(),
                 estacionamento.getNumeroDeEscrituraImovel(),
                 estacionamento.getHoraFechamento(),
                 estacionamento.getHoraAbertura(),
@@ -50,7 +50,7 @@ public class EstacionamentoMapper {
         estacionamento.setEndereco(dto.endereco());
         estacionamento.setCEP(dto.CEP());
         estacionamento.setNumero(dto.numero());
-        estacionamento.setFoto(dto.foto());
+        estacionamento.setFotoUrl(dto.foto());
         estacionamento.setNumeroAlvaraDeFuncionamento(dto.numeroAlvaraDeFuncionamento());
         estacionamento.setHoraFechamento(dto.horaFechamento());
         estacionamento.setHoraAbertura(dto.horaAbertura());

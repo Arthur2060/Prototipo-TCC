@@ -63,7 +63,7 @@ public class EstacionamentoService {
         Estacionamento estacionamento = estacionamentoRepository.findById(id)
                 .orElseThrow(() -> new IdNaoCadastrado("O Id do estacionamento fornecido não foi encontrado no sistema!"));
 
-        estacionamento.setFoto(dto.foto());
+        estacionamento.setFotoUrl(dto.foto());
         estacionamento.setHoraAbertura(dto.horaAbertura());
         estacionamento.setMaxVagas(dto.maximoDeVagas());
         estacionamento.setHoraFechamento(dto.horaFechamento());
