@@ -47,7 +47,7 @@ public class EstacionamentoServiceTest {
         estacionamento.setEndereco("Rua das Flores");
         estacionamento.setCEP("12345-678");
         estacionamento.setNumero("123");
-        estacionamento.setFoto(new File("foto.jpg"));
+        estacionamento.setFoto("foto.jpg");
         estacionamento.setNumeroAlvaraDeFuncionamento("123456789");
         estacionamento.setHoraFechamento(LocalTime.of(22,0));
         estacionamento.setHoraAbertura(LocalTime.of(8,0));
@@ -66,7 +66,7 @@ public class EstacionamentoServiceTest {
                 "Rua das Flores",
                 "12345-678",
                 "123",
-                new File("foto.jpg"),
+                "foto.jpg",
                 "123456789",
                 LocalTime.of(22,0),
                 LocalTime.of(8,0),

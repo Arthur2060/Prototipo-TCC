@@ -5,6 +5,7 @@ import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +41,7 @@ public class ClienteService {
         Cliente cliente = ClienteMapper.toEntity(dto);
         cliente.setSenha(passwordEncoder.encode(dto.senha()));
         cliente.setStatus(true);
+        cliente.setTipoDeUsuario(TipoDeUsuario.CLIENTE);
 
         Cliente salvo = clienteRepository.save(cliente);
         return ClienteMapper.fromEntity(salvo);

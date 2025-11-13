@@ -93,7 +93,7 @@ public class AcessoIntegrationTest {
                 "Rua A, 123",
                 "11111111",
                 "283",
-                new File("foto.jpg"),
+                "foto.jpg",
                 "123456",
                 LocalTime.of(8, 0),
                 LocalTime.of(22, 0),
