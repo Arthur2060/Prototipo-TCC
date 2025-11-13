@@ -38,8 +38,12 @@ public abstract class Usuario {
     private Date dataNascimento;
 
     @Column(name = "tipo_usuario")
+    @Enumerated(EnumType.STRING)
     private TipoDeUsuario tipoDeUsuario;
 
     private Boolean status;
+
+    @Column
+    @Enumerated(EnumType.STRING)
     protected Role role;
 }

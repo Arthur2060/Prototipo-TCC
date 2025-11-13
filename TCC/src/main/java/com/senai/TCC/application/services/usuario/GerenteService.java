@@ -7,6 +7,7 @@ import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.GerenteRepository;
 import com.senai.TCC.model.entities.Estacionamento;
 import com.senai.TCC.model.entities.usuarios.Gerente;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +49,7 @@ public class GerenteService {
         estacionamento.getGerentes().add(gerente);
         gerente.setEstacionamento(estacionamento);
         gerente.setStatus(true);
+        gerente.setTipoDeUsuario(TipoDeUsuario.GERENTE);
         Gerente salvo = gerenteRepository.save(gerente);
 
         return GerenteMapper.fromEntity(salvo);

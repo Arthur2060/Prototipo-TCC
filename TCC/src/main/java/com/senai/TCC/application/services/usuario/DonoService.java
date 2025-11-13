@@ -3,6 +3,7 @@ package com.senai.TCC.application.services.usuario;
 import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.mappers.usuario.DonoMapper;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
+import com.senai.TCC.model.enums.TipoDeUsuario;
 import jakarta.transaction.Transactional;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
@@ -42,6 +43,7 @@ public class DonoService {
         DonoEstacionamento dono = DonoMapper.toEntity(dto);
         dono.setSenha(passwordEncoder.encode(dto.senha()));
         dono.setStatus(true);
+        dono.setTipoDeUsuario(TipoDeUsuario.DONO);
         DonoEstacionamento salvo = donoRepository.save(dono);
 
         return DonoMapper.fromEntity(salvo);

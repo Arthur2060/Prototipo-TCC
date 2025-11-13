@@ -37,6 +37,7 @@ public class Reserva {
     @Column(name = "hora_reserva")
     private Time horaDaReserva;
 
+    @Enumerated(EnumType.STRING)
     private StatusReserva statusReserva;
 
     private Boolean status;

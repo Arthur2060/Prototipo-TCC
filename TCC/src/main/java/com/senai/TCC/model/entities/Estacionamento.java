@@ -84,6 +84,8 @@ public class Estacionamento {
 
     @Column(name = "numero_escritura_imovel")
     private String numeroDeEscrituraImovel;
+
+    @Enumerated(EnumType.STRING)
     private Metodo metodoDePagamento;
 
     private Boolean status;

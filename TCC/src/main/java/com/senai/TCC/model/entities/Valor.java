@@ -22,13 +22,17 @@ public class Valor {
     private Long id;
 
     @Column(name = "tipo_cobranca")
+    @Enumerated(EnumType.STRING)
     private Cobranca tipoDeCobranca;
 
     @Column(name = "tipo_pagamento")
+    @Enumerated(EnumType.STRING)
     private Metodo tipoDePagamento;
+
     private Double preco;
 
     @Column(name = "periodo")
+    @Enumerated(EnumType.STRING)
     private Periodo periodo;
 
     private Boolean status;
