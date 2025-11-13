@@ -59,7 +59,7 @@ public class GerenteServiceTest {
         estacionamento.setNumeroAlvaraDeFuncionamento("123456789");
         estacionamento.setHoraFechamento(LocalTime.of(22,0));
         estacionamento.setHoraAbertura(LocalTime.of(8,0));
-        estacionamento.setVagaPreferenciais(10);
+        estacionamento.setVagasPreferenciais(10);
         estacionamento.setMaxVagas(100);
         estacionamento.setNumeroDeEscrituraImovel("987654321");
         estacionamento.setStatus(true);

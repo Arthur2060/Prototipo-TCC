@@ -35,7 +35,7 @@ public record EstacionamentoRequest(
                 description = "Foto do estacionamento.",
                 examples = "foto.jpg"
         )
-        File foto,
+        String foto,
         @Schema(
                 name = "numeroAlvaraDeFuncionamento",
                 description = "Número do alvará de funcionamento do estacionamento.",

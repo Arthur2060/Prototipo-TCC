@@ -26,11 +26,13 @@ public class Avaliacao {
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "estacio_id")
+    @JoinColumn(name = "estacionamento_id")
     private Estacionamento estacionamento;
 
     private Short nota;
     private String comentario;
+
+    @Column(name = "data_avaliacao")
     private LocalDateTime dataDeAvaliacao;
 
     private Boolean status;

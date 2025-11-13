@@ -1,16 +1,15 @@
 package com.senai.TCC.model.entities;
 
+import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
+import com.senai.TCC.model.entities.usuarios.Gerente;
 import com.senai.TCC.model.enums.Metodo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
-import com.senai.TCC.model.entities.usuarios.Gerente;
 import lombok.experimental.SuperBuilder;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -26,18 +25,28 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false)
     private String endereco;
+
+    @Column(nullable = false, length = 8)
     private String CEP;
+
+    @Column(nullable = false)
     private String numero;
 
-    private File foto;
+    @Column(name = "foto_url", length = 500)
+    private String foto;
 
+    @Column(name = "numero_alvara_funcionamento", nullable = false)
     private String numeroAlvaraDeFuncionamento;
+
     private Boolean funcionamento;
 
     @ManyToOne
-    @JoinColumn(name = "dono_id")
+    @JoinColumn(name = "dono_id", nullable = false)
     private DonoEstacionamento dono;
 
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -63,14 +72,23 @@ public class Estacionamento {
     private Double latitude;
     private Double longitude;
 
+    @Column(name = "max_vagas", nullable = false)
     private Integer maxVagas;
+
+    @Column(name = "vagas_disponiveis", nullable = false)
     private Integer vagasDisponiveis;
-    private Integer vagaPreferenciais;
+
+    @Column(name = "vagas_preferenciais")
+    private Integer vagasPreferenciais;
     private LocalDate diaAtual;
+
+    @Column(name = "numero_escritura_imovel")
     private String numeroDeEscrituraImovel;
+    @Enumerated(EnumType.STRING)
     private Metodo metodoDePagamento;
 
     private Boolean status;
+
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Acesso> acessos;
 
