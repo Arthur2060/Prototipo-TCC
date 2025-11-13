@@ -82,7 +82,6 @@ CREATE TABLE IF NOT EXISTS carro (
 CREATE TABLE IF NOT EXISTS acesso (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     estacionamento_id BIGINT NOT NULL,
-    carro_id BIGINT NOT NULL,
     placa_do_carro VARCHAR(7) NOT NULL,
     hora_de_entrada TIME,
     hora_de_saida TIME,
@@ -90,7 +89,6 @@ CREATE TABLE IF NOT EXISTS acesso (
     valor_a_pagar DECIMAL(10,2),
     status BOOLEAN DEFAULT TRUE,
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id),
-    CONSTRAINT FOREIGN KEY (carro_id) REFERENCES carro(id),
     CONSTRAINT FOREIGN KEY (placa_do_carro) REFERENCES carro(placa)
 );
 
