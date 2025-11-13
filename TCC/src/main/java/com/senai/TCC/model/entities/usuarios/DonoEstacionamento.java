@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.senai.TCC.model.entities.Estacionamento;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "id")
+@SuperBuilder
 public class DonoEstacionamento extends Usuario {
     @OneToMany(mappedBy = "dono")
     private List<Estacionamento> estacionamentos;

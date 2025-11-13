@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS estacionamento (
     vagas_preferenciais INT,
     hora_abertura TIME NOT NULL,
     hora_fechamento TIME NOT NULL,
-    metodo_pagamento ENUM('PIX', 'DEBITO', 'DINHEIRO') NOT NULL,
+    metodo_de_pagamento ENUM('PIX', 'DEBITO', 'DINHEIRO') NOT NULL,
     numero_conta_dono VARCHAR(100),
     dia_atual DATE,
     numero_escritura_imovel VARCHAR(100),
