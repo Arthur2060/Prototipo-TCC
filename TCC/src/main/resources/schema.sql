@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS reserva (
     estacionamento_id BIGINT NOT NULL,
     data_reserva DATE,
     hora_reserva TIME,
-    status_reserva_id ENUM('ACEITA', 'RECUSADA', 'PENDENTE', 'ENCERRADA') NOT NULL,
+    status_reserva ENUM('ACEITA', 'RECUSADA', 'PENDENTE', 'ENCERRADA') NOT NULL,
     status BOOLEAN DEFAULT TRUE,
     CONSTRAINT FOREIGN KEY (cliente_id) REFERENCES cliente(id),
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id)
