@@ -38,7 +38,7 @@ public class Estacionamento {
     @Column(nullable = false)
     private String numero;
 
-    private File foto;
+    private String foto;
 
     @Column(name = "numero_alvara_de_funcionamento", nullable = false)
     private String numeroAlvaraDeFuncionamento;
