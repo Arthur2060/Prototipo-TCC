@@ -40,7 +40,7 @@ public class Estacionamento {
 
     private File foto;
 
-    @Column(name = "numero_alvara_funcionamento", nullable = false)
+    @Column(name = "numero_alvara_de_funcionamento", nullable = false)
     private String numeroAlvaraDeFuncionamento;
 
     private Boolean funcionamento;
@@ -58,9 +58,13 @@ public class Estacionamento {
     private LocalTime horaAbertura;
     private LocalTime horaFechamento;
     private String numeroContaDono;
+
+    @Column(name = "valor_arrecadado_do_dia")
     private Double valorArrecadadoDoDia;
 
     private Double notaMedia;
+
+    @Column(name = "quantidade_de_avaliacoes")
     private Integer quantidadeDeAvaliacoes;
 
     @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -82,7 +86,7 @@ public class Estacionamento {
     private Integer vagasPreferenciais;
     private LocalDate diaAtual;
 
-    @Column(name = "numero_escritura_imovel")
+    @Column(name = "numero_de_escritura_imovel")
     private String numeroDeEscrituraImovel;
 
     @Column(name = "metodo_de_pagamento")
