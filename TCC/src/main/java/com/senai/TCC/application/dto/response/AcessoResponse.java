@@ -8,6 +8,12 @@ import java.sql.Time;
 public record AcessoResponse(
         Long id,
         @Schema(
+                name = "carroId",
+                description = "Id do carro que acessou o estacionamento",
+                examples = "1"
+        )
+        Long carroId,
+        @Schema(
                 name = "placaDoCarro",
                 description = "Placa do carro que acessou o estacionamento, caso erro," +
                         " resulta em Null e necessita preenchimento manual posteriormente.",

@@ -3,13 +3,16 @@ package application.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.AcessoRequest;
+import com.senai.TCC.application.dto.requests.CarroRequest;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.infraestructure.repositories.AcessoRepository;
 import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
+import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import com.senai.TCC.infraestructure.security.JwtService;
+import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.enums.Role;
 import com.senai.TCC.model.enums.TipoDeUsuario;
@@ -22,7 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.File;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -53,6 +55,9 @@ public class AcessoIntegrationTest {
     private DonoRepository donoRepository;
 
     @Autowired
+    private ClienteRepository clienteRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -66,6 +71,7 @@ public class AcessoIntegrationTest {
         acessoRepository.deleteAll();
         estacionamentoRepository.deleteAll();
         donoRepository.deleteAll();
+        clienteRepository.deleteAll();
 
         // Criação do Dono
         Date birthDate = Date.from(LocalDate.of(1990, 1, 1)
@@ -78,7 +84,7 @@ public class AcessoIntegrationTest {
                 .senha(passwordEncoder.encode("123456"))
                 .dataNascimento(birthDate)
                 .role(Role.ADMIN)
-                .tipoDeUsuario(TipoDeUsuario.CLIENTE)
+                .tipoDeUsuario(TipoDeUsuario.DONO)
                 .status(true)
                 .build();
 
@@ -102,7 +108,7 @@ public class AcessoIntegrationTest {
                 "123456"
         );
 
-        var response = mockMvc.perform(withAuth(post("/estacionamento/" + dono.getId())
+        var responseEstacionamento = mockMvc.perform(withAuth(post("/estacionamento/" + dono.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(estacionamentoRequest))))
                 .andExpect(status().isCreated())
@@ -110,13 +116,43 @@ public class AcessoIntegrationTest {
                 .getResponse()
                 .getContentAsString();
 
-        EstacionamentoResponse estacionamentoResponse = objectMapper.readValue(response, EstacionamentoResponse.class);
+        EstacionamentoResponse estacionamentoResponse = objectMapper.readValue(responseEstacionamento, EstacionamentoResponse.class);
         estacionamentoId = estacionamentoResponse.id();
+
+
+        //Criação Cliente
+        String emailCliente = "cliente" + System.currentTimeMillis() + "@gmail.com";
+
+        Cliente cliente = Cliente.builder()
+                .nome("Cliente Teste")
+                .email(emailCliente)
+                .senha(passwordEncoder.encode("123456"))
+                .dataNascimento(birthDate)
+                .role(Role.CLIENTE)
+                .tipoDeUsuario(TipoDeUsuario.CLIENTE)
+                .status(true)
+                .build();
+
+        clienteRepository.save(cliente);
+
+        var carroRequest = new CarroRequest(
+                cliente.getId(),
+                "ABC1234",
+                "Modelo X",
+                "Cor Vermelha"
+        );
+        var responseCarro = mockMvc.perform(withAuth(post("/carro")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(carroRequest))))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
 
     private AcessoRequest acessoRequestValido() {
         return new AcessoRequest(
-                null,
+                1L,
                 "ABC1234",
                 Time.valueOf("08:00:00"),
                 Time.valueOf("10:00:00"),
@@ -151,7 +187,7 @@ public class AcessoIntegrationTest {
         AcessoResponse acesso = objectMapper.readValue(response.getResponse().getContentAsString(), AcessoResponse.class);
 
         var atualizado = new AcessoRequest(
-                null,
+                1L,
                 "XYZ9876",
                 Time.valueOf("09:00:00"),
                 Time.valueOf("11:00:00"),

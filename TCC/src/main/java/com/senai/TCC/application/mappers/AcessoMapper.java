@@ -2,6 +2,7 @@ package com.senai.TCC.application.mappers;
 
 import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.response.AcessoResponse;
+import com.senai.TCC.infraestructure.repositories.CarroRepository;
 import com.senai.TCC.model.entities.Acesso;
 
 public class AcessoMapper {
@@ -20,6 +21,7 @@ public class AcessoMapper {
     public static AcessoResponse fromEntity(Acesso acesso) {
         return new AcessoResponse(
                 acesso.getId(),
+                acesso.getCarro().getId(),
                 acesso.getPlacaDoCarro(),
                 acesso.getHoraDeEntrada(),
                 acesso.getHoraDeSaida(),
