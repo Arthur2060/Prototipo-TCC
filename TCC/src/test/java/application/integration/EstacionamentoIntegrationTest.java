@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.EstacionamentoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
+import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import com.senai.TCC.infraestructure.security.JwtService;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
@@ -41,6 +42,9 @@ public class EstacionamentoIntegrationTest {
     private DonoRepository donoRepository;
 
     @Autowired
+    private EstacionamentoRepository estacionamentoRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -51,6 +55,7 @@ public class EstacionamentoIntegrationTest {
 
     @BeforeEach
     void setup() {
+        estacionamentoRepository.deleteAll();
         donoRepository.deleteAll();
 
         Date birthDate = Date.from(LocalDate.of(1990, 1, 1)
