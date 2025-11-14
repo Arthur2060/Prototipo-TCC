@@ -3,6 +3,7 @@ package application.integration.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
+import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.enums.Role;
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
@@ -33,10 +34,13 @@ class AuthControllerIntegrationTest {
     @Autowired
     private UsuarioRepository usuarios;
     @Autowired
+    private EstacionamentoRepository estacionamentoRepository;
+    @Autowired
     private PasswordEncoder encoder;
 
     @BeforeEach
     void setup() {
+        estacionamentoRepository.deleteAll();
         usuarios.deleteAll();
         LocalDate localDate = LocalDate.of(1990, 1, 1);
         Date dataNascimento = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());

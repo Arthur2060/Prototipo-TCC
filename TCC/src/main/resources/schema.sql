@@ -61,9 +61,9 @@ CREATE TABLE IF NOT EXISTS gerente (
 CREATE TABLE IF NOT EXISTS valor (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     preco DECIMAL(10,2) NOT NULL,
-    tipo_cobranca ENUM('POR_VAGA', 'POR_HORA') NOT NULL,
+    tipo_cobranca ENUM('PORVAGA', 'PORHORA') NOT NULL,
     tipo_pagamento ENUM('PIX', 'DEBITO', 'DINHEIRO') NOT NULL,
-    periodo ENUM('UTIL', 'FIM_DE_SEMANA') NOT NULL,
+    periodo ENUM('UTIL', 'FINALDESEMANA') NOT NULL,
     status BOOLEAN DEFAULT TRUE,
     estacionamento_id BIGINT NOT NULL,
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id)
@@ -90,8 +90,7 @@ CREATE TABLE IF NOT EXISTS acesso (
     valor_a_pagar DECIMAL(10,2),
     status BOOLEAN DEFAULT TRUE,
     CONSTRAINT FOREIGN KEY (estacionamento_id) REFERENCES estacionamento(id),
-    CONSTRAINT FOREIGN KEY (carro_id) REFERENCES carro(id),
-    CONSTRAINT FOREIGN KEY (placa_do_carro) REFERENCES carro(placa)
+    CONSTRAINT FOREIGN KEY (carro_id) REFERENCES carro(id)
 );
 
 CREATE TABLE IF NOT EXISTS reserva (
