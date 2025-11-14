@@ -67,6 +67,7 @@ public class AcessoIntegrationTest {
 
     private String token;
     private Long estacionamentoId;
+    private Long carroId;
 
     @BeforeEach
     void setup() throws Exception {
@@ -188,9 +189,10 @@ public class AcessoIntegrationTest {
 
         AcessoResponse acesso = objectMapper.readValue(response.getResponse().getContentAsString(), AcessoResponse.class);
 
+        // Usar mesma placa existente (evita violação de FK) e mesmo carroId salvo
         var atualizado = new AcessoRequest(
-                1L,
-                "XYZ9876",
+                carroId,
+                "ABC1234",
                 Time.valueOf("09:00:00"),
                 Time.valueOf("11:00:00"),
                 25.0,
@@ -201,7 +203,7 @@ public class AcessoIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(atualizado))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.placaDoCarro").value("XYZ9876"))
+                .andExpect(jsonPath("$.placaDoCarro").value("ABC1234"))
                 .andExpect(jsonPath("$.valorAPagar").value(25.0));
     }
 

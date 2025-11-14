@@ -141,6 +141,7 @@ public class AvaliacaoService {
         cliente.getAvaliacoes().remove(avaliacao);
 
         avaliacao.setStatus(false);
+        avaliacaoRepository.save(avaliacao);
     }
 
 }

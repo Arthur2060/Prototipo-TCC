@@ -93,5 +93,6 @@ public class GerenteService {
         Gerente gerente = optGerente.get();
         gerente.getEstacionamento().getGerentes().remove(gerente);
         gerente.setStatus(false);
+        gerenteRepository.save(gerente);
     }
 }

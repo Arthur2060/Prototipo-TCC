@@ -9,6 +9,7 @@ import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.exceptions.IdNaoCadastrado;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -110,12 +111,18 @@ public class ClienteServiceTest {
         Cliente cliente = new Cliente();
         cliente.setId(1L);
         cliente.setNome("Pedro");
+        cliente.setStatus(true); // estado inicial
 
         when(repository.findById(1L)).thenReturn(Optional.of(cliente));
+        when(repository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
-        service.deletarCliente(1L);
+        service.deletarCliente(cliente.getId());
 
-        verify(repository).delete(cliente);
+        ArgumentCaptor<Cliente> captor = ArgumentCaptor.forClass(Cliente.class);
+        verify(repository).save(captor.capture());
+        Cliente salvo = captor.getValue();
+
+        assertFalse(salvo.getStatus()); // confirma soft-delete (status = false)
     }
 
     @Test
