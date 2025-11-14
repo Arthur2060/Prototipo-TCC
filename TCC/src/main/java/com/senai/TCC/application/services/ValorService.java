@@ -95,6 +95,5 @@ public class ValorService {
         Valor valor = optionalValor.get();
 
         valor.setStatus(false);
-        valorRepository.save(valor);
     }
 }

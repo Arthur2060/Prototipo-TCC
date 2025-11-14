@@ -69,7 +69,7 @@ public class ClienteService {
 
         Cliente cliente = optCliente.get();
 
-        clienteRepository.delete(cliente);
+        cliente.setStatus(false);
     }
 
 }
