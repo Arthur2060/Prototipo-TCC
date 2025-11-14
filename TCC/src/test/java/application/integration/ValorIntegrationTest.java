@@ -8,6 +8,7 @@ import com.senai.TCC.application.dto.requests.usuario.DonoRequest;
 import com.senai.TCC.application.dto.response.EstacionamentoResponse;
 import com.senai.TCC.application.dto.response.usuario.DonoResponse;
 import com.senai.TCC.application.dto.response.ValorResponse;
+import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.ValorRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.DonoRepository;
 import com.senai.TCC.infraestructure.security.JwtService;
@@ -48,6 +49,9 @@ public class ValorIntegrationTest {
     private DonoRepository donoRepository;
 
     @Autowired
+    private EstacionamentoRepository estacionamentoRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -60,6 +64,7 @@ public class ValorIntegrationTest {
     @BeforeEach
     void setUp() throws Exception {
         valorRepository.deleteAll();
+        estacionamentoRepository.deleteAll();
         donoRepository.deleteAll();
 
         Date birthDate = Date.from(LocalDate.of(2000, 9, 12)

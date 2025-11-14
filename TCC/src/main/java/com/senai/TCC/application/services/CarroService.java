@@ -99,6 +99,5 @@ public class CarroService {
         cliente.getCarros().remove(carro);
 
         carro.setStatus(false);
-        carroRepository.save(carro);
     }
 }

@@ -84,6 +84,5 @@ public class EstacionamentoService {
 
         estacionamento.getDono().getEstacionamentos().remove(estacionamento);
         estacionamento.setStatus(false);
-        estacionamentoRepository.save(estacionamento);
     }
 }

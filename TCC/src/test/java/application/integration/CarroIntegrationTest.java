@@ -56,8 +56,8 @@ public class CarroIntegrationTest {
     @BeforeEach
     void setUp() throws Exception {
         // Clear database
-        carroRepository.deleteAll();
         clienteRepository.deleteAll();
+        carroRepository.deleteAll();
 
         // Create test cliente
         Date birthDate = Date.from(LocalDate.of(1995, 5, 5)
@@ -87,7 +87,7 @@ public class CarroIntegrationTest {
     }
 
     private CarroRequest carroRequestPadrao() {
-        return new CarroRequest(clienteId, "EUD-8679", "Corsa", "Fuxia");
+        return new CarroRequest(clienteId, "EUD8679", "Corsa", "Fuxia");
     }
 
     @Test
@@ -96,7 +96,7 @@ public class CarroIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(carroRequestPadrao()))))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.placa").value("EUD-8679"))
+                .andExpect(jsonPath("$.placa").value("EUD8679"))
                 .andExpect(jsonPath("$.modelo").value("Corsa"))
                 .andExpect(jsonPath("$.cor").value("Fuxia"));
     }
@@ -111,13 +111,13 @@ public class CarroIntegrationTest {
 
         CarroResponse carroSalvo = objectMapper.readValue(response.getResponse().getContentAsString(), CarroResponse.class);
 
-        var atualizado = new CarroRequest(clienteId, "ABC-1234", "Onix", "Preto");
+        var atualizado = new CarroRequest(clienteId, "ABC1234", "Onix", "Preto");
 
         mockMvc.perform(withAuth(put("/carro/" + carroSalvo.id())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(atualizado))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.placa").value("ABC-1234"))
+                .andExpect(jsonPath("$.placa").value("ABC1234"))
                 .andExpect(jsonPath("$.modelo").value("Onix"))
                 .andExpect(jsonPath("$.cor").value("Preto"));
     }
@@ -148,7 +148,7 @@ public class CarroIntegrationTest {
 
         mockMvc.perform(withAuth(get("/carro/" + carroSalvo.id())))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.placa").value("EUD-8679"))
+                .andExpect(jsonPath("$.placa").value("EUD8679"))
                 .andExpect(jsonPath("$.modelo").value("Corsa"))
                 .andExpect(jsonPath("$.cor").value("Fuxia"));
     }
@@ -162,6 +162,6 @@ public class CarroIntegrationTest {
 
         mockMvc.perform(withAuth(get("/carro")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].placa").value("EUD-8679"));
+                .andExpect(jsonPath("$[0].placa").value("EUD8679"));
     }
 }

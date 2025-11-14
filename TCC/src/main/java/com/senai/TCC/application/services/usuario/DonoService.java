@@ -77,6 +77,6 @@ public class DonoService {
 
         DonoEstacionamento dono = optDono.get();
 
-        donoRepository.delete(dono); // <- delete
+        dono.setStatus(false);
     }
 }

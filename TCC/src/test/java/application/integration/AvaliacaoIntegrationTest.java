@@ -14,6 +14,7 @@ import com.senai.TCC.model.entities.Reserva;
 import com.senai.TCC.model.entities.usuarios.Cliente;
 import com.senai.TCC.model.entities.usuarios.DonoEstacionamento;
 import com.senai.TCC.model.enums.Role;
+import com.senai.TCC.model.enums.StatusReserva;
 import com.senai.TCC.model.enums.TipoDeUsuario;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -142,14 +143,16 @@ public class AvaliacaoIntegrationTest {
         try {
             // try builder if available
             carro = Carro.builder()
-                    .placa("ABC-1234")
+                    .placa("ABC1234")
                     .modelo("Teste")
+                    .cor("Teste")
                     .cliente(cliente)
                     .build();
         } catch (Throwable ignored) {
             // fallback to constructor + setters if there's no builder
             carro = new Carro();
-            try { carro.setPlaca("ABC-1234"); } catch (Throwable t) {}
+            try { carro.setPlaca("ABC1234"); } catch (Throwable t) {}
+            try { carro.setCor("Teste"); } catch (Throwable t) {}
             try { carro.setModelo("Teste"); } catch (Throwable t) {}
             try { carro.setCliente(cliente); } catch (Throwable t) {}
         }
@@ -167,12 +170,14 @@ public class AvaliacaoIntegrationTest {
                     .cliente(cliente)
                     .estacionamento(estacionamento)
                     .dataDaReserva(new java.util.Date())
+                    .statusReserva(StatusReserva.PENDENTE)
                     .build();
         } catch (Throwable ignored) {
             reserva = new Reserva();
             try { reserva.setCliente(cliente); } catch (Throwable t) {}
             try { reserva.setEstacionamento(estacionamento); } catch (Throwable t) {}
             try { reserva.setDataDaReserva(new java.util.Date()); } catch (Throwable t) {}
+            try { reserva.setStatusReserva(StatusReserva.PENDENTE); } catch (Throwable t) {}
         }
 
         try {

@@ -57,11 +57,12 @@ public class AcessoServiceTest {
         acesso.setEstacionamento(estacionamento);
 
         acessoRequest = new AcessoRequest(
+                1L,
                 "ABC1234",
                 Time.valueOf("08:00:00"),
                 Time.valueOf("10:00:00"),
                 20.0,
-                1L
+                estacionamento.getId()
         );
     }
 
@@ -104,7 +105,7 @@ public class AcessoServiceTest {
     void deveLancarExcecaoAoCadastrarComEstacionamentoInexistente() {
         when(estacionamentoRepository.findById(2L)).thenReturn(Optional.empty());
         AcessoRequest req = new AcessoRequest(
-                 "ABC1234", Time.valueOf("08:00:00"), Time.valueOf("10:00:00"), 20.0, 2L
+                 1L,"ABC1234", Time.valueOf("08:00:00"), Time.valueOf("10:00:00"), 20.0, 2L
         );
         IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class, () -> acessoService.cadastrarAcesso(req));
         assertEquals("Id do estacionamento não encontrado no sistema", ex.getMessage());
