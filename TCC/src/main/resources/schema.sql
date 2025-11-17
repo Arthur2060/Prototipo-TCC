@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS estacionamento (
     endereco VARCHAR(255) NOT NULL,
     cep VARCHAR(20),
     numero VARCHAR(20),
-    foto VARCHAR(500),
+    foto_url VARCHAR(500),
     numero_alvara_de_funcionamento VARCHAR(100) NOT NULL,
     funcionamento BOOLEAN DEFAULT TRUE,
     dono_id BIGINT NOT NULL,
