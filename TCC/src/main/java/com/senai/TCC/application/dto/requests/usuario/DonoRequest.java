@@ -8,14 +8,14 @@ public record DonoRequest(
         @Schema(
                 name = "nome",
                 description = "Nome do usuario.",
-                examples = "Pedro"
+                example = "Pedro"
         )
         String nome,
 
         @Schema(
                 name = "email",
                 description = "E-mail do usuario",
-                examples = "pedro.nascimento@gmail.com"
+                example = "pedro.nascimento@gmail.com"
         )
         String email,
 
@@ -23,14 +23,14 @@ public record DonoRequest(
                 name = "senha",
                 description = "Senha de acesso do usuario, " +
                         "deve conter pelo menos uma letra maiuscula, simbolo e numero",
-                examples = "Estacio_2025"
+                example = "Estacio_2025"
         )
         String senha,
 
         @Schema(
                 name = "dataNascimento",
                 description = "Data de nascimento do usuario, deve ser maior de 18 anos",
-                examples = "2000-09-12"
+                example = "2000-09-12"
         )
         Date dataNascimento
 ) {

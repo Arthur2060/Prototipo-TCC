@@ -34,19 +34,21 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(
             method = "POST",
-            summary = "Realizar login em conta pre-existente",
-            description = "Retorna um token de acesso caso o login sejá valido",
+            summary = "Realizar login",
+            description = "Retorna um token JWT caso o login seja válido",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Dados do usuario a ser logado",
+                    description = "Credenciais de acesso do usuário",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = AcessoRequest.class),
-                            examples = @ExampleObject(value = """
-                                    {
-                                       "email": "email@exemplo"
-                                       "senha": "Senha1234"
-                                     }
-                                    """
+                            schema = @Schema(implementation = UsuarioLoginRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo de Login",
+                                    value = """
+                                        {
+                                          "email": "usuario@exemplo.com",
+                                          "senha": "Estacio_2025"
+                                        }
+                                        """
                             )
                     )
             )
