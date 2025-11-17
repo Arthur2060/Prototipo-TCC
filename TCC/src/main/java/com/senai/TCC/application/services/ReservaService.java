@@ -97,5 +97,6 @@ public class ReservaService {
         reserva.getEstacionamento().getReservas().remove(reserva);
 
         reserva.setStatus(false);
+        reservaRepository.save(reserva);
     }
 }

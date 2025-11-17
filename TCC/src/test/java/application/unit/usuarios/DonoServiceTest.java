@@ -19,8 +19,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DonoServiceTest {
@@ -106,18 +105,26 @@ public class DonoServiceTest {
         verify(repository).save(any());
     }
 
+    // language: java
     @Test
     void deveDeletarDonoExistente() {
+        // Arrange
         DonoEstacionamento dono = new DonoEstacionamento();
         dono.setId(1L);
-        dono.setNome("Pedro");
+        dono.setStatus(true);
 
         when(repository.findById(1L)).thenReturn(Optional.of(dono));
 
+        // Act
         service.deletarDono(1L);
 
-        verify(repository).delete(dono);
+        // Assert - comportamento de soft-delete
+        assertFalse(dono.getStatus(), "espera-se que o status seja marcado como false (soft-delete)");
+        verify(repository).findById(1L);
+        verify(repository).save(dono);
+        verifyNoMoreInteractions(repository);
     }
+
 
     @Test
     void deveLancarIdDesconhecidoExceptionAoDeletarDonoInexistente() {

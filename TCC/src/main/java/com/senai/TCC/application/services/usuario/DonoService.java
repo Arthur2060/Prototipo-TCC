@@ -78,5 +78,6 @@ public class DonoService {
         DonoEstacionamento dono = optDono.get();
 
         dono.setStatus(false);
+        donoRepository.save(dono);
     }
 }

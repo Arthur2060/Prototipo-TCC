@@ -70,6 +70,7 @@ public class ClienteService {
         Cliente cliente = optCliente.get();
 
         cliente.setStatus(false);
+        clienteRepository.save(cliente);
     }
 
 }
