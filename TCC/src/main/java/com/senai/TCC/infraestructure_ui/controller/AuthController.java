@@ -45,8 +45,8 @@ public class AuthController {
                                     name = "Exemplo de Login",
                                     value = """
                                         {
-                                          "email": "usuario@exemplo.com",
-                                          "senha": "Estacio_2025"
+                                          "email": "admin@teste.com",
+                                          "senha": "123456"
                                         }
                                         """
                             )
