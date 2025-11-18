@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class EstacionamentoController {
         return ResponseEntity.status(200).body(service.buscarPorId(id));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'DONO')")
     @PostMapping("/{id}")
     @Operation(
             method = "POST",
