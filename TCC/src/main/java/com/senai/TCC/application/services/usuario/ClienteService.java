@@ -53,7 +53,7 @@ public class ClienteService {
 
         cliente.setNome(dto.nome());
         cliente.setEmail(dto.email());
-        cliente.setSenha(dto.senha());
+        cliente.setSenha(passwordEncoder.encode(dto.senha()));
         cliente.setDataNascimento(dto.dataNascimento());
 
         Cliente salvo = clienteRepository.save(cliente);

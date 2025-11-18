@@ -66,7 +66,7 @@ public class GerenteService {
 
         gerente.setNome(dto.nome());
         gerente.setEmail(dto.email());
-        gerente.setSenha(dto.senha());
+        gerente.setSenha(passwordEncoder.encode(dto.senha()));
         gerente.setDataNascimento(dto.dataNascimento());
 
         Optional<Estacionamento> optEstacionamento = estacionamentoRepository.findById(gerente.getEstacionamento().getId());

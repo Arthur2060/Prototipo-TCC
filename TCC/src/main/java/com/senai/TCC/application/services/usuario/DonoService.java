@@ -61,7 +61,7 @@ public class DonoService {
 
         dono.setNome(dto.nome());
         dono.setEmail(dto.email());
-        dono.setSenha(dto.senha());
+        dono.setSenha(passwordEncoder.encode(dto.senha()));
         dono.setDataNascimento(dto.dataNascimento());
 
         return DonoMapper.fromEntity(donoRepository.save(optDono.get()));

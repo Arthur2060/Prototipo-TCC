@@ -89,7 +89,7 @@ public class AvaliacaoIntegrationTest {
                 .endereco("Rua Mockada, 123")
                 .CEP("12345-678")
                 .numero("123")
-                .foto(null)
+                .fotoUrl(null)
                 .numeroAlvaraDeFuncionamento("123456789")
                 .horaAbertura(LocalTime.of(7, 0))
                 .horaFechamento(LocalTime.of(22, 0))

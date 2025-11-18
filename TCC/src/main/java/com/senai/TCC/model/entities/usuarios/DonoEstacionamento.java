@@ -17,8 +17,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@PrimaryKeyJoinColumn(name = "id")
 @SuperBuilder
+@PrimaryKeyJoinColumn(name = "id")
 public class DonoEstacionamento extends Usuario {
     @OneToMany(mappedBy = "dono")
     private List<Estacionamento> estacionamentos;
