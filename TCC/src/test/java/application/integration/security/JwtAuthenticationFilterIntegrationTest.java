@@ -3,6 +3,7 @@ package application.integration.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.senai.TCC.TccApplication;
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
+import com.senai.TCC.infraestructure.repositories.EstacionamentoRepository;
 import com.senai.TCC.infraestructure.repositories.usuario.UsuarioRepository;
 import com.senai.TCC.infraestructure.security.JwtService;
 import com.senai.TCC.infraestructure.security.UsuarioDetailService;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,12 +45,15 @@ class JwtAuthenticationFilterIntegrationTest {
     private UsuarioRepository usuarios;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private EstacionamentoRepository estacionamentoRepository;
 
-    @Mock
+    @MockBean
     private UsuarioDetailService usuarioDetailService;
 
     @BeforeEach
     void setup() {
+        estacionamentoRepository.deleteAll();
         usuarios.deleteAll();
         LocalDate localDate = LocalDate.of(1990, 1, 1);
         Date dataNascimento = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
