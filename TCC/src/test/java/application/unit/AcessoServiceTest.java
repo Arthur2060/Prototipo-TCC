@@ -50,8 +50,8 @@ public class AcessoServiceTest {
         acesso = new Acesso();
         acesso.setId(1L);
         acesso.setPlacaDoCarro("ABC1234");
-        acesso.setHoraDeEntrada(Time.valueOf("08:00:00"));
-        acesso.setHoraDeSaida(Time.valueOf("10:00:00"));
+        acesso.setHoraDeEntrada(java.time.LocalTime.parse("08:00:00"));
+        acesso.setHoraDeSaida(java.time.LocalTime.parse("10:00:00"));
         acesso.setValorAPagar(20.0);
         acesso.setStatus(true);
         acesso.setEstacionamento(estacionamento);
@@ -59,8 +59,8 @@ public class AcessoServiceTest {
         acessoRequest = new AcessoRequest(
                 1L,
                 "ABC1234",
-                Time.valueOf("08:00:00"),
-                Time.valueOf("10:00:00"),
+                java.time.LocalTime.parse("08:00:00"),
+                java.time.LocalTime.parse("10:00:00"),
                 20.0,
                 estacionamento.getId()
         );
@@ -105,7 +105,7 @@ public class AcessoServiceTest {
     void deveLancarExcecaoAoCadastrarComEstacionamentoInexistente() {
         when(estacionamentoRepository.findById(2L)).thenReturn(Optional.empty());
         AcessoRequest req = new AcessoRequest(
-                 1L,"ABC1234", Time.valueOf("08:00:00"), Time.valueOf("10:00:00"), 20.0, 2L
+                 1L,"ABC1234", java.time.LocalTime.parse("08:00:00"), java.time.LocalTime.parse("10:00:00"), 20.0, 2L
         );
         IdNaoCadastrado ex = assertThrows(IdNaoCadastrado.class, () -> acessoService.cadastrarAcesso(req));
         assertEquals("Id do estacionamento não encontrado no sistema", ex.getMessage());
