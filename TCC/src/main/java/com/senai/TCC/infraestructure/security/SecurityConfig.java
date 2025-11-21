@@ -32,9 +32,24 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/carro", "/carro/**").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/estacionamento/**", "/cliente/*", "/avaliacao", "/reserva/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/estacionamento", "/estacionamento/**", "/avaliacao").permitAll()
                         .requestMatchers(HttpMethod.GET, "/gerente", "/gerente/**", "/valor", "/valor/**").hasAnyRole(
                                 Role.DONO.name(),
+                                Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET, "/cliente", "/cliente/*").hasAnyRole(
+                                Role.CLIENTE.name(),
+                                Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET, "/reserva", "/reserva/**").hasAnyRole(
+                                Role.DONO.name(),
+                                Role.GERENTE.name(),
+                                Role.CLIENTE.name(),
+                                Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET, "/acesso", "/acesso/**").hasAnyRole(
+                                Role.DONO.name(),
+                                Role.GERENTE.name(),
                                 Role.ADMIN.name())
 
                         // Permições de requisições POST
@@ -48,7 +63,7 @@ public class SecurityConfig {
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
-                        .requestMatchers(HttpMethod.POST, "/estacionamento/**", "/acesso").hasAnyRole(
+                        .requestMatchers(HttpMethod.POST, "/estacionamento/**", "/acesso/**").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.GERENTE.name(),
                                 Role.ADMIN.name())
@@ -66,6 +81,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/estacionamento/**", "/reserva/**", "/acesso").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.GERENTE.name(),
+                                Role.ADMIN.name())
+
+                        // Permições de requisições DELETE
+
+                        .requestMatchers(HttpMethod.DELETE, "/carro/**").hasAnyRole(
+                                Role.CLIENTE.name(),
                                 Role.ADMIN.name())
 
                         .anyRequest().hasRole(Role.ADMIN.name())
