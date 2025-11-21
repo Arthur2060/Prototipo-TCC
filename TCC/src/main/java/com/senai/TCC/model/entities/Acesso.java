@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalTime;
 
 @Entity
 @AllArgsConstructor
@@ -32,9 +34,9 @@ public class Acesso {
     private String placaDoCarro;
 
     @Column(name = "hora_de_entrada")
-    private Time horaDeEntrada;
+    private LocalTime horaDeEntrada;
     @Column(name = "hora_de_saida")
-    private Time horaDeSaida;
+    private LocalTime horaDeSaida;
     @Column
     private Integer totalHoras;
     @Column(name = "valor_a_pagar")
@@ -43,10 +45,6 @@ public class Acesso {
     private Boolean status;
 
     public void calcularHorasTotais() {
-        this.totalHoras = Integer.parseInt(
-                String.valueOf(
-                        this.horaDeEntrada.getTime()
-                        + this.horaDeSaida.getTime())
-        );
+        this.totalHoras = (int) Duration.between(horaDeEntrada, horaDeSaida).toHours();
     }
 }
