@@ -12,7 +12,7 @@ public record CarroRequest(
 
         @Schema(
                 name = "placa",
-                example = "EUD-8679",
+                example = "EUD8679", //maximo de 7 caracteres
                 description = "Placa de identificação do carro"
         )
         String placa,
