@@ -13,7 +13,7 @@ public record AvaliacaoRequest(
                 )
         Long clienteId,
         @Schema(
-                name = "estacioId",
+                name = "estacionamentoId",
                 description = "ID do estacionamento que foi avaliado",
                 examples = "1"
         )
