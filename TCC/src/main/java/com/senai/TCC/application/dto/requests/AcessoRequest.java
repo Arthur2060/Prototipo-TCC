@@ -3,6 +3,7 @@ package com.senai.TCC.application.dto.requests;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.sql.Time;
+import java.time.LocalTime;
 
 public record AcessoRequest(
         @Schema(
@@ -25,7 +26,7 @@ public record AcessoRequest(
                 type = "string",
                 pattern = "HH:mm:ss"
         )
-        Time horaDeEntrada,
+        LocalTime horaDeEntrada,
         @Schema(
                 name = "horaDeSaida",
                 description = "Hora em que o carro saiu",
@@ -33,7 +34,7 @@ public record AcessoRequest(
                 type = "string",
                 pattern = "HH:mm:ss"
         )
-        Time horaDeSaida,
+        LocalTime horaDeSaida,
         @Schema(
                 name = "valorAPagar",
                 description = "Valor total a pagar pelo tempo de uso do estacionamento",
