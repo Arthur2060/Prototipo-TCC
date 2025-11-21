@@ -28,7 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -175,8 +174,8 @@ public class DonoIntegrationTest {
         return new AcessoRequest(
                 this.carroId, // Agora usa o carroId populado dinamicamente, garantindo consistência
                 "ABC1234",
-                Time.valueOf("08:00:00"),
-                Time.valueOf("10:00:00"),
+                java.time.LocalTime.parse("08:00:00"),
+                java.time.LocalTime.parse("10:00:00"),
                 20.0,
                 estacionamentoId
         );
