@@ -193,8 +193,8 @@ public class AvaliacaoIntegrationTest {
         try { acesso.setPlacaDoCarro(carro.getPlaca()); } catch (Throwable ignored) {}
         java.time.LocalTime entrada = java.time.LocalTime.now().minusHours(1);
         java.time.LocalTime saida = java.time.LocalTime.now();
-        try { acesso.setHoraDeEntrada(java.sql.Time.valueOf(entrada)); } catch (Throwable ignored) {}
-        try { acesso.setHoraDeSaida(java.sql.Time.valueOf(saida)); } catch (Throwable ignored) {}
+        try { acesso.setHoraDeEntrada((entrada)); } catch (Throwable ignored) {}
+        try { acesso.setHoraDeSaida((saida)); } catch (Throwable ignored) {}
         try { acesso.setTotalHoras((int) java.time.Duration.between(entrada, saida).toHours()); } catch (Throwable ignored) {}
         try { acesso.setValorAPagar(5.0); } catch (Throwable ignored) {}
         try { acesso.setStatus(true); } catch (Throwable ignored) {}
