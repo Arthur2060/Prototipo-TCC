@@ -157,8 +157,8 @@ public class AcessoIntegrationTest {
         return new AcessoRequest(
                 1L,
                 "ABC1234",
-                Time.valueOf("08:00:00"),
-                Time.valueOf("10:00:00"),
+                java.time.LocalTime.parse("08:00:00"), //  LocalTime
+                java.time.LocalTime.parse("10:00:00"), //  LocalTime
                 20.0,
                 estacionamentoId
         );
@@ -193,8 +193,8 @@ public class AcessoIntegrationTest {
         var atualizado = new AcessoRequest(
                 carroId,
                 "ABC1234",
-                Time.valueOf("09:00:00"),
-                Time.valueOf("11:00:00"),
+                java.time.LocalTime.parse("09:00:00"), // LocalTime
+                java.time.LocalTime.parse("11:00:00"), // LocalTime
                 25.0,
                 estacionamentoId
         );
