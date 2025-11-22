@@ -37,9 +37,11 @@ public class SecurityConfig {
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
-                        .requestMatchers(HttpMethod.GET, "/cliente", "/cliente/*").hasAnyRole(
-                                Role.CLIENTE.name(),
+                        .requestMatchers(HttpMethod.GET, "/dono").hasAnyRole(
+                                Role.DONO.name(),
                                 Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.GET, "/cliente", "/cliente/*").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/reserva", "/reserva/**").hasAnyRole(
                                 Role.DONO.name(),
@@ -85,8 +87,18 @@ public class SecurityConfig {
 
                         // Permições de requisições DELETE
 
+                        .requestMatchers(HttpMethod.DELETE, "/cliente/**").hasAnyRole(
+                                Role.DONO.name(),
+                                Role.GERENTE.name(),
+                                Role.ADMIN.name()
+                        )
+
                         .requestMatchers(HttpMethod.DELETE, "/carro/**").hasAnyRole(
                                 Role.CLIENTE.name(),
+                                Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.DELETE, "/estacionamento/**").hasAnyRole(
+                                Role.DONO.name(),
                                 Role.ADMIN.name())
 
                         .anyRequest().hasRole(Role.ADMIN.name())
