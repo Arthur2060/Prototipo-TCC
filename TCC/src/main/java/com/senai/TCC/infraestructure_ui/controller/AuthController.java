@@ -1,12 +1,10 @@
 package com.senai.TCC.infraestructure_ui.controller;
 
-import com.senai.TCC.application.dto.requests.AcessoRequest;
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginResponse;
 import com.senai.TCC.application.services.AuthService;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.usuarios.Cliente;
-import com.senai.TCC.model.entities.usuarios.Usuario;
 import com.senai.TCC.model.enums.Role;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Calendar;
 import java.util.Date;
 
 @RestController
