@@ -46,10 +46,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
-    //@ExceptionHandler(Exception.class)
-    //public ResponseEntity<?> handleAnyException(Exception ex) {
-    //    return ResponseEntity.status(500).body(Map.of("erro", ex.getMessage()));
-    //}
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleAnyException(Exception ex) {
+        return ResponseEntity.status(500).body(Map.of("erro", ex.getMessage()));
+    }
 
     @ExceptionHandler(TempoLimiteDeAvaliacaoExpedido.class)
     public ResponseEntity<?> handleTempoLimiteDeAvaliacaoExpedido(TempoLimiteDeAvaliacaoExpedido ex) {
