@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS carro (
 CREATE TABLE IF NOT EXISTS acesso (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     estacionamento_id BIGINT NOT NULL,
-    carro_id BIGINT NOT NULL,
+    carro_id BIGINT,
     placa_do_carro VARCHAR(7) NOT NULL,
     hora_de_entrada TIME,
     hora_de_saida TIME,
