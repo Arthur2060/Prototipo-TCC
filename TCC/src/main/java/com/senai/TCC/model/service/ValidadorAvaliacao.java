@@ -35,23 +35,25 @@ public class ValidadorAvaliacao {
         Cliente cliente = avaliacao.getCliente();
         Estacionamento estacionamento = avaliacao.getEstacionamento();
 
-        if (cliente.getReservas()
+        boolean temReserva = !cliente.getReservas()
                 .stream()
                 .filter( reserva -> reserva.getEstacionamento().equals(estacionamento))
                 .toList()
-                .isEmpty()
-            ||
-            cliente.getCarros()
-                    .stream()
-                    .filter(
-                            carro -> carro.getAcessos()
-                                    .stream()
-                                    .anyMatch(
-                                            acesso -> acesso.getEstacionamento().equals(estacionamento)
-                                    )
-                    )
-                    .toList()
-                    .isEmpty()) {
+                .isEmpty();
+
+        boolean temAcesso = !cliente.getCarros()
+                .stream()
+                .filter(
+                        carro -> carro.getAcessos()
+                                .stream()
+                                .anyMatch(
+                                        acesso -> acesso.getEstacionamento().equals(estacionamento)
+                                )
+                )
+                .toList()
+                .isEmpty();
+
+        if (!temReserva && !temAcesso) {
             throw new AvaliacaoInvalida("Cliente não possui reserva ou acessos registrados neste estacionamento nesse estacionamento");
         }
     }
