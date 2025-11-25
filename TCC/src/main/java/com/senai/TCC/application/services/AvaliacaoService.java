@@ -125,8 +125,6 @@ public class AvaliacaoService {
         }
         Avaliacao avaliacao = optAvaliacao.get();
 
-        validador.validarAvaliacaoAposUso(avaliacao);
-
         Optional<Estacionamento> optEstacio = estacionamentoRepository.findById(avaliacao.getEstacionamento().getId());
         Optional<Cliente> optCliente = clienteRepository.findById(avaliacao.getCliente().getId());
 
