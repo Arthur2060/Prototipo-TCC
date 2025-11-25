@@ -1,9 +1,7 @@
 package com.senai.TCC.application.dto.response;
 
-import com.senai.TCC.model.entities.Acesso;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 public record AcessoResponse(

@@ -51,10 +51,10 @@ public class Estacionamento {
     @JoinColumn(name = "dono_id", nullable = false)
     private DonoEstacionamento dono;
 
-    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Gerente> gerentes;
 
-    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Valor> valores;
 
     private LocalTime horaAbertura;
@@ -71,10 +71,10 @@ public class Estacionamento {
     @Column(name = "quantidade_de_avaliacoes")
     private Integer quantidadeDeAvaliacoes;
 
-    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Avaliacao> avaliacoes;
 
-    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Reserva> reservas;
 
     private Double latitude;
@@ -99,7 +99,7 @@ public class Estacionamento {
 
     private Boolean status;
 
-    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estacionamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Acesso> acessos;
 
     public void calcularNotaMedia() {

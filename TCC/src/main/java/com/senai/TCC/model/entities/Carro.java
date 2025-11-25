@@ -25,7 +25,7 @@ public class Carro {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "carro", cascade = CascadeType.ALL)
     private List<Acesso> acessos;
 
     @Column(nullable = false, unique = true, length = 7)
