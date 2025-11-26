@@ -75,7 +75,7 @@ public class SecurityConfig {
 
                         // Permições de requisições PUT
 
-                        .requestMatchers(HttpMethod.PUT, "/carro/**", "/avaliacao/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/carro/**", "/avaliacao/**", "/cliente/**").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
 
