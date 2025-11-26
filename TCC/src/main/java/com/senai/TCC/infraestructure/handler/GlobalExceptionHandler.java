@@ -3,6 +3,7 @@ package com.senai.TCC.infraestructure.handler;
 import com.senai.TCC.model.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,8 +32,23 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(erros);
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleJsonParseError(HttpMessageNotReadableException ex) {
+        String mensagem = "Erro ao processar JSON. Verifique os dados enviados.";
+        Throwable causa = ex.getCause();
+        if (causa != null) {
+            mensagem += " Detalhes: " + causa.getMessage();
+        }
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "status", 400,
+                        "erro", mensagem
+                ));
+    }
+
     @ExceptionHandler(AvaliacaoInvalida.class)
-    public ResponseEntity<?> handeMultiplasAvaliacoesIguaisException(AvaliacaoInvalida ex) {
+    public ResponseEntity<?> handleMultiplasAvaliacoesIguaisException(AvaliacaoInvalida ex) {
         return ResponseEntity.status(400).body(Map.of("erro", ex.getMessage()));
     }
 
