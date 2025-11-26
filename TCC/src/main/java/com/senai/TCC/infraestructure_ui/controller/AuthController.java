@@ -2,6 +2,8 @@ package com.senai.TCC.infraestructure_ui.controller;
 
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginRequest;
 import com.senai.TCC.application.dto.requests.login.UsuarioLoginResponse;
+import com.senai.TCC.application.dto.response.usuario.ClienteResponse;
+import com.senai.TCC.application.mappers.usuario.ClienteMapper;
 import com.senai.TCC.application.services.AuthService;
 import com.senai.TCC.infraestructure.repositories.usuario.ClienteRepository;
 import com.senai.TCC.model.entities.usuarios.Cliente;
@@ -12,6 +14,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +57,17 @@ public class AuthController {
     public ResponseEntity<UsuarioLoginResponse> login (@RequestBody UsuarioLoginRequest dto) {
         String token = authService.login(dto);
         return ResponseEntity.ok(new UsuarioLoginResponse(token));
+    }
+
+    @PostMapping("/me")
+    public ResponseEntity<ClienteResponse> me(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String username = userDetails.getUsername();
+
+        ClienteResponse response = ClienteMapper.fromEntity(clienteRepository.findByEmail(username).get());
+
+        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/criar-admin")
