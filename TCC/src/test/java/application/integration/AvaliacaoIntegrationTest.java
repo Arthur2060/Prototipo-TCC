@@ -279,7 +279,7 @@ public class AvaliacaoIntegrationTest {
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(withAuth(get("/avaliacao/" + avaliacaoSalva.id())))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.senai.TCC.model.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IdNaoCadastrado.class)
     public ResponseEntity<?> handleIdNaoEncontrado(IdNaoCadastrado ex) {
         return ResponseEntity.status(404).body(Map.of("erro", ex.getMessage()));
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<?> handleAuthorizationDeniedException(AuthorizationDeniedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(Map.of("erro", "Acesso negado"));
     }
 
     @ExceptionHandler(NullPointerException.class)
