@@ -83,7 +83,11 @@ public class SecurityConfig {
                                 Role.DONO.name(),
                                 Role.ADMIN.name())
 
-                        .requestMatchers(HttpMethod.PUT, "/estacionamento/**", "/reserva/**", "/acesso").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/gerente/**", "/dono/**").hasAnyRole(
+                                Role.DONO.name(),
+                                Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.PUT, "/estacionamento/**", "/reserva/**", "/acesso/**").hasAnyRole(
                                 Role.DONO.name(),
                                 Role.GERENTE.name(),
                                 Role.ADMIN.name())
@@ -96,12 +100,17 @@ public class SecurityConfig {
                                 Role.ADMIN.name()
                         )
 
-                        .requestMatchers(HttpMethod.DELETE, "/carro/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.DELETE, "/carro/**", "/avaliacao/**").hasAnyRole(
                                 Role.CLIENTE.name(),
                                 Role.ADMIN.name())
 
-                        .requestMatchers(HttpMethod.DELETE, "/estacionamento/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.DELETE, "/estacionamento/**", "/valor/**", "/gerente/**", "/dono/**").hasAnyRole(
                                 Role.DONO.name(),
+                                Role.ADMIN.name())
+
+                        .requestMatchers(HttpMethod.DELETE, "/reserva/**", "/acesso/**").hasAnyRole(
+                                Role.DONO.name(),
+                                Role.GERENTE.name(),
                                 Role.ADMIN.name())
 
                         .anyRequest().hasRole(Role.ADMIN.name())
