@@ -59,12 +59,15 @@ public class DonoService {
 
         DonoEstacionamento dono = optDono.get();
 
+        if (!passwordEncoder.matches(dto.senha(), dono.getSenha())) {
+            throw new RuntimeException("Senha incorreta");
+        }
+
         dono.setNome(dto.nome());
         dono.setEmail(dto.email());
-        dono.setSenha(passwordEncoder.encode(dto.senha()));
         dono.setDataNascimento(dto.dataNascimento());
 
-        return DonoMapper.fromEntity(donoRepository.save(optDono.get()));
+        return DonoMapper.fromEntity(donoRepository.save(dono));
     }
 
     @Transactional
