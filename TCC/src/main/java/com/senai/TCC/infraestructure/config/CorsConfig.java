@@ -12,13 +12,16 @@ import java.util.List;
 @Configuration
 public class CorsConfig {
 
-    @Value("${frontend.url}")
-    String frontendUrl;
+    @Value("${frontend.url.local}")
+    String frontendUrlLocal;
+
+    @Value("${frontend.url.remote}")
+    String frontendUrlRemote;
 
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(frontendUrl)); // frontend
+        config.setAllowedOrigins(List.of(frontendUrlLocal, frontendUrlRemote));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
