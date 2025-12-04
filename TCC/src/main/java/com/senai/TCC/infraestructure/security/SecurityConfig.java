@@ -69,6 +69,7 @@ public class SecurityConfig {
                                 Role.ADMIN.name())
 
                         .requestMatchers(HttpMethod.POST, "/estacionamento/**", "/acesso/**").hasAnyRole(
+                                Role.CLIENTE.name(),
                                 Role.DONO.name(),
                                 Role.GERENTE.name(),
                                 Role.ADMIN.name())
