@@ -51,9 +51,12 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new IdNaoCadastrado("Id buscado não foi encontrado"));
 
+        if (!passwordEncoder.matches(dto.senha(), cliente.getSenha())) {
+            throw new RuntimeException("Senha incorreta");
+        }
+
         cliente.setNome(dto.nome());
         cliente.setEmail(dto.email());
-        cliente.setSenha(passwordEncoder.encode(dto.senha()));
         cliente.setDataNascimento(dto.dataNascimento());
 
         Cliente salvo = clienteRepository.save(cliente);
