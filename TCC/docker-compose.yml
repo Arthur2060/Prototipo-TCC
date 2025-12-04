@@ -1,0 +1,39 @@
+services:
+
+  app:
+    build: .
+    container_name: tcc_app
+    depends_on:
+      - db
+      - mosquitto
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/tcc
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      # Ajuste se tiver propriedades do MQTT
+      MQTT_BROKER_URL: tcp://mosquitto:1883
+    ports:
+      - "8080:8080"
+
+  db:
+    image: mysql:8.0
+    container_name: tcc_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tcc
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: tcc_mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./lib/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+volumes:
+  mysql_data:
